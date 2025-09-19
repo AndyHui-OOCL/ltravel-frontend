@@ -1,0 +1,119 @@
+name: Frontend CI/CD to Railway Dev
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+permissions:
+  contents: read
+  issues: read
+  checks: write
+  pull-requests: write
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run ESLint
+        run: npm run lint
+
+  build:
+    needs: [lint]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build application
+        run: npm run build
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-artifacts
+          path: dist/
+          retention-days: 1
+
+  deploy-dev:
+    needs: [build]
+    runs-on: ubuntu-latest
+    environment: dev
+    if: github.ref == 'refs/heads/main'
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: build-artifacts
+          path: dist
+
+      - name: Install Railway CLI
+        run: npm install -g @railway/cli
+
+      - name: Deploy to Railway
+        run: |
+          echo "Starting deployment to Railway..."
+          railway up --service ${{ secrets.RAILWAY_SERVICE_ID }}
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+          RAILWAY_PROJECT_ID: ${{ secrets.RAILWAY_PROJECT_ID }}
+
+      - name: Health Check
+        run: |
+          echo "Starting health check (2 minutes max)..."
+          
+          SERVICE_URL="${{ secrets.SERVICE_BASE_URL }}"
+          
+          # Wait 30 seconds for service startup
+          echo "Waiting 30 seconds for service to start..."
+          sleep 30
+          
+          # 2-minute health check with 15-second intervals
+          for i in {1..8}; do
+            echo "Health check attempt $i/8..."
+            if curl -s -f --max-time 15 "${SERVICE_URL}" > /dev/null 2>&1; then
+              echo "✅ Service is healthy!"
+              exit 0
+            fi
+            if [ $i -lt 8 ]; then
+              echo "⏳ Service not ready, waiting 15s..."
+              sleep 15
+            fi
+          done
+          echo "❌ Health check failed after 2 minutes"
+          exit 1
