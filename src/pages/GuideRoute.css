@@ -1,0 +1,180 @@
+/* Guide Route Page Styles */
+.guide-route {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.header-nav {
+  margin-bottom: 20px;
+}
+
+.header-nav .ant-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #666;
+  border: none;
+  box-shadow: none;
+  padding: 4px 0;
+}
+
+.header-nav .ant-btn:hover {
+  color: #52c41a;
+}
+
+/* Route Content Styles */
+.route-content {
+  padding: 20px 0;
+  display: flex;
+  gap: 30px;
+  align-items: flex-start;
+}
+
+.route-left {
+  flex: 6;
+  min-width: 0;
+}
+
+.route-right {
+  flex: 4;
+  min-width: 0;
+}
+
+.day-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+}
+
+.day-tabs .ant-btn {
+  border-radius: 20px;
+  min-width: 60px;
+}
+
+.day-tabs .ant-btn-primary {
+  background: #52c41a;
+  border-color: #52c41a;
+}
+
+.route-timeline {
+  width: 100%;
+  margin-bottom: 30px;
+}
+
+.route-item {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 24px;
+  align-items: flex-start;
+}
+
+.route-number {
+  width: 32px;
+  height: 32px;
+  background: #52c41a;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  flex-shrink: 0;
+  margin-top: 8px;
+}
+
+.route-detail-card {
+  flex: 1;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.route-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+
+.route-header .ant-rate {
+  font-size: 14px;
+}
+
+.route-info {
+  margin: 12px 0;
+  line-height: 1.6;
+}
+
+.walk-time {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 12px;
+  color: #666;
+  font-size: 14px;
+}
+
+.sidebar-info {
+  width: 100%;
+}
+
+.attraction-card {
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.attraction-card .ant-card-head-title {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.attraction-card .placeholder-image {
+  height: 150px;
+  margin: 12px 0;
+  width: 100%;
+  background: linear-gradient(45deg, #f0f0f0 25%, #e8e8e8 25%, #e8e8e8 50%, #f0f0f0 50%, #f0f0f0 75%, #e8e8e8 75%, #e8e8e8);
+  background-size: 20px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #999;
+  border-radius: 8px;
+}
+
+.navigation-buttons {
+  margin-top: 30px;
+  display: flex;
+  gap: 16px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .guide-route {
+    padding: 12px;
+  }
+
+  .route-content {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .route-left,
+  .route-right {
+    flex: none;
+    width: 100%;
+  }
+
+  .day-tabs {
+    justify-content: center;
+  }
+
+  .navigation-buttons {
+    flex-direction: column;
+  }
+
+  .navigation-buttons .ant-btn {
+    width: 100%;
+  }
+}
