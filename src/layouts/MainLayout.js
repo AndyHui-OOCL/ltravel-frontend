@@ -16,7 +16,6 @@ import './MainLayout.css';
 const { Header, Sider, Content } = Layout;
 
 const MainLayout = ({ children }) => {
-  const [aiVisible, setAiVisible] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -57,14 +56,6 @@ const MainLayout = ({ children }) => {
           />
         </div>
         <div className="header-right">
-          <Button
-            type="primary"
-            icon={<RobotOutlined />}
-            onClick={() => setAiVisible(true)}
-            className="ai-button"
-          >
-            Ask AI assistant
-          </Button>
           <Avatar icon={<UserOutlined />} />
           <span className="sign-up">Sign Up</span>
         </div>
@@ -85,22 +76,6 @@ const MainLayout = ({ children }) => {
           {children}
         </Content>
       </Layout>
-
-      <Drawer
-        title={
-          <div className="ai-header">
-            <RobotOutlined />
-            <span>Travel Copilot</span>
-          </div>
-        }
-        placement="right"
-        width={400}
-        onClose={() => setAiVisible(false)}
-        open={aiVisible}
-        closeIcon={<CloseOutlined />}
-      >
-        <AICopilot />
-      </Drawer>
     </Layout>
   );
 };

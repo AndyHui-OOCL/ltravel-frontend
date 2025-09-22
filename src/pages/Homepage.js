@@ -1,13 +1,17 @@
 import React, { useState } from 'react';
-import { Card, Button, Tag, Pagination, Row, Col } from 'antd';
+import {Card, Button, Tag, Pagination, Row, Col, Drawer} from 'antd';
 import { useNavigate } from 'react-router-dom';
 import './Homepage.css';
+import {CloseOutlined, RobotOutlined} from "@ant-design/icons";
+import AICopilot from "../components/AICopilot";
+import AiChatSlideBar from "../components/AiChatSlideBar";
 
 const { Meta } = Card;
 
 const Homepage = () => {
   const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(1);
+  const [isAiChatVisible, setAiChatVisible] = useState(false);
 
   const categories = ['小众路线', '深度旅行', '避暑玩水', '当地特色', '最美秋季'];
 
@@ -67,73 +71,76 @@ const Homepage = () => {
   };
 
   return (
-    <div className="homepage">
-      <div className="hero-section">
-        <div className="hero-content">
-          <h1>Where would you like to go today?</h1>
-          <Button type="primary" size="large" className="ask-ai-btn">
-            Ask AI assistant →
-          </Button>
+    <>
+        <div className="homepage">
+          <div className="hero-section">
+            <div className="hero-content">
+              <h1>Where would you like to go today?</h1>
+              <Button type="primary" size="large" className="ask-ai-btn" onClick={() => setAiChatVisible(true)}>
+                Ask AI assistant →
+              </Button>
+            </div>
+          </div>
+
+          <div className="categories-section">
+            <div className="categories">
+              {categories.map((category, index) => (
+                <Button
+                  key={index}
+                  type={index === 0 ? 'primary' : 'default'}
+                  className="category-btn"
+                >
+                  {category}
+                </Button>
+              ))}
+            </div>
+          </div>
+
+          <div className="guides-section">
+            <Row gutter={[24, 24]}>
+              {travelGuides.map((guide) => (
+                <Col xs={24} sm={12} lg={8} key={guide.id}>
+                  <Card
+                    hoverable
+                    cover={
+                      <div className="card-cover">
+                        <div className="placeholder-image">
+                          <div className="image-placeholder"></div>
+                        </div>
+                        <div className="card-tags">
+                          {guide.tags.map((tag, index) => (
+                            <Tag key={index} className="duration-tag">
+                              {tag}
+                            </Tag>
+                          ))}
+                        </div>
+                      </div>
+                    }
+                    onClick={() => handleCardClick(guide.id)}
+                    className="guide-card"
+                  >
+                    <Meta
+                      title={guide.title}
+                      className="card-meta"
+                    />
+                  </Card>
+                </Col>
+              ))}
+            </Row>
+          </div>
+
+          <div className="pagination-section">
+            <Pagination
+              current={currentPage}
+              total={90}
+              pageSize={6}
+              onChange={setCurrentPage}
+              showSizeChanger={false}
+            />
+          </div>
         </div>
-      </div>
-
-      <div className="categories-section">
-        <div className="categories">
-          {categories.map((category, index) => (
-            <Button
-              key={index}
-              type={index === 0 ? 'primary' : 'default'}
-              className="category-btn"
-            >
-              {category}
-            </Button>
-          ))}
-        </div>
-      </div>
-
-      <div className="guides-section">
-        <Row gutter={[24, 24]}>
-          {travelGuides.map((guide) => (
-            <Col xs={24} sm={12} lg={8} key={guide.id}>
-              <Card
-                hoverable
-                cover={
-                  <div className="card-cover">
-                    <div className="placeholder-image">
-                      <div className="image-placeholder"></div>
-                    </div>
-                    <div className="card-tags">
-                      {guide.tags.map((tag, index) => (
-                        <Tag key={index} className="duration-tag">
-                          {tag}
-                        </Tag>
-                      ))}
-                    </div>
-                  </div>
-                }
-                onClick={() => handleCardClick(guide.id)}
-                className="guide-card"
-              >
-                <Meta
-                  title={guide.title}
-                  className="card-meta"
-                />
-              </Card>
-            </Col>
-          ))}
-        </Row>
-      </div>
-
-      <div className="pagination-section">
-        <Pagination
-          current={currentPage}
-          total={90}
-          pageSize={6}
-          onChange={setCurrentPage}
-          showSizeChanger={false}
-        />
-      </div>
-    </div>
+        <AiChatSlideBar isAiChatVisible = {isAiChatVisible} setAiChatVisible = {setAiChatVisible}/>
+    </>
   );
 };
 
