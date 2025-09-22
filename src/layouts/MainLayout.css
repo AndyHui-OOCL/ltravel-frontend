@@ -1,0 +1,287 @@
+/* MainLayout Styles */
+.header {
+  background: #fff;
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  position: relative;
+  z-index: 1000;
+  height: 64px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  font-size: 20px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.logo-icon {
+  color: #52c41a;
+  margin-right: 4px;
+}
+
+.logo-text {
+  color: #333;
+}
+
+.header-center {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.search-input {
+  width: 100%;
+  border-radius: 20px;
+  border: 1px solid #d9d9d9;
+}
+
+.search-input:focus,
+.search-input:hover {
+  border-color: #52c41a;
+  box-shadow: 0 0 0 2px rgba(82, 196, 26, 0.2);
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.ai-button {
+  background: #52c41a;
+  border-color: #52c41a;
+  border-radius: 20px;
+  padding: 6px 16px;
+  height: auto;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.ai-button:hover,
+.ai-button:focus {
+  background: #73d13d;
+  border-color: #73d13d;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(82, 196, 26, 0.3);
+}
+
+.header-right .ant-avatar {
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.header-right .ant-avatar:hover {
+  transform: scale(1.1);
+}
+
+.sign-up {
+  color: #666;
+  cursor: pointer;
+  font-weight: 500;
+  padding: 4px 8px;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.sign-up:hover {
+  color: #52c41a;
+  background: rgba(82, 196, 26, 0.1);
+}
+
+.sidebar {
+  background: #fff;
+  border-right: 1px solid #f0f0f0;
+  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.05);
+}
+
+.sidebar-menu {
+  padding-top: 20px;
+  border: none;
+}
+
+.sidebar-menu .ant-menu-item {
+  margin: 8px 12px;
+  border-radius: 8px;
+  color: #666;
+  font-weight: 500;
+  height: 48px;
+  line-height: 48px;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+}
+
+.sidebar-menu .ant-menu-item:hover {
+  background-color: rgba(82, 196, 26, 0.1);
+  color: #52c41a;
+  transform: translateX(4px);
+}
+
+.sidebar-menu .ant-menu-item-selected {
+  background-color: #e8f5e8;
+  color: #52c41a;
+  border-radius: 8px;
+  font-weight: 600;
+}
+
+.sidebar-menu .ant-menu-item-selected::after {
+  display: none;
+}
+
+.sidebar-menu .ant-menu-item .anticon {
+  font-size: 18px;
+  margin-right: 12px;
+}
+
+.main-content {
+  padding: 24px;
+  background: #fafafa;
+  min-height: calc(100vh - 64px);
+  overflow-y: auto;
+}
+
+/* AI Copilot Drawer Styles */
+.ai-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 500;
+  color: #52c41a;
+}
+
+.ai-header .anticon {
+  font-size: 18px;
+}
+
+/* Drawer Override Styles */
+.ant-drawer-header {
+  border-bottom: 1px solid #f0f0f0;
+  padding: 16px 24px;
+}
+
+.ant-drawer-body {
+  padding: 0;
+}
+
+.ant-drawer-close {
+  color: #666;
+  transition: color 0.2s ease;
+}
+
+.ant-drawer-close:hover {
+  color: #52c41a;
+}
+
+/* Layout Animation */
+.ant-layout-sider-collapsed .sidebar-menu .ant-menu-item {
+  padding: 0 calc(50% - 16px / 2);
+}
+
+.ant-layout-sider-collapsed .sidebar-menu .ant-menu-item-selected {
+  background-color: #52c41a;
+  color: white;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+  .header {
+    padding: 0 16px;
+  }
+
+  .main-content {
+    padding: 16px;
+  }
+}
+
+@media (max-width: 768px) {
+  .header {
+    padding: 0 12px;
+  }
+
+  .header-center {
+    max-width: 200px;
+  }
+
+  .search-input {
+    font-size: 14px;
+  }
+
+  .ai-button {
+    padding: 4px 12px;
+    font-size: 14px;
+  }
+
+  .ai-button span {
+    display: none;
+  }
+
+  .main-content {
+    padding: 12px;
+  }
+
+  .sidebar {
+    width: 200px !important;
+    min-width: 200px !important;
+  }
+}
+
+@media (max-width: 576px) {
+  .header-right {
+    gap: 8px;
+  }
+
+  .sign-up {
+    display: none;
+  }
+
+  .ai-button {
+    padding: 4px 8px;
+  }
+}
+
+/* Loading States */
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+/* Smooth Transitions */
+.ant-layout,
+.ant-layout-sider,
+.ant-layout-content {
+  transition: all 0.3s ease;
+}
+
+/* Custom Scrollbar */
+.main-content::-webkit-scrollbar {
+  width: 6px;
+}
+
+.main-content::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 3px;
+}
+
+.main-content::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 3px;
+}
+
+.main-content::-webkit-scrollbar-thumb:hover {
+  background: #52c41a;
+}

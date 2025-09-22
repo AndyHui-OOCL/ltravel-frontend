@@ -1,0 +1,140 @@
+/* AI Copilot Styles */
+.ai-copilot {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 0;
+}
+
+.chat-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.messages {
+  flex: 1;
+  padding: 16px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.message {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.message.bot {
+  flex-direction: row;
+}
+
+.message.user {
+  flex-direction: row-reverse;
+}
+
+.message-avatar {
+  flex-shrink: 0;
+  background: #52c41a;
+}
+
+.message.user .message-avatar {
+  background: #1890ff;
+}
+
+.message-content {
+  flex: 1;
+  max-width: 80%;
+}
+
+.message.bot .message-content {
+  background: #f6f6f6;
+  padding: 12px;
+  border-radius: 12px;
+  border-top-left-radius: 4px;
+}
+
+.message.user .message-content {
+  background: #1890ff;
+  color: white;
+  padding: 12px;
+  border-radius: 12px;
+  border-top-right-radius: 4px;
+}
+
+.sub-content {
+  margin-top: 8px;
+  font-size: 12px;
+  color: #666;
+}
+
+.message.user .sub-content {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.quick-questions {
+  padding: 16px;
+  border-top: 1px solid #f0f0f0;
+}
+
+.quick-title {
+  display: block;
+  margin-bottom: 12px;
+  font-weight: 500;
+  color: #666;
+}
+
+.quick-question {
+  display: block;
+  width: 100%;
+  text-align: left;
+  margin-bottom: 8px;
+  padding: 8px 12px;
+  background: #f8f8f8;
+  border: 1px solid #e8e8e8;
+  border-radius: 8px;
+  color: #333;
+  transition: all 0.2s;
+}
+
+.quick-question:hover {
+  background: #e8f5e8;
+  border-color: #52c41a;
+  color: #52c41a;
+}
+
+.input-area {
+  padding: 16px;
+  border-top: 1px solid #f0f0f0;
+  background: white;
+}
+
+.input-container {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.input-container .ant-input {
+  flex: 1;
+  border-radius: 8px;
+  resize: none;
+}
+
+.input-actions {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+
+.footer-text {
+  font-size: 12px;
+  color: #999;
+  text-align: center;
+}
+
+

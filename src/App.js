@@ -1,24 +1,31 @@
-import logo from './logo.svg';
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { ConfigProvider } from 'antd';
+import MainLayout from './layouts/MainLayout';
+import Homepage from './pages/Homepage';
+import GuideDetail from './pages/GuideDetail';
 import './App.css';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ConfigProvider
+      theme={{
+        token: {
+          colorPrimary: '#52c41a',
+        },
+      }}
+    >
+      <Router>
+        <MainLayout>
+          <Routes>
+            <Route path="/" element={<Homepage />} />
+            <Route path="/guide/:id" element={<GuideDetail />} />
+            <Route path="/favorite" element={<div>Favorite Page</div>} />
+            <Route path="/itinerary" element={<div>My Itinerary Page</div>} />
+          </Routes>
+        </MainLayout>
+      </Router>
+    </ConfigProvider>
   );
 }
 

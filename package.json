@@ -10,7 +10,10 @@
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "react-scripts": "5.0.1",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "antd": "^5.12.8",
+    "react-router-dom": "^6.20.1",
+    "@ant-design/icons": "^5.2.6"
   },
   "scripts": {
     "start": "react-scripts start",
