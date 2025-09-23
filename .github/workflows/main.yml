@@ -31,12 +31,25 @@ jobs:
       - name: Build application
         run: npm run build
 
+      - name: Verify build output
+        run: |
+          if [ ! -d "build" ]; then
+            echo "❌ Build failed: build directory not found"
+            exit 1
+          fi
+          if [ -z "$(ls -A build)" ]; then
+            echo "❌ Build failed: build directory is empty"
+            exit 1
+          fi
+          echo "✅ Build successful: $(ls -la build | wc -l) files in build/"
+
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
         with:
           name: build-artifacts
-          path: dist/
+          path: build/
           retention-days: 1
+          if-no-files-found: error
 
   deploy-dev:
     needs: [build]
@@ -51,17 +64,22 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '22'
+          node-version: '18'
           cache: 'npm'
-
-      - name: Install dependencies
-        run: npm ci
 
       - name: Download build artifacts
         uses: actions/download-artifact@v4
         with:
           name: build-artifacts
-          path: dist
+          path: build/
+
+      - name: Verify downloaded artifacts
+        run: |
+          if [ ! -d "build" ] || [ -z "$(ls -A build)" ]; then
+            echo "❌ No build artifacts found"
+            exit 1
+          fi
+          echo "✅ Build artifacts verified: $(ls -la build | wc -l) files"
 
       - name: Install Railway CLI
         run: npm install -g @railway/cli
@@ -77,13 +95,13 @@ jobs:
       - name: Health Check
         run: |
           echo "Starting health check (2 minutes max)..."
-          
+
           SERVICE_URL="${{ secrets.SERVICE_BASE_URL }}"
-          
+
           # Wait 30 seconds for service startup
           echo "Waiting 30 seconds for service to start..."
           sleep 30
-          
+
           # 2-minute health check with 15-second intervals
           for i in {1..8}; do
             echo "Health check attempt $i/8..."
