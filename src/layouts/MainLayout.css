@@ -119,14 +119,14 @@
 }
 
 .sidebar-menu .ant-menu-item:hover {
-  background-color: rgba(82, 196, 26, 0.1);
-  color: #52c41a;
+  background-color:#52c41a;
+  color: #666;
   transform: translateX(4px);
 }
 
 .sidebar-menu .ant-menu-item-selected {
-  background-color: #e8f5e8;
-  color: #52c41a;
+  background-color: #52c41a;
+  color: #666;
   border-radius: 8px;
   font-weight: 600;
 }
