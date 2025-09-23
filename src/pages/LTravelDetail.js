@@ -57,9 +57,12 @@ const LTravelDetail = () => {
             label: '攻略简介',
             children: (
                 <div className="introduction-content">
-                    <Title level={3}>{travelDetail.title}</Title>
-                    <div className="rating-section">
-                        <HeartOutlined/> 收藏
+
+                    <div className="title-row">
+                        <Title level={3}>{travelDetail.title}</Title>
+                        <div className="rating-section">
+                            <HeartOutlined/> 收藏
+                        </div>
                     </div>
                     <Paragraph>{travelDetail.description}</Paragraph>
 

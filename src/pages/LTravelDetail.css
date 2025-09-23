@@ -19,6 +19,25 @@
   padding: 4px 0;
 }
 
+.title-row {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 16px;
+}
+
+.title-row .ant-typography {
+  margin: 0;
+}
+
+.rating-section {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
 .header-nav .ant-btn:hover {
   color: #52c41a;
 }
