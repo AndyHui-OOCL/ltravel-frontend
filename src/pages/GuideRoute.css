@@ -128,8 +128,8 @@
 }
 
 .attraction-image {
-  width: 120px;
-  height: 120px;
+  width: 135px;
+  height: 135px;
 }
 
 .placeholder-image-small {
@@ -157,8 +157,14 @@
 
 .attraction-name {
   display: block;
-  margin-bottom: 8px;
+  margin: 3px;
   font-size: 14px;
+}
+
+.component-name {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 20px;
 }
 
 .rating-section {
@@ -197,7 +203,7 @@
 
 .description {
   color: #666;
-  font-size: 13px;
+  font-size: 12px;
   display: block;
 }
 
@@ -262,46 +268,48 @@
 .crowd-info {
   margin-bottom: 20px;
   color: #666;
-  line-height: 1.6;
+  line-height: 2;
 }
 
 .attraction-details {
+  margin-bottom: 20px;
   color: #666;
-  line-height: 1.8;
+  line-height: 2;
 }
 
 .ticket-toggle {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-top: 12px;
-  padding-top: 12px;
-  border-top: 1px solid #f0f0f0;
+    margin-top: 5px;
 }
 
 .toggle-switch {
-  width: 40px;
-  height: 20px;
-  background: #52c41a;
-  border-radius: 10px;
-  position: relative;
-  cursor: pointer;
-  transition: background 0.3s ease;
+    width: 40px;
+    height: 20px;
+    background-color: #ccc;
+    border-radius: 20px;
+    position: relative;
+    transition: background-color 0.3s;
 }
 
 .toggle-switch.active {
-  background: #52c41a;
+    background-color: #42a113;
 }
 
 .toggle-knob {
-  width: 16px;
-  height: 16px;
-  background: white;
-  border-radius: 50%;
-  position: absolute;
-  top: 2px;
-  right: 2px;
-  transition: transform 0.3s ease;
+    width: 18px;
+    height: 18px;
+    background-color: white;
+    border-radius: 50%;
+    position: absolute;
+    top: 1px;
+    left: 1px;
+    transition: transform 0.3s;
+}
+
+.toggle-switch.active .toggle-knob {
+    transform: translateX(20px);
 }
 
 .navigation-buttons {

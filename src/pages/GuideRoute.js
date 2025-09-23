@@ -75,7 +75,8 @@ const GuideRoute = () => {
 
     // 如果API数据不可用，使用空数组作为fallback
     const currentRoute = apiRouteData[selectedDay] || [];
-    const currentAttraction = currentRoute[selectedAttraction] || currentRoute[0];
+    const currentAttraction = currentRoute[selectedAttraction] || currentRoute[0] || {};
+    const [isTicketReminderEnabled, setIsTicketReminderEnabled] = useState(false);
 
     // 从API数据中获取可用的天数
     const availableDays = Object.keys(apiRouteData).length > 0
@@ -155,22 +156,21 @@ const GuideRoute = () => {
                                                   </Tag>
                                                 </Text>
                                               </div>
-                                                    <Button
-                                                        type={selectedAttraction === index ? 'primary' : 'default'}
-                                                        size="small"
-                                                        className={`intro-btn ${selectedAttraction === index ? 'selected' : ''}`}
-                                                        onClick={() => handleAttractionSelect(index)}
-                                                    >
-                                                        景点介绍
-                                                    </Button>
-                                                </div>
-                                                <Text className="description">"{item.description}"</Text>
-                                                <div className="route-info">
-                                                    <Text>开放时间：{item.openTime}</Text>
-                                                    <br />
-                                                    <Text>景点地址：{item.address}</Text>
-                                                </div>
+                                              <Button
+                                                type={selectedAttraction === index ? 'primary' : 'default'}
+                                                size='small'
+                                                className={`intro-btn ${selectedAttraction === index ? 'selected' : ''}`}
+                                                onClick={() => handleAttractionSelect(index)}
+                                              >
+                                                景点介绍
+                                              </Button>
                                             </div>
+                                                <Text className="description">"{item.description}"</Text>
+                                            <div className='route-info'>
+                                              <Text strong className='attraction-name'>开放时间：{item.openTime}</Text>
+                                              <Text strong className='attraction-name'>景点地址：{item.address}</Text>
+                                            </div>
+                                          </div>
                                         </div>
                                         {item.walkTime && index < currentRoute.length - 1 && (
                                             <div className="walk-time">
@@ -186,56 +186,67 @@ const GuideRoute = () => {
 
                     <div className="route-right">
                         <div className="sidebar-info">
-                            <Card title={`景点名称 ${currentAttraction?.location || ''}`} className="attraction-card">
-                              <div className='attraction-detail'>
-                                <div className='attraction-main-image'>
-                                  {currentAttraction?.images && currentAttraction.images.length > 0 ? (
-                                    <Carousel autoplay arrows>
-                                      {currentAttraction.images.map((image, index) => (
-                                        <div key={index}>
-                                          <img src={image.url} alt={currentAttraction.location} className='attraction-main-image-img'/>
-                                        </div>
-                                      ))}
-                                    </Carousel>
-                                  ) : currentAttraction?.imageUrl ? (
-                                    <Carousel arrows>
-                                      <div>
-                                        <img src={currentAttraction.imageUrl} alt={currentAttraction.location} className='attraction-main-image-img'/>
+                          <Card>
+                            <div className='attraction-info'>
+                              <Text strong className='component-name'>景点名称：{currentAttraction?.location || ''}
+                                <Tag color='green' className='rating-badge'>
+                                  建议游玩时间{currentAttraction.suggestionPlayTime/60?.toFixed(1)}小时
+                                </Tag>
+                              </Text>
+                            </div>
+                            <div className='attraction-detail'>
+                              <div className='attraction-main-image-img'>
+                                {currentAttraction?.images && currentAttraction.images.length > 0 ? (
+                                  <Carousel autoplay arrows>
+                                    {currentAttraction.images.map((image, index) => (
+                                      <div key={index}>
+                                        <img src={image.url} alt={currentAttraction.location} className='attraction-main-image-img'/>
                                       </div>
-                                    </Carousel>
-                                  ) : (
-                                    <div className='placeholder-image'>景点图片</div>
-                                  )}
-                                </div>
-
-                                <Title level={5}>地点导览</Title>
-                                <Paragraph className='introduction-text'>
-                                  {currentAttraction?.introduction || '景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍'}
-                                </Paragraph>
-
-                                <Title level={5}>景点人流量预测</Title>
-                                <div className='crowd-info'>
-                                  <Text>当前景点情况：人流量较少 适合出行</Text>
-                                  <br/>
-                                  <Text>未来几天人流量：国庆期间人流量各调人流预测，高峰时段为16：00-18：00</Text>
-                                </div>
-
-                                <Title level={5}>景点信息</Title>
-                                <div className='attraction-details'>
-                                  <Text>开放时间：{currentAttraction?.openTime || '每周二至周日开放，08:30-17:00'}</Text>
-                                  <br/>
-                                  <Text>地点：{currentAttraction?.address || '地址信息地址'}</Text>
-                                  <br/>
-                                  <Text>门票购买：门票30元/人</Text>
-                                  <div className='ticket-toggle'>
-                                    <Text>开启购票提醒</Text>
-                                    <div className='toggle-switch active'>
-                                      <div className='toggle-knob'></div>
+                                    ))}
+                                  </Carousel>
+                                ) : currentAttraction?.imageUrl ? (
+                                  <Carousel arrows>
+                                    <div>
+                                      <img src={currentAttraction.imageUrl} alt={currentAttraction.location} className='attraction-main-image-img'/>
                                     </div>
+                                  </Carousel>
+                                ) : (
+                                  <div className='placeholder-image'>景点图片</div>
+                                )}
+                              </div>
+
+                              <Title level={5}>地点导览</Title>
+                              <Paragraph className='introduction-text'>
+                                {currentAttraction?.introduction || '景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍'}
+                              </Paragraph>
+
+                              <Title level={5}>景点人流量预测</Title>
+                              <div className='crowd-info'>
+                                <Text className='crowd-info'>当前景点情况：人流量较少 适合出行</Text>
+                                <br/>
+                                <Text className='crowd-info'>未来几天人流量：国庆期间人流量各调人流预测，高峰时段为16：00-18：00</Text>
+                              </div>
+
+                              <Title level={5}>景点信息</Title>
+                              <div className='attraction-details'>
+                                <Text className='crowd-info'>开放时间：{currentAttraction?.openTime || '每周二至周日开放，08:30-17:00'}</Text>
+                                <br/>
+                                <Text className='crowd-info'>地点：{currentAttraction?.address || '地址信息地址'}</Text>
+                                <br/>
+                                <Text className='crowd-info'>门票购买：门票30元/人</Text>
+                                <div className='ticket-toggle'>
+                                  <Text>开启购票提醒</Text>
+                                  <div
+                                    className={`toggle-switch ${isTicketReminderEnabled ? 'active' : ''}`}
+                                    onClick={() => setIsTicketReminderEnabled(!isTicketReminderEnabled)}
+                                    style={{cursor: 'pointer'}}
+                                  >
+                                    <div className='toggle-knob'></div>
                                   </div>
                                 </div>
                               </div>
-                            </Card>
+                            </div>
+                          </Card>
                         </div>
                     </div>
                 </div>
