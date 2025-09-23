@@ -52,9 +52,16 @@
   min-width: 60px;
 }
 
+.day-tabs .ant-btn:hover {
+    background-color: #000000 !important;
+    border-color: #000000 !important;
+    color: #ffffff !important;
+}
+
 .day-tabs .ant-btn-primary {
-  background: #52c41a;
-  border-color: #52c41a;
+    background-color: #000000;
+    border-color: #000000;
+    color: #ffffff;
 }
 
 .route-timeline {
@@ -81,6 +88,23 @@
   font-weight: bold;
   flex-shrink: 0;
   margin-top: 8px;
+    position: relative;
+}
+
+.route-number::after {
+    content: '';
+    position: absolute;
+    top: 130%;
+    transform: translateX(-50%);
+    width: 2px;
+    height: 500%;
+    background-color: #d9d9d9;
+    z-index: 1;
+}
+
+/* Hide the line for the last item to avoid unnecessary extension */
+.route-item:last-child .route-number::after {
+    display: none;
 }
 
 .route-detail-card {
@@ -92,8 +116,7 @@
 /* 新的卡片内容布局 */
 .card-content {
   display: flex;
-  gap: 16px;
-  padding: 16px;
+  gap: 35px;
 }
 
 .card-left {
@@ -105,8 +128,8 @@
 }
 
 .attraction-image {
-  width: 100px;
-  height: 80px;
+  width: 120px;
+  height: 120px;
 }
 
 .placeholder-image-small {
@@ -126,7 +149,6 @@
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  margin-bottom: 12px;
 }
 
 .attraction-info {
@@ -176,12 +198,10 @@
 .description {
   color: #666;
   font-size: 13px;
-  margin-bottom: 12px;
   display: block;
 }
 
 .route-info {
-  margin: 12px 0;
   line-height: 1.6;
   font-size: 13px;
   color: #666;
@@ -360,3 +380,16 @@
     border-color: #000000 !important;
     color: #ffffff !important;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+

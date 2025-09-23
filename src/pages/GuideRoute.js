@@ -1,5 +1,12 @@
 import React, {useState} from 'react';
-import {Button, Card, Rate, Tabs, Typography, Carousel} from 'antd';
+import {
+  Button,
+  Card,
+  Tabs,
+  Typography,
+  Carousel,
+  Tag
+} from 'antd';
 import {
   ArrowLeftOutlined,
   ClockCircleOutlined,
@@ -126,9 +133,9 @@ const GuideRoute = () => {
 
                         <div className="route-timeline">
                             {currentRoute.map((item, index) => (
-                                <div key={item.id} className="route-item">
-                                    <div className="route-number"><FlagOutlined /></div>
-                                    <Card className="route-detail-card">
+                              <div key={item.id} className='route-item'>
+                                <div className='route-number'><FlagOutlined/></div>
+                                <Card className="route-detail-card">
                                         <div className="card-content">
                                           <div className='card-left'>
                                             <div className='attraction-image'>
@@ -141,13 +148,13 @@ const GuideRoute = () => {
                                           </div>
                                           <div className='card-right'>
                                             <div className='route-header'>
-                                              <div className="attraction-info">
-                                                        <Text strong className="attraction-name">景点名称：{item.location}</Text>
-                                                        <div className="rating-section">
-                                                            <Rate disabled defaultValue={5} style={{ fontSize: '12px' }} />
-                                                            <Text className="rating-text">{item.rating}</Text>
-                                                        </div>
-                                                    </div>
+                                              <div className='attraction-info'>
+                                                <Text strong className='attraction-name'>景点名称：{item.location}
+                                                  <Tag color='green' className='rating-badge'>
+                                                    {item.rating?.toFixed(1)}分
+                                                  </Tag>
+                                                </Text>
+                                              </div>
                                                     <Button
                                                         type={selectedAttraction === index ? 'primary' : 'default'}
                                                         size="small"
