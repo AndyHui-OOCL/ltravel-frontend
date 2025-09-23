@@ -1,9 +1,10 @@
 import React, {useState, useEffect} from 'react';
-import {Button, Tabs, Card, Tag, Timeline, Rate, Avatar, Typography, Spin} from 'antd';
-import {ArrowLeftOutlined, HeartOutlined, ClockCircleOutlined} from '@ant-design/icons';
+import {Button, Tabs, Card, Typography, Spin} from 'antd';
+import {ArrowLeftOutlined, HeartOutlined} from '@ant-design/icons';
 import {useNavigate, useParams} from 'react-router-dom';
 import './LTravelDetail.css';
 import {getTravelPlanDetailById} from "../apis/travelPlans";
+import GuideHero from './GuideHero';
 
 const {Title, Text, Paragraph} = Typography;
 
@@ -96,8 +97,6 @@ const LTravelDetail = () => {
         }
     ];
 
-    const tags = [`${travelDetail.totalTravelDay}天`, travelDetail.localTravel ? '本地旅行' : '异地旅行', '深度旅行'];
-
     return (
         <div className="travel-detail">
             <div className="header-nav">
@@ -110,16 +109,7 @@ const LTravelDetail = () => {
                 </Button>
             </div>
 
-            <div className="guide-hero">
-                <div className="placeholder-image hero-image">
-                    攻略封面图片
-                </div>
-                <div className="guide-tags">
-                    {tags.map((tag, index) => (
-                        <Tag key={index}>{tag}</Tag>
-                    ))}
-                </div>
-            </div>
+            <GuideHero travelDetail={travelDetail} activeTab={activeTab}/>
 
             <Tabs
                 activeKey={activeTab}
