@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const instance = axios.create({
-    baseURL : 'http://localhost:8080/official-comment/',
+    baseURL: `${process.env.REACT_APP_API_URL || 'http://localhost:8080'}/official-comment`,
     timeout: 5000,
 });
 

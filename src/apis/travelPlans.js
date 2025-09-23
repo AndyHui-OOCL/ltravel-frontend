@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const instance = axios.create({
-    baseURL : 'http://localhost:8080/travel-plans',
+    baseURL: `${process.env.REACT_APP_API_URL || 'http://localhost:8080'}/travel-plans`,
 });
 
 export const getTravelPlanDetailById = async (id) => {
