@@ -80,7 +80,16 @@ const LTravelDetail = () => {
                         {travelDetail.travelLocationEvents.map((event, index) => (
                             <div key={index}>
                                 <Title level={5}>{event.eventName} ⭐️ 2024人喜爱</Title>
-                                <div className="placeholder-image">活动图片区域</div>
+                                <div className="event-images">
+                                    {event.locationImages.map((imageUrl, imgIndex) => (
+                                        <img
+                                            key={imgIndex}
+                                            src={imageUrl}
+                                            alt={event.eventName}
+                                            className="event-image"
+                                        />
+                                    ))}
+                                </div>
                                 <Paragraph>{event.description}</Paragraph>
                             </div>
                         ))}
