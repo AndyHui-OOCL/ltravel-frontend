@@ -4,6 +4,7 @@ import {ArrowLeftOutlined, ClockCircleOutlined} from '@ant-design/icons';
 import {useNavigate, useParams} from 'react-router-dom';
 import './GuideRoute.css';
 import useTravelDetail from '../hooks/useTravelDetail';
+import useTravelRoute from '../hooks/useTravelRoute';
 import TravelDetailLoader from '../components/TravelDetailLoader';
 import GuideHero from "./GuideHero";
 
@@ -15,149 +16,62 @@ const GuideRoute = () => {
     const [activeTab, setActiveTab] = useState('route');
     const [selectedDay, setSelectedDay] = useState('Day1');
     const [selectedAttraction, setSelectedAttraction] = useState(0);
-    const {travelDetail, loading, error} = useTravelDetail(id);
+    const {travelDetail, loading: detailLoading, error: detailError} = useTravelDetail(id);
+    const {routeData, loading: routeLoading, error: routeError} = useTravelRoute(id);
 
-    // 不同天数的路线数据
-    const routeData = {
-        Day1: [
-            {
-                id: 1,
-                time: '08:30',
-                location: '故宫博物院',
-                rating: 4.82,
-                description: '历史与文化的宝库 了解皇家历史',
-                openTime: '每周二至周日开放，08:30-17:00',
-                address: '地址信息地址信息',
-                walkTime: '步行 | 0.3km 4min',
-                introduction: '景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍'
-            },
-            {
-                id: 2,
-                time: '11:00',
-                location: '天安门广场',
-                rating: 4.75,
-                description: '中国的政治文化中心',
-                openTime: '全天开放',
-                address: '北京市东城区',
-                walkTime: '步行 | 1.7km 9min',
-                introduction: '第二个景点的详细介绍内容，包含更多历史文化背景和参观建议...'
-            },
-            {
-                id: 3,
-                time: '14:00',
-                location: '颐和园',
-                rating: 4.68,
-                description: '中国古典园林之首',
-                openTime: '06:30-18:00',
-                address: '北京市海淀区',
-                walkTime: '驾车 | 2.1km 8min',
-                introduction: '第三个景点的详细介绍内容，提供深入的文化体验...'
-            },
-            {
-                id: 4,
-                time: '16:30',
-                location: '天坛公园',
-                rating: 4.72,
-                description: '明清皇帝祭天的场所',
-                openTime: '06:00-22:00',
-                address: '北京市东城区',
-                walkTime: '驾车 | 2.1km 8min',
-                introduction: '第四个景点的详细介绍内容，展现独特的建筑风格...'
-            },
-            {
-                id: 5,
-                time: '18:00',
-                location: '王府井大街',
-                rating: 4.50,
-                description: '北京著名商业街',
-                openTime: '全天开放',
-                address: '北京市东城区',
-                walkTime: null,
-                introduction: '第五个景点的详细介绍内容，完美结束一天的文化之旅...'
-            }
-        ],
-        Day2: [
-            {
-                id: 6,
-                time: '09:00',
-                location: '长城',
-                rating: 4.90,
-                description: '世界文化遗产',
-                openTime: '07:00-18:00',
-                address: '北京市延庆区',
-                walkTime: '驾车 | 50km 1h',
-                introduction: 'Day2第一个景点的详细介绍内容，登上万里长城，感受古代工程的伟大...'
-            }
-        ],
-        Day3: [
-            {
-                id: 7,
-                time: '10:00',
-                location: '圆明园',
-                rating: 4.65,
-                description: '万园之园的历史遗址',
-                openTime: '07:00-19:30',
-                address: '北京市海淀区',
-                walkTime: '步行 | 1.2km 15min',
-                introduction: 'Day3第一个景点的详细介绍内容，回顾历史，感受文化的传承...'
-            }
-        ],
-        Day4: [
-            {
-                id: 8,
-                time: '08:00',
-                location: '恭王府',
-                rating: 4.58,
-                description: '清代王府建筑群',
-                openTime: '08:30-17:00',
-                address: '北京市西城区',
-                walkTime: '步行 | 0.7km 8min',
-                introduction: 'Day4第一个景点的详细介绍内容，欣赏清代王府的建筑艺术...'
-            }
-        ],
-        Day5: [
-            {
-                id: 9,
-                time: '09:30',
-                location: '北海公园',
-                rating: 4.60,
-                description: '皇家园林公园',
-                openTime: '06:30-20:00',
-                address: '北京市西城区',
-                walkTime: '步行 | 0.8km 10min',
-                introduction: 'Day5第一个景点的详细介绍内容，探索皇家园林的美景...'
-            }
-        ],
-        Day6: [
-            {
-                id: 10,
-                time: '10:00',
-                location: '雍和宫',
-                rating: 4.55,
-                description: '清代藏传佛教寺院',
-                openTime: '09:00-16:30',
-                address: '北京市东城区',
-                walkTime: '步行 | 1.5km 18min',
-                introduction: 'Day6第一个景点的详细介绍内容，感受佛教文化的庄严...'
-            }
-        ],
-        Day7: [
-            {
-                id: 11,
-                time: '09:00',
-                location: '什刹海',
-                rating: 4.45,
-                description: '北京历史文化保护区',
-                openTime: '全天开放',
-                address: '北京市西城区',
-                walkTime: '步行 | 0.7km 8min',
-                introduction: 'Day7第一个景点的详细介绍内容，体验老北京的胡同文化...'
-            }
-        ]
+    // 处理API数据格式
+    const processRouteData = () => {
+        if (!routeData || !routeData.route || !routeData.travelComponents) {
+            return {};
+        }
+
+        const processedData = {};
+        const componentsMap = {};
+
+        // 创建组件映射，方便根据名称查找详细信息
+        routeData.travelComponents.forEach(component => {
+            componentsMap[component.name] = component;
+        });
+
+        // 处理路线数据，将天数转换为Day格式，并补充详细信息
+        Object.keys(routeData.route).forEach(dayNumber => {
+            const dayKey = `Day${dayNumber}`;
+            const componentNames = routeData.route[dayNumber];
+
+            processedData[dayKey] = componentNames.map(name => {
+                const component = componentsMap[name];
+                return {
+                    id: component?.id || Math.random(),
+                    location: component?.name || name,
+                    description: component?.description || '',
+                    rating: component?.rating || 4.0,
+                    openTime: component?.openTime || '09:00-17:00',
+                    address: component?.address || '具体地址待更新',
+                    introduction: component?.description || '景点介绍待更新',
+                    suggestionPlayTime: component?.suggestionPlayTime || 120,
+                    walkTime: null
+                };
+            });
+        });
+
+        return processedData;
     };
 
-    const currentRoute = routeData[selectedDay] || [];
+    // 使用处理后的API数据
+    const apiRouteData = processRouteData();
+
+    // 如果API数据不可用，使用空数组作为fallback
+    const currentRoute = apiRouteData[selectedDay] || [];
     const currentAttraction = currentRoute[selectedAttraction] || currentRoute[0];
+
+    // 从API数据中获取可用的天数
+    const availableDays = Object.keys(apiRouteData).length > 0
+        ? Object.keys(apiRouteData).sort((a, b) => {
+            const dayA = parseInt(a.replace('Day', ''));
+            const dayB = parseInt(b.replace('Day', ''));
+            return dayA - dayB;
+          })
+        : ['Day1', 'Day2', 'Day3'];
 
     const handleTabChange = (key) => {
         if (key === 'introduction') {
@@ -191,7 +105,7 @@ const GuideRoute = () => {
                 <div className="route-content">
                     <div className="route-left">
                         <div className="day-tabs">
-                            {['Day1', 'Day2', 'Day3', 'Day4', 'Day5', 'Day6', 'Day7'].map(day => (
+                            {availableDays.map(day => (
                                 <Button
                                     key={day}
                                     type={day === selectedDay ? 'primary' : 'default'}
@@ -300,6 +214,10 @@ const GuideRoute = () => {
             children: null
         }
     ];
+
+    // 合并loading状态和error状态
+    const loading = detailLoading || routeLoading;
+    const error = detailError || routeError;
 
     return (
         <TravelDetailLoader loading={loading} travelDetail={travelDetail} error={error}>
