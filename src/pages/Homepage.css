@@ -5,7 +5,7 @@
 }
 
 .hero-section {
-  background: linear-gradient(135deg, #e8f5e8 0%, #f0f9f0 100%);
+  background: #D9F7BE;
   border-radius: 16px;
   padding: 40px;
   margin-bottom: 30px;
@@ -22,8 +22,8 @@
 }
 
 .ask-ai-btn {
-  background: #52c41a;
-  border-color: #52c41a;
+  background: #254000;
+  border-color: #254000;
   border-radius: 25px;
   padding: 8px 24px;
   font-weight: 500;
@@ -49,6 +49,16 @@
 .category-btn.ant-btn-primary {
   background: #52c41a;
   border-color: #52c41a;
+}
+
+.ask-ai-btn:hover,
+.ask-ai-btn:focus,
+.ask-ai-btn.ant-btn-primary:not(:disabled):hover,
+.ask-ai-btn.ant-btn-primary:not(:disabled):focus {
+    /* Set the background and border-color to the same value */
+    background: #254000;
+    border-color: #254000;
+    color: #fff; /* Keep the text color consistent */
 }
 
 .guides-section {
