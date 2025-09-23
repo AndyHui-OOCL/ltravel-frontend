@@ -72,7 +72,7 @@
 .route-number {
   width: 32px;
   height: 32px;
-  background: #52c41a;
+  background: #2d5016;
   color: white;
   border-radius: 50%;
   display: flex;
@@ -347,4 +347,16 @@
     height: 200px;
     object-fit: cover;
     border-radius: 8px;
+}
+
+.intro-btn:hover {
+    background-color: #000000 !important;
+    border-color: #000000 !important;
+    color: #ffffff !important;
+}
+
+.intro-btn.selected:hover {
+    background-color: #000000 !important;
+    border-color: #000000 !important;
+    color: #ffffff !important;
 }

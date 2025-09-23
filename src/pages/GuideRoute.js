@@ -1,6 +1,10 @@
 import React, {useState} from 'react';
 import {Button, Card, Rate, Tabs, Typography, Carousel} from 'antd';
-import {ArrowLeftOutlined, ClockCircleOutlined} from '@ant-design/icons';
+import {
+  ArrowLeftOutlined,
+  ClockCircleOutlined,
+  FlagOutlined
+} from '@ant-design/icons';
 import {useNavigate, useParams} from 'react-router-dom';
 import './GuideRoute.css';
 import useTravelDetail from '../hooks/useTravelDetail';
@@ -123,7 +127,7 @@ const GuideRoute = () => {
                         <div className="route-timeline">
                             {currentRoute.map((item, index) => (
                                 <div key={item.id} className="route-item">
-                                    <div className="route-number">D{index + 1}</div>
+                                    <div className="route-number"><FlagOutlined /></div>
                                     <Card className="route-detail-card">
                                         <div className="card-content">
                                           <div className='card-left'>
