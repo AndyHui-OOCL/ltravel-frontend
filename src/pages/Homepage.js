@@ -66,8 +66,8 @@ const Homepage = () => {
     }
   ];
 
-  const handleCardClick = (guideId) => {
-    navigate(`/guide/${guideId}`);
+  const handleCardClick = (planId) => {
+    navigate(`/travel-plans/detail/${planId}`);
   };
 
   return (

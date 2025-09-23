@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { ConfigProvider } from 'antd';
 import MainLayout from './layouts/MainLayout';
 import Homepage from './pages/Homepage';
-import GuideDetail from './pages/GuideDetail';
+import LTravelDetail from './pages/LTravelDetail';
 import './App.css';
 
 function App() {
@@ -19,7 +19,7 @@ function App() {
         <MainLayout>
           <Routes>
             <Route path="/" element={<Homepage />} />
-            <Route path="/guide/:id" element={<GuideDetail />} />
+            <Route path="/travel-plans/detail/:id" element={<LTravelDetail />} />
             <Route path="/favorite" element={<div>Favorite Page</div>} />
             <Route path="/itinerary" element={<div>My Itinerary Page</div>} />
           </Routes>
