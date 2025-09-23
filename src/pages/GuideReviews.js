@@ -38,7 +38,7 @@ const GuideReviews = () => {
     },
     {
       key: 'review',
-      label: '攻略评价',
+      label: '官方评价',
       children: null
     }
   ];
