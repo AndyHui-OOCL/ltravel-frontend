@@ -99,6 +99,7 @@
   background: #fff;
   border-right: 1px solid #f0f0f0;
   box-shadow: 2px 0 8px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
 }
 
 .sidebar-menu {
@@ -116,12 +117,13 @@
   transition: all 0.3s ease;
   display: flex;
   align-items: center;
+    max-width: calc(100% - 24px);
+
 }
 
 .sidebar-menu .ant-menu-item:hover {
   background-color:#52c41a;
   color: #666;
-  transform: translateX(4px);
 }
 
 .sidebar-menu .ant-menu-item-selected {
