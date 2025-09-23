@@ -13,7 +13,9 @@
   overflow: hidden;
 }
 
-.messages {
+/* Ensure both class names work for messages container */
+.messages,
+.messages-container {
   flex: 1;
   padding: 16px;
   overflow-y: auto;
@@ -24,8 +26,13 @@
 
 .message {
   display: flex;
-  gap: 12px;
+  gap: 16px;
   align-items: flex-start;
+  margin-bottom: 16px; /* Add explicit margin between messages */
+}
+
+.message:last-child {
+  margin-bottom: 0; /* Remove margin from the last message */
 }
 
 .message.bot {
@@ -36,18 +43,14 @@
   flex-direction: row-reverse;
 }
 
+/* Removing avatar styles as requested */
 .message-avatar {
-  flex-shrink: 0;
-  background: #52c41a;
-}
-
-.message.user .message-avatar {
-  background: #1890ff;
+  display: none;
 }
 
 .message-content {
   flex: 1;
-  max-width: 80%;
+  max-width: 85%;
 }
 
 .message.bot .message-content {
@@ -58,8 +61,8 @@
 }
 
 .message.user .message-content {
-  background: #1890ff;
-  color: white;
+  background: #e6f7e6; /* Changed from #1890ff to light green */
+  color: #333; /* Changed text color to dark for better readability */
   padding: 12px;
   border-radius: 12px;
   border-top-right-radius: 4px;
@@ -72,7 +75,7 @@
 }
 
 .message.user .sub-content {
-  color: rgba(255, 255, 255, 0.8);
+  color: #666; /* Changed from semi-transparent white to match the new background */
 }
 
 .quick-questions {
