@@ -18,7 +18,7 @@ const GuideHero = ({ travelDetail }) => {
         <div className="guide-hero">
             <div className="hero-image-container">
                 <img
-                    src={travelDetail.planImages[currentImageIndex]}
+                    src={travelDetail.planImages?.[currentImageIndex] || ''}
                     alt={travelDetail.title}
                     className="hero-image"
                 />
