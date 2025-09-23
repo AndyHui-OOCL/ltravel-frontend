@@ -1,16 +1,13 @@
-import React, { useState } from 'react';
-import { Layout, Menu, Input, Button, Avatar, Drawer } from 'antd';
+import React from 'react';
+import { Layout, Menu, Input, Avatar} from 'antd';
 import {
   HomeOutlined,
   HeartOutlined,
   ScheduleOutlined,
   SearchOutlined,
   UserOutlined,
-  RobotOutlined,
-  CloseOutlined
 } from '@ant-design/icons';
 import { useNavigate, useLocation } from 'react-router-dom';
-import AICopilot from '../components/AICopilot';
 import './MainLayout.css';
 
 const { Header, Sider, Content } = Layout;
@@ -43,10 +40,10 @@ const MainLayout = ({ children }) => {
 
   return (
     <Layout style={{ minHeight: '100vh' }}>
-      <Header className="header">
+      <Header className="header" style={{backgroundColor: '#254000'}}>
         <div className="logo">
-          <span className="logo-icon">L'</span>
-          <span className="logo-text">Travel</span>
+          <span className="logo-icon" style={{color: "white"}}>L'</span>
+          <span className="logo-text" style={{color: "white"}}>Travel</span>
         </div>
         <div className="header-center">
           <Input

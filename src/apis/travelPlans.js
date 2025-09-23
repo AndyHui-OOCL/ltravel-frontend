@@ -7,3 +7,12 @@ const instance = axios.create({
 export const getTravelPlanDetailById = async (id) => {
     return await instance.get(`/detail/${id}`);
 }
+
+export const getTravelPlanOverview = async (pageNum) => {
+    return await instance.get(``, {
+        params: {
+            page: pageNum,
+            size: 9,
+        }
+    })
+}

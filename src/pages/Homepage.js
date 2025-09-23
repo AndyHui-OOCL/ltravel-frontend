@@ -1,70 +1,31 @@
-import React, { useState } from 'react';
-import {Card, Button, Tag, Pagination, Row, Col, Drawer} from 'antd';
+import React, {useEffect, useState} from 'react';
+import {Card, Button, Tag, Pagination, Row, Col} from 'antd';
 import { useNavigate } from 'react-router-dom';
 import './Homepage.css';
-import {CloseOutlined, RobotOutlined} from "@ant-design/icons";
-import AICopilot from "../components/AICopilot";
 import AiChatSlideBar from "../components/AiChatSlideBar";
+import {getTravelPlanOverview} from "../apis/travelPlans";
 
 const { Meta } = Card;
 
 const Homepage = () => {
   const navigate = useNavigate();
+  const [travelPlans, setTravelPlans] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [isAiChatVisible, setAiChatVisible] = useState(false);
 
+    useEffect(() => {
+        const fetchTravelPlans = async () => {
+            try {
+                const response = await getTravelPlanOverview(currentPage);
+                setTravelPlans(response.data.content || response.data);
+            } catch (err) {
+                console.error("failed to fetch, please try again later");
+            } finally {
+            }
+        };
+        fetchTravelPlans();
+    }, [currentPage]);
   const categories = ['小众路线', '深度旅行', '避暑玩水', '当地特色', '最美秋季'];
-
-  const travelGuides = [
-    {
-      id: 1,
-      title: '腾冲我在腾冲很想越活',
-      image: '/api/placeholder/300/200',
-      days: '5天',
-      duration: '15个行程',
-      tags: ['5天', '15个行程']
-    },
-    {
-      id: 2,
-      title: '西宁|大西北色卡🎨徐徐了一场五彩斑斓的梦',
-      image: '/api/placeholder/300/200',
-      days: '3天',
-      duration: '13个行程',
-      tags: ['3天', '13个行程']
-    },
-    {
-      id: 3,
-      title: '泰皇岛|阳光沙滩，在阿那亚的48h',
-      image: '/api/placeholder/300/200',
-      days: '2天',
-      duration: '8个行程',
-      tags: ['2天', '8个行程']
-    },
-    {
-      id: 4,
-      title: '西宁|大西北色卡🎨徐徐了一场五彩斑斓的梦',
-      image: '/api/placeholder/300/200',
-      days: '3天',
-      duration: '13个行程',
-      tags: ['3天', '13个行程']
-    },
-    {
-      id: 5,
-      title: '腾冲我在腾冲很想越活',
-      image: '/api/placeholder/300/200',
-      days: '5天',
-      duration: '15个行程',
-      tags: ['5天', '15个行程']
-    },
-    {
-      id: 6,
-      title: '西宁|大西北色卡🎨徐徐了一场五彩斑斓的梦',
-      image: '/api/placeholder/300/200',
-      days: '3天',
-      duration: '13个行程',
-      tags: ['3天', '13个行程']
-    }
-  ];
 
   const handleCardClick = (planId) => {
     navigate(`/travel-plans/detail/${planId}`);
@@ -98,29 +59,38 @@ const Homepage = () => {
 
           <div className="guides-section">
             <Row gutter={[24, 24]}>
-              {travelGuides.map((guide) => (
-                <Col xs={24} sm={12} lg={8} key={guide.id}>
+              {travelPlans.map((plan) => (
+                <Col xs={24} sm={12} lg={8} key={travelPlans.id}>
                   <Card
                     hoverable
                     cover={
                       <div className="card-cover">
                         <div className="placeholder-image">
-                          <div className="image-placeholder"></div>
-                        </div>
+                            {plan.travePlanPlanImages && plan.travePlanPlanImages.length > 0 ? (
+                                <img
+                                    src={plan.travePlanPlanImages[0].url}
+                                    alt={plan.cityName}
+                                />
+                            ) : (
+                                <div className="image-placeholder"></div>
+                            )}
+                                </div>
                         <div className="card-tags">
-                          {guide.tags.map((tag, index) => (
-                            <Tag key={index} className="duration-tag">
-                              {tag}
+                            <Tag className="duration-tag">
+                                {plan.totalTravelDay} 天
                             </Tag>
-                          ))}
+                            <Tag className="duration-tag">
+                                {plan.totalTravelComponent} 个活动
+                            </Tag>
                         </div>
                       </div>
                     }
-                    onClick={() => handleCardClick(guide.id)}
+                    onClick={() => handleCardClick(plan.id)}
                     className="guide-card"
                   >
                     <Meta
-                      title={guide.title}
+                      title={plan.title}
+                      description={plan.description}
                       className="card-meta"
                     />
                   </Card>

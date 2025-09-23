@@ -1,14 +1,11 @@
 import React from 'react';
-import { Button, Card, Tag, Typography } from 'antd';
-import { ArrowLeftOutlined, HeartOutlined } from '@ant-design/icons';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Card, Tag, Typography } from 'antd';
+import { HeartOutlined } from '@ant-design/icons';
 import './GuideIntroduction.css';
 
 const { Title, Text, Paragraph } = Typography;
 
 const GuideIntroduction = () => {
-  const navigate = useNavigate();
-  const { id } = useParams();
 
   const guideData = {
     title: '北京的一线秋日暖意',
