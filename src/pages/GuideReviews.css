@@ -43,3 +43,10 @@
   color: #333;
   margin-bottom: 0;
 }
+.user-reviews-card {
+  margin-top: 32px;
+  padding: 24px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}

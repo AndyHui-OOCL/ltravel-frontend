@@ -1,0 +1,30 @@
+/* src/components/UserReviewCard.css */
+.user-review-card {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 16px;
+}
+.user-avatar {
+    margin-right: 12px;
+}
+.user-review-content {
+    flex: 1;
+}
+.user-review-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 4px;
+}
+.user-name {
+    font-weight: 500;
+    margin-right: 8px;
+}
+.review-tag {
+    font-size: 12px;
+    padding: 0 8px;
+}
+.user-review-description {
+    color: #333;
+    font-size: 15px;
+    line-height: 1.6;
+}
