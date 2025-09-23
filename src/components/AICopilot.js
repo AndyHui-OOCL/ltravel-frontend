@@ -1,9 +1,9 @@
 import React, {useState} from 'react';
 import {Avatar, Button, Card, Input, Tooltip, Typography} from 'antd';
 import {PlusOutlined, RightOutlined, RobotOutlined, SendOutlined, UserOutlined} from '@ant-design/icons';
-import axios from 'axios';
 import './AICopilot.css';
 import {useNavigate} from 'react-router-dom';
+import {getAIChatByPrompt} from "../apis/aiCopilot";
 
 const { Text, Paragraph } = Typography;
 
@@ -46,8 +46,7 @@ const AICopilot = () => {
 
       // 请求后端AIChatDTO
       try {
-        const response = await axios.post('http://localhost:8080/ai-chat', { prompt: inputValue });
-
+        const response = await getAIChatByPrompt(inputValue);
         // Update the bot message with results
         if (Array.isArray(response.data) && response.data.length > 0) {
           const finalBotMessage = {
