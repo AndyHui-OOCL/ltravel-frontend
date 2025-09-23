@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
-import { Input, Button, Avatar, Typography, Space, Card, Divider } from 'antd';
-import { SendOutlined, RobotOutlined, UserOutlined, PlusOutlined, ReloadOutlined } from '@ant-design/icons';
+import React, {useState} from 'react';
+import {Avatar, Button, Card, Input, Typography} from 'antd';
+import {PlusOutlined, ReloadOutlined, RobotOutlined, SendOutlined, UserOutlined} from '@ant-design/icons';
+import axios from 'axios';
 import './AICopilot.css';
 
 const { Text, Paragraph } = Typography;
@@ -15,6 +16,7 @@ const AICopilot = () => {
     }
   ]);
   const [inputValue, setInputValue] = useState('');
+  const [aiChatResults, setAiChatResults] = useState([]);
 
   const suggestedQuestions = [
     '秋天哪个城市最漂亮？',
@@ -22,7 +24,7 @@ const AICopilot = () => {
     '周末不清假玩转马来西亚'
   ];
 
-  const handleSendMessage = () => {
+  const handleSendMessage = async () => {
     if (inputValue.trim()) {
       const newMessage = {
         id: messages.length + 1,
@@ -32,7 +34,18 @@ const AICopilot = () => {
       setMessages([...messages, newMessage]);
       setInputValue('');
 
-      // 模拟AI回复
+      // 请求后端AIChatDTO
+      try {
+        const response = await axios.post('http://localhost:8080/ai-chat', { prompt: inputValue });
+        if (Array.isArray(response.data)) {
+          setAiChatResults(response.data);
+        }
+      } catch (error) {
+        // 错误处理
+        setAiChatResults([]);
+      }
+
+      // 模拟AI回复（可选保留）
       setTimeout(() => {
         const botReply = {
           id: messages.length + 2,
@@ -78,6 +91,20 @@ const AICopilot = () => {
             </div>
           </div>
         ))}
+        {/* AIChatDTO 展示区 */}
+        {aiChatResults.length > 0 && (
+            <div className="ai-chat-results">
+              {(aiChatResults.slice(0, 2)).map((item) => (
+                  <div key={item.travelId} className="ai-chat-result-card">
+                    <div className="ai-chat-result-info">
+                      <span className="ai-chat-result-city">{item.cityName}</span>
+                      <span className="ai-chat-result-desc" title={item.description}>{item.description}</span>
+                    </div>
+                    <img src={item.imageUrl} alt={item.cityName} className="ai-chat-result-img"/>
+                  </div>
+              ))}
+            </div>
+        )}
       </div>
 
       {/* Suggested Questions */}
@@ -85,14 +112,14 @@ const AICopilot = () => {
         <Text className="suggested-label">我可以解答本话题相关问题：</Text>
         <div className="questions-list">
           {suggestedQuestions.map((question, index) => (
-            <Card
-              key={index}
-              className="question-card"
-              onClick={() => handleSuggestedQuestion(question)}
-              hoverable
-            >
-              <Text className="question-text">{question}</Text>
-            </Card>
+              <Card
+                  key={index}
+                  className="question-card"
+                  onClick={() => handleSuggestedQuestion(question)}
+                  hoverable
+              >
+                <Text className="question-text">{question}</Text>
+              </Card>
           ))}
         </div>
       </div>
@@ -101,7 +128,7 @@ const AICopilot = () => {
       <div className="input-area">
         <div className="input-container">
           <Input
-            value={inputValue}
+              value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
             onKeyPress={handleKeyPress}
             placeholder="输入问题让我来帮你"
