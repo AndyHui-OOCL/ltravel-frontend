@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Button, Card, Rate, Tabs, Typography} from 'antd';
+import {Button, Card, Rate, Tabs, Typography, Carousel} from 'antd';
 import {ArrowLeftOutlined, ClockCircleOutlined} from '@ant-design/icons';
 import {useNavigate, useParams} from 'react-router-dom';
 import './GuideRoute.css';
@@ -50,7 +50,8 @@ const GuideRoute = () => {
                     introduction: component?.description || '景点介绍待更新',
                     suggestionPlayTime: component?.suggestionPlayTime || 120,
                     walkTime: null,
-                    imageUrl: component?.images && component.images.length > 0 ? component.images[0].url : null
+                    imageUrl: component?.images && component.images.length > 0 ? component.images[0].url : null,
+                    images: component?.images || []
                 };
             });
         });
@@ -177,8 +178,20 @@ const GuideRoute = () => {
                             <Card title={`景点名称 ${currentAttraction?.location || ''}`} className="attraction-card">
                               <div className='attraction-detail'>
                                 <div className='attraction-main-image'>
-                                  {currentAttraction?.imageUrl ? (
-                                    <img src={currentAttraction.imageUrl} alt={currentAttraction.location} className='attraction-main-image-img'/>
+                                  {currentAttraction?.images && currentAttraction.images.length > 0 ? (
+                                    <Carousel autoplay arrows>
+                                      {currentAttraction.images.map((image, index) => (
+                                        <div key={index}>
+                                          <img src={image.url} alt={currentAttraction.location} className='attraction-main-image-img'/>
+                                        </div>
+                                      ))}
+                                    </Carousel>
+                                  ) : currentAttraction?.imageUrl ? (
+                                    <Carousel arrows>
+                                      <div>
+                                        <img src={currentAttraction.imageUrl} alt={currentAttraction.location} className='attraction-main-image-img'/>
+                                      </div>
+                                    </Carousel>
                                   ) : (
                                     <div className='placeholder-image'>景点图片</div>
                                   )}
@@ -225,16 +238,16 @@ const GuideRoute = () => {
     ];
 
   // 合并loading状态和error状态
-    const loading = detailLoading || routeLoading;
-    const error = detailError || routeError;
+  const loading = detailLoading || routeLoading;
+  const error = detailError || routeError;
 
-    return (
-        <TravelDetailLoader loading={loading} travelDetail={travelDetail} error={error}>
-            <div className="guide-route">
-                <div className="header-nav">
-                    <Button
-                        icon={<ArrowLeftOutlined/>}
-                        type="text"
+  return (
+    <TravelDetailLoader loading={loading} travelDetail={travelDetail} error={error}>
+      <div className='guide-route'>
+        <div className='header-nav'>
+          <Button
+            icon={<ArrowLeftOutlined/>}
+            type="text"
                         onClick={() => navigate(-1)}
                     >
                         Homepage
