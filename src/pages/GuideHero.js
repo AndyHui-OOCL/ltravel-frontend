@@ -22,7 +22,7 @@ const GuideHero = ({ travelDetail }) => {
                     alt={travelDetail.title}
                     className="hero-image"
                 />
-                {travelDetail.planImages.length > 1 && (
+                {travelDetail.planImages?.length > 1 && (
                     <>
                         <button className="image-nav prev" onClick={prevImage}>
                             <LeftOutlined />

@@ -6,7 +6,9 @@ import './GuideReviews.css';
 import TravelDetailLoader from "../components/TravelDetailLoader";
 import GuideHero from "./GuideHero";
 import useTravelDetail from "../hooks/useTravelDetail";
-import {getOfficialCommentById} from "../apis/officialComment";
+import {getOfficialCommentByTravelPlanId} from "../apis/officialComment";
+import UserReviewCard from "../components/UserReviewCard";
+import {getCommentsByTravelComponentId} from "../apis/comment";
 
 const { Title, Paragraph } = Typography;
 
@@ -18,16 +20,28 @@ const GuideReviews = () => {
 
   const [officialComment, setOfficialComment] = useState(null);
   const [commentLoading, setCommentLoading] = useState(true);
+  const [userComments, setUserComments] = useState([]);
+  const [userCommentsLoading, setUserCommentsLoading] = useState(true);
 
   useEffect(() => {
     setCommentLoading(true);
-    getOfficialCommentById(id)
+    getOfficialCommentByTravelPlanId(id)
         .then(response => response.data)
         .then(data => {
           setOfficialComment(data);
           setCommentLoading(false);
         })
         .catch(() => setCommentLoading(false));
+  }, [id]);
+  useEffect(() => {
+    setUserCommentsLoading(true);
+    getCommentsByTravelComponentId(id)
+        .then(response => response.data)
+        .then(data => {
+          setUserComments(data);
+          setUserCommentsLoading(false);
+        })
+        .catch(() => setUserCommentsLoading(false));
   }, [id]);
 
   const handleTabChange = (key) => {
@@ -96,6 +110,18 @@ const GuideReviews = () => {
                 </>
             ) : (
                 <Paragraph>暂无官方评价</Paragraph>
+            )}
+          </div>
+          <div className="user-reviews-card" bordered={false}>
+            <Title level={3} style={{ marginBottom: 24 }}>用户评价</Title>
+            {userCommentsLoading ? (
+                <Paragraph>Loading...</Paragraph>
+            ) : userComments!==null & userComments.length > 0 ? (
+                userComments.map(comment => (
+                    <UserReviewCard key={comment.id} comment={comment} />
+                ))
+            ) : (
+                <Paragraph>暂无用户评价</Paragraph>
             )}
           </div>
         </div>
