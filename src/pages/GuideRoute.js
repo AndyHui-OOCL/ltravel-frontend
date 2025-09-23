@@ -49,7 +49,8 @@ const GuideRoute = () => {
                     address: component?.address || '具体地址待更新',
                     introduction: component?.description || '景点介绍待更新',
                     suggestionPlayTime: component?.suggestionPlayTime || 120,
-                    walkTime: null
+                    walkTime: null,
+                    imageUrl: component?.images && component.images.length > 0 ? component.images[0].url : null
                 };
             });
         });
@@ -71,7 +72,7 @@ const GuideRoute = () => {
             const dayB = parseInt(b.replace('Day', ''));
             return dayA - dayB;
           })
-        : ['Day1', 'Day2', 'Day3'];
+        : ['Day1', 'Day2', 'Day3','Day4', 'Day5', 'Day6', 'Day7'];
 
     const handleTabChange = (key) => {
         if (key === 'introduction') {
@@ -124,14 +125,18 @@ const GuideRoute = () => {
                                     <div className="route-number">D{index + 1}</div>
                                     <Card className="route-detail-card">
                                         <div className="card-content">
-                                            <div className="card-left">
-                                                <div className="attraction-image">
-                                                    <div className="placeholder-image-small">景点图片</div>
-                                                </div>
+                                          <div className='card-left'>
+                                            <div className='attraction-image'>
+                                              {item.imageUrl ? (
+                                                <img src={item.imageUrl} alt={item.location} className='attraction-image-small'/>
+                                              ) : (
+                                                <div className='placeholder-image-small'>景点图片</div>
+                                              )}
                                             </div>
-                                            <div className="card-right">
-                                                <div className="route-header">
-                                                    <div className="attraction-info">
+                                          </div>
+                                          <div className='card-right'>
+                                            <div className='route-header'>
+                                              <div className="attraction-info">
                                                         <Text strong className="attraction-name">景点名称：{item.location}</Text>
                                                         <div className="rating-section">
                                                             <Rate disabled defaultValue={5} style={{ fontSize: '12px' }} />
@@ -170,52 +175,56 @@ const GuideRoute = () => {
                     <div className="route-right">
                         <div className="sidebar-info">
                             <Card title={`景点名称 ${currentAttraction?.location || ''}`} className="attraction-card">
-                                <div className="attraction-detail">
-                                    <div className="attraction-main-image">
-                                        <div className="placeholder-image">景点图片</div>
-                                    </div>
-
-                                    <Title level={5}>地点导览</Title>
-                                    <Paragraph className="introduction-text">
-                                        {currentAttraction?.introduction || '景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍'}
-                                    </Paragraph>
-
-                                    <Title level={5}>景点人流量预测</Title>
-                                    <div className="crowd-info">
-                                        <Text>当前景点情况：人流量较少 适合出行</Text>
-                                        <br />
-                                        <Text>未来几天人流量：国庆期间人流量各调人流预测，高峰时段为16：00-18：00</Text>
-                                    </div>
-
-                                    <Title level={5}>景点信息</Title>
-                                    <div className="attraction-details">
-                                        <Text>开放时间：{currentAttraction?.openTime || '每周二至周日开放，08:30-17:00'}</Text>
-                                        <br />
-                                        <Text>地点：{currentAttraction?.address || '地址信息地址'}</Text>
-                                        <br />
-                                        <Text>门票购买：门票30元/人</Text>
-                                        <div className="ticket-toggle">
-                                            <Text>开启购票提醒</Text>
-                                            <div className="toggle-switch active">
-                                                <div className="toggle-knob"></div>
-                                            </div>
-                                        </div>
-                                    </div>
+                              <div className='attraction-detail'>
+                                <div className='attraction-main-image'>
+                                  {currentAttraction?.imageUrl ? (
+                                    <img src={currentAttraction.imageUrl} alt={currentAttraction.location} className='attraction-main-image-img'/>
+                                  ) : (
+                                    <div className='placeholder-image'>景点图片</div>
+                                  )}
                                 </div>
+
+                                <Title level={5}>地点导览</Title>
+                                <Paragraph className='introduction-text'>
+                                  {currentAttraction?.introduction || '景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍'}
+                                </Paragraph>
+
+                                <Title level={5}>景点人流量预测</Title>
+                                <div className='crowd-info'>
+                                  <Text>当前景点情况：人流量较少 适合出行</Text>
+                                  <br/>
+                                  <Text>未来几天人流量：国庆期间人流量各调人流预测，高峰时段为16：00-18：00</Text>
+                                </div>
+
+                                <Title level={5}>景点信息</Title>
+                                <div className='attraction-details'>
+                                  <Text>开放时间：{currentAttraction?.openTime || '每周二至周日开放，08:30-17:00'}</Text>
+                                  <br/>
+                                  <Text>地点：{currentAttraction?.address || '地址信息地址'}</Text>
+                                  <br/>
+                                  <Text>门票购买：门票30元/人</Text>
+                                  <div className='ticket-toggle'>
+                                    <Text>开启购票提醒</Text>
+                                    <div className='toggle-switch active'>
+                                      <div className='toggle-knob'></div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
                             </Card>
                         </div>
                     </div>
                 </div>
             )
         },
-        {
-            key: 'review',
-            label: '官方评价',
-            children: null
-        }
+      {
+        key: 'review',
+        label: '官方评价',
+        children: null
+      }
     ];
 
-    // 合并loading状态和error状态
+  // 合并loading状态和error状态
     const loading = detailLoading || routeLoading;
     const error = detailError || routeError;
 
