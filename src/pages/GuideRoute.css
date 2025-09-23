@@ -1,8 +1,7 @@
 /* Guide Route Page Styles */
 .guide-route {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 20px;
+    width: 100%;
+    margin: 0 auto;
 }
 
 .header-nav {
@@ -152,17 +151,26 @@
 }
 
 .intro-btn {
-  background: #000;
-  border-color: #000;
+  background: white;
+  border: 1px solid #d9d9d9;
+  color: #666;
   border-radius: 16px;
   font-size: 12px;
   height: 28px;
   padding: 0 12px;
+  transition: all 0.3s ease;
 }
 
 .intro-btn:hover {
-  background: #333;
-  border-color: #333;
+  background: #f5f5f5;
+  border-color: #b7b7b7;
+  color: #333;
+}
+
+.intro-btn.selected {
+  background: #000;
+  border-color: #000;
+  color: white;
 }
 
 .description {

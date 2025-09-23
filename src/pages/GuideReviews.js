@@ -1,11 +1,12 @@
-import React, {useState} from 'react';
-import {Typography, Tabs, Button} from 'antd';
+import React, { useState, useEffect } from 'react';
+import { Typography, Tabs, Button, Tag } from 'antd';
 import { ArrowLeftOutlined } from '@ant-design/icons';
 import { useNavigate, useParams } from 'react-router-dom';
 import './GuideReviews.css';
 import TravelDetailLoader from "../components/TravelDetailLoader";
 import GuideHero from "./GuideHero";
 import useTravelDetail from "../hooks/useTravelDetail";
+import {getOfficialCommentById} from "../apis/officialComment";
 
 const { Title, Paragraph } = Typography;
 
@@ -14,6 +15,20 @@ const GuideReviews = () => {
   const { id } = useParams();
   const [activeTab, setActiveTab] = useState('review');
   const { travelDetail, loading, error } = useTravelDetail(id);
+
+  const [officialComment, setOfficialComment] = useState(null);
+  const [commentLoading, setCommentLoading] = useState(true);
+
+  useEffect(() => {
+    setCommentLoading(true);
+    getOfficialCommentById(id)
+        .then(response => response.data)
+        .then(data => {
+          setOfficialComment(data);
+          setCommentLoading(false);
+        })
+        .catch(() => setCommentLoading(false));
+  }, [id]);
 
   const handleTabChange = (key) => {
     if (key === 'introduction') {
@@ -26,47 +41,17 @@ const GuideReviews = () => {
   };
 
   const tabItems = [
-    {
-      key: 'introduction',
-      label: '攻略简介',
-      children: null
-    },
-    {
-      key: 'route',
-      label: '详细路线',
-      children: null
-    },
-    {
-      key: 'review',
-      label: '官方评价',
-      children: null
-    }
+    { key: 'introduction', label: '攻略简介', children: null },
+    { key: 'route', label: '详细路线', children: null },
+    { key: 'review', label: '攻略评价', children: null }
   ];
-
-  const reviews = {
-    officialRating: 4.89,
-    sections: [
-      {
-        title: '总览路线评价',
-        content: '景点介绍高介绍景点介绍高介绍景点介绍高介绍景点介绍高介绍景点介绍高介绍景点介绍高介绍景点介绍高介绍景点介绍高介绍景点介绍高介绍景点介绍高介绍'
-      },
-      {
-        title: '本地特色活动评价',
-        content: '景点介绍高介绍景点介绍高介绍景点介绍高介绍景点介绍高介绍景点介绍高介绍景点介绍高介绍景点介绍高介绍景点介绍高介绍景点介绍高介绍'
-      },
-      {
-        title: '推荐原因',
-        content: '推荐原因是什么样的人出游，对于什么样的问题兴趣的朋友可以选择这个...'
-      }
-    ]
-  };
 
   return (
       <TravelDetailLoader loading={loading} travelDetail={travelDetail} error={error}>
         <div className="guide-reviews">
           <div className="header-nav">
             <Button
-                icon={<ArrowLeftOutlined/>}
+                icon={<ArrowLeftOutlined />}
                 type="text"
                 onClick={() => navigate(-1)}
             >
@@ -83,21 +68,35 @@ const GuideReviews = () => {
               className="guide-tabs"
           />
 
-          <div className="reviews-content">
-            <div className="official-rating">
-              <Title level={3}>官方推荐评价</Title>
-              <div className="rating-display">
-                <span className="rating-number">{reviews.officialRating}</span>
-              </div>
-            </div>
-
-            {reviews.sections.map((section, index) => (
-                <div key={index} className="review-section">
-                  <Title level={4}>{section.title}</Title>
-                  <div className="placeholder-image">图片区域</div>
-                  <Paragraph>{section.content}</Paragraph>
-                </div>
-            ))}
+          <div className="reviews-card">
+            {commentLoading ? (
+                <Paragraph>Loading...</Paragraph>
+            ) : officialComment ? (
+                <>
+                  <div className="official-rating-header">
+                    <Title level={3} className="official-title">
+                      官方推荐官评价
+                      <Tag color="green" className="rating-badge">
+                        {officialComment.rating?.toFixed(1)}分
+                      </Tag>
+                    </Title>
+                  </div>
+                  <div className="review-section">
+                    <Title level={4} className="section-title">总览路线评价</Title>
+                    <Paragraph className="section-content">{officialComment.overallComment}</Paragraph>
+                  </div>
+                  <div className="review-section">
+                    <Title level={4} className="section-title">本地特色活动评价</Title>
+                    <Paragraph className="section-content">{officialComment.eventComment}</Paragraph>
+                  </div>
+                  <div className="review-section">
+                    <Title level={4} className="section-title">推荐原因</Title>
+                    <Paragraph className="section-content">{officialComment.promoteReason}</Paragraph>
+                  </div>
+                </>
+            ) : (
+                <Paragraph>暂无官方评价</Paragraph>
+            )}
           </div>
         </div>
       </TravelDetailLoader>

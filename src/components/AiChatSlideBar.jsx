@@ -13,7 +13,7 @@ function AiChatSlideBar({isAiChatVisible, setAiChatVisible}) {
                 </div>
             }
             placement="right"
-            width={400}
+            width={600}
             onClose={() => setAiChatVisible(false)}
             open={isAiChatVisible}
             closeIcon={<CloseOutlined />}
