@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import {Button, Tabs, Card, Typography, Spin} from 'antd';
 import {ArrowLeftOutlined, HeartFilled, HeartOutlined} from '@ant-design/icons';
-import {useNavigate, useParams} from 'react-router-dom';
+import {useNavigate, useParams, useLocation} from 'react-router-dom';
 import './LTravelDetail.css';
 import {getTravelPlanDetailById} from "../apis/travelPlans";
 import GuideHero from './GuideHero';
@@ -11,6 +11,7 @@ const {Title, Text, Paragraph} = Typography;
 
 const LTravelDetail = () => {
     const navigate = useNavigate();
+    const routeLocation = useLocation();
     const {id} = useParams();
     const [activeTab, setActiveTab] = useState('introduction');
     const [travelDetail, setTravelDetail] = useState(null);
@@ -83,6 +84,20 @@ const LTravelDetail = () => {
         } finally {
             setFavoriteLoading(false);
         }
+    };
+
+    const fromPage = routeLocation.state?.from || 'home';
+
+    const handleBackClick = () => {
+        if (fromPage === 'favorite') {
+            navigate('/favorites');
+        } else {
+            navigate('/');
+        }
+    };
+
+    const getBackButtonText = () => {
+        return fromPage === 'favorite' ? 'Favorite' : 'Homepage';
     };
 
     const tabItems = [
@@ -159,9 +174,9 @@ const LTravelDetail = () => {
                 <Button
                     icon={<ArrowLeftOutlined/>}
                     type="text"
-                    onClick={() => navigate('/')}
+                    onClick={handleBackClick}
                 >
-                    Homepage
+                    {getBackButtonText()}
                 </Button>
             </div>
 

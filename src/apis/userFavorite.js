@@ -15,3 +15,7 @@ export const removeFavorite = async (userId, travelPlanId) => {
 export const checkFavorite = async (userId, travelPlanId) => {
     return await instance.get(`/like-status/${travelPlanId}?userId=${userId}`);
 }
+
+export const getUserFavorites = async (userId, page = 0, size = 10) => {
+    return await instance.get(`/favorite-plans?userId=${userId}&page=${page}&size=${size}`);
+};
