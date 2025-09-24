@@ -8,9 +8,11 @@ export const getTravelPlanDetailById = async (id) => {
     return await instance.get(`/detail/${id}`);
 }
 
-export const getTravelPlanOverview = async (filterPlanTag, pageNum) => {
+export const getTravelPlanOverview = async (selectedCity, selectedDays, filterPlanTag, pageNum) => {
     return await instance.get(``, {
         params: {
+            city: selectedCity,
+            travelDays: selectedDays,
             tag: filterPlanTag,
             page: pageNum,
             size: 9,

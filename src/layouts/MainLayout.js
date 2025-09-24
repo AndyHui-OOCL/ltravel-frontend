@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Layout, Menu, Input, Avatar} from 'antd';
 import {
   HomeOutlined,
@@ -9,12 +9,16 @@ import {
 } from '@ant-design/icons';
 import { useNavigate, useLocation } from 'react-router-dom';
 import './MainLayout.css';
+import CityFilter from "../components/CityFilter";
+import { useSearch } from "../contexts/SearchContext";
 
 const { Header, Sider, Content } = Layout;
 
 const MainLayout = ({ children }) => {
   const navigate = useNavigate();
   const location = useLocation();
+  const [showCityAndTravelDayFilter, setShowCityAndTravelDayFilter] = useState(false);
+  const { selectedCity, updateSearch } = useSearch();
 
   const menuItems = [
     {
@@ -38,6 +42,15 @@ const MainLayout = ({ children }) => {
     navigate(key);
   };
 
+  const handleSearchClick = () => {
+    setShowCityAndTravelDayFilter(!showCityAndTravelDayFilter);
+  };
+
+  const handleCitySelect = (city) => {
+    updateSearch(city.name, city.days);
+    setShowCityAndTravelDayFilter(false);
+  };
+
   return (
     <Layout style={{ minHeight: '100vh' }}>
       <Header className="header" style={{backgroundColor: '#254000'}}>
@@ -47,9 +60,11 @@ const MainLayout = ({ children }) => {
         </div>
         <div className="header-center">
           <Input
-            placeholder="Search"
+            placeholder={selectedCity || "Search"}
             prefix={<SearchOutlined />}
             className="search-input"
+            onClick={handleSearchClick}
+            readOnly
           />
         </div>
         <div className="header-right">
@@ -73,6 +88,12 @@ const MainLayout = ({ children }) => {
           {children}
         </Content>
       </Layout>
+
+      <CityFilter
+        visible={showCityAndTravelDayFilter}
+        onClose={setShowCityAndTravelDayFilter}
+        onCitySelect={handleCitySelect}
+      />
     </Layout>
   );
 };

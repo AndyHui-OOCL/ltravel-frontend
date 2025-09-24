@@ -4,11 +4,13 @@ import { useNavigate } from 'react-router-dom';
 import './Homepage.css';
 import AiChatSlideBar from "../components/AiChatSlideBar";
 import {getNumOfTravelPlan, getTravelPlanOverview} from "../apis/travelPlans";
+import { useSearch } from "../contexts/SearchContext";
 
 const { Meta } = Card;
 
 const Homepage = () => {
     const navigate = useNavigate();
+    const { selectedCity, selectedDays } = useSearch();
     const [travelPlans, setTravelPlans] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [filterPlanTag, setFilterPlanTag] = useState("");
@@ -20,7 +22,8 @@ const Homepage = () => {
     useEffect(() => {
         const fetchTravelPlans = async () => {
             try {
-                const response = await getTravelPlanOverview(filterPlanTag, currentPage);
+                // You can now use selectedCity and selectedDays for filtering
+                const response = await getTravelPlanOverview(selectedCity, selectedDays, filterPlanTag, currentPage);
                 setTravelPlans(response.data.content || response.data);
             } catch (err) {
                 console.error("failed to fetch travel plans, please try again later");
@@ -29,12 +32,13 @@ const Homepage = () => {
             }
         };
         fetchTravelPlans();
-    }, [currentPage, filterPlanTag]);
+    }, [currentPage, filterPlanTag, selectedCity, selectedDays]);
 
     useEffect(() => {
         const fetchTravelPlanNum = async () => {
             try {
-                const response = await getNumOfTravelPlan(filterPlanTag);
+                // Include city and days filters in the count as well
+                const response = await getNumOfTravelPlan(selectedCity, selectedDays, filterPlanTag);
                 setTotalTravelPlanNum((response.data.content || response.data));
             } catch (err) {
                 console.error("failed to fetch total page num, please try again later");
@@ -43,7 +47,7 @@ const Homepage = () => {
             }
         }
         fetchTravelPlanNum()
-    }, [filterPlanTag]);
+    }, [filterPlanTag, selectedCity, selectedDays]);
 
 
     const handleCardClick = (planId) => {

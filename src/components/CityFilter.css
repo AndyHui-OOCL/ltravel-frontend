@@ -1,0 +1,178 @@
+.city-filter-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 64px; /* Account for header height */
+}
+
+.city-filter-card {
+  width: 500px;
+  max-width: 90vw;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  border-radius: 8px;
+  border: none;
+}
+
+.city-filter-card .ant-card-body {
+  padding: 20px;
+}
+
+.filter-container {
+  display: flex;
+  gap: 20px;
+}
+
+/* Left Column - Cities */
+.cities-column {
+  flex: 2;
+  border-right: 1px solid #f0f0f0;
+  padding-right: 20px;
+}
+
+.column-header {
+  margin-bottom: 16px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.column-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+}
+
+.cities-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.city-item {
+  padding: 8px 12px;
+  text-align: center;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: all 0.2s;
+  border: 1px solid #f0f0f0;
+}
+
+.city-item:hover {
+  background-color: #f0f9ff;
+  border-color: #1890ff;
+}
+
+.city-name {
+  font-size: 14px;
+  color: #333;
+  display: block;
+}
+
+/* Right Column - Days */
+.days-column {
+  flex: 1;
+  padding-left: 20px;
+}
+
+.days-scroll-container {
+  max-height: 300px;
+  overflow-y: auto;
+  padding-right: 8px;
+}
+
+.days-scroll-container::-webkit-scrollbar {
+  width: 6px;
+}
+
+.days-scroll-container::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 3px;
+}
+
+.days-scroll-container::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 3px;
+}
+
+.days-scroll-container::-webkit-scrollbar-thumb:hover {
+  background: #1890ff;
+}
+
+.day-item {
+  margin-bottom: 8px;
+  display: flex;
+  justify-content: center;
+}
+
+.day-tag {
+  min-width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  border-radius: 6px;
+  margin: 0;
+  border: 1px solid #d9d9d9;
+  background-color: #fff;
+  color: #666;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.day-tag:hover {
+  border-color: #1890ff;
+  color: #1890ff;
+}
+
+.day-tag.selected {
+  background-color: #1890ff;
+  color: white;
+  border-color: #1890ff;
+}
+
+/* Responsive adjustments */
+@media (max-width: 576px) {
+  .city-filter-card {
+    width: 95vw;
+  }
+
+  .filter-container {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .cities-column {
+    border-right: none;
+    border-bottom: 1px solid #f0f0f0;
+    padding-right: 0;
+    padding-bottom: 16px;
+  }
+
+  .days-column {
+    padding-left: 0;
+  }
+
+  .cities-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
+
+  .days-scroll-container {
+    max-height: 200px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    overflow-y: visible;
+  }
+
+  .day-item {
+    margin-bottom: 0;
+  }
+}
