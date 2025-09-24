@@ -110,7 +110,8 @@
 .sidebar-menu .ant-menu-item {
   margin: 8px 12px;
   border-radius: 8px;
-  color: #666;
+    background: white;
+  color: black;
   font-weight: 500;
   height: 48px;
   line-height: 48px;
@@ -122,13 +123,13 @@
 }
 
 .sidebar-menu .ant-menu-item:hover {
-  background-color:#52c41a;
-  color: #666;
+  background-color:#D9F78E;
+  color: #135200;
 }
 
 .sidebar-menu .ant-menu-item-selected {
-  background-color: #52c41a;
-  color: #666;
+  background-color: #D9F78E;
+  color: #135200;
   border-radius: 8px;
   font-weight: 600;
 }
