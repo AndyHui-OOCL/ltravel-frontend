@@ -9,21 +9,23 @@ const { Text, Paragraph } = Typography;
 
 const AICopilot = () => {
   const navigate = useNavigate();
-  const initialMessage = {
-    id: 1,
-    type: 'bot',
-    content: '我是世界的旅游管家，很高兴为你服务！',
-    subContent: 'Hi,你好！这里有属于你的问题！今天想去哪里？有什么公里的相关问题吗请对我说我知！'
-  };
-
-  const [messages, setMessages] = useState([initialMessage]);
-  const [inputValue, setInputValue] = useState('');
 
   const suggestedQuestions = [
     '秋天哪个城市最漂亮？',
     '国庆7天去哪游玩线',
     '周末不清假玩转马来西亚'
   ];
+
+  const initialMessage = {
+    id: 1,
+    type: 'bot',
+    content: '我是LTravel旅游管家，很高兴为您服务！',
+    subContent: 'Hi,你好！今天想去哪里？有什么旅游的相关问题吗？',
+    suggestedQuestions: suggestedQuestions
+  };
+
+  const [messages, setMessages] = useState([initialMessage]);
+  const [inputValue, setInputValue] = useState('');
 
   // 创建ref用于滚动
   const messagesEndRef = React.useRef(null);
@@ -137,6 +139,25 @@ const AICopilot = () => {
                   </Paragraph>
                 )}
 
+                {/* Render suggested questions if they exist in this message */}
+                {message.suggestedQuestions && message.suggestedQuestions.length > 0 && (
+                  <div className="suggested-questions">
+                    <Text className="suggested-label">我可以解答本话题相关问题：</Text>
+                    <div className="questions-list">
+                      {message.suggestedQuestions.map((question, index) => (
+                        <Card
+                          key={index}
+                          className="question-card"
+                          onClick={() => handleSuggestedQuestion(question)}
+                          hoverable
+                        >
+                          <Text className="question-text">{question}</Text>
+                        </Card>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
                 {/* Render AI chat results if they exist in this message */}
                 {message.aiChatResults && message.aiChatResults.length > 0 && (
                   <div className="ai-chat-results">
@@ -163,22 +184,6 @@ const AICopilot = () => {
           </div>
         ))}
         <div ref={messagesEndRef} />
-      </div>
-
-      <div className="suggested-questions">
-        <Text className="suggested-label">我可以解答本话题相关问题：</Text>
-        <div className="questions-list">
-          {suggestedQuestions.map((question, index) => (
-              <Card
-                  key={index}
-                  className="question-card"
-                  onClick={() => handleSuggestedQuestion(question)}
-                  hoverable
-              >
-                <Text className="question-text">{question}</Text>
-              </Card>
-          ))}
-        </div>
       </div>
 
       <div className="input-area">
