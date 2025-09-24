@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Typography, Tabs, Button, Tag } from 'antd';
+import { Typography, Tabs, Button } from 'antd';
 import { ArrowLeftOutlined } from '@ant-design/icons';
 import { useNavigate, useParams } from 'react-router-dom';
 import './GuideReviews.css';
@@ -9,6 +9,7 @@ import useTravelDetail from "../hooks/useTravelDetail";
 import {getOfficialCommentByTravelPlanId} from "../apis/officialComment";
 import UserReviewCard from "../components/UserReviewCard";
 import {getCommentsByTravelComponentId} from "../apis/comment";
+import OfficialReviewCard from '../components/OfficialReviewCard';
 
 const { Title, Paragraph } = Typography;
 
@@ -82,36 +83,7 @@ const GuideReviews = () => {
               className="guide-tabs"
           />
 
-          <div className="reviews-card">
-            {commentLoading ? (
-                <Paragraph>Loading...</Paragraph>
-            ) : officialComment ? (
-                <>
-                  <div className="official-rating-header">
-                    <Title level={3} className="official-title">
-                      官方推荐官评价
-                      <Tag color="green" className="rating-badge">
-                        {officialComment.rating?.toFixed(1)}分
-                      </Tag>
-                    </Title>
-                  </div>
-                  <div className="review-section">
-                    <Title level={4} className="section-title">总览路线评价</Title>
-                    <Paragraph className="section-content">{officialComment.overallComment}</Paragraph>
-                  </div>
-                  <div className="review-section">
-                    <Title level={4} className="section-title">本地特色活动评价</Title>
-                    <Paragraph className="section-content">{officialComment.eventComment}</Paragraph>
-                  </div>
-                  <div className="review-section">
-                    <Title level={4} className="section-title">推荐原因</Title>
-                    <Paragraph className="section-content">{officialComment.promoteReason}</Paragraph>
-                  </div>
-                </>
-            ) : (
-                <Paragraph>暂无官方评价</Paragraph>
-            )}
-          </div>
+          <OfficialReviewCard loading={commentLoading} officialComment={officialComment} />
           <div className="user-reviews-card" bordered={false}>
             <Title level={3} style={{ marginBottom: 24 }}>用户评价</Title>
             {userCommentsLoading ? (
