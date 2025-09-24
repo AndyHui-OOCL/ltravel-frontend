@@ -25,66 +25,80 @@ const AICopilot = () => {
     '周末不清假玩转马来西亚'
   ];
 
-  const handleSendMessage = async () => {
-    if (inputValue.trim()) {
-      const userMessageId = messages.length + 1;
-      const newMessage = {
-        id: userMessageId,
-        type: 'user',
-        content: inputValue
-      };
-      setMessages([...messages, newMessage]);
-      setInputValue('');
+  // 创建ref用于滚动
+  const messagesEndRef = React.useRef(null);
 
-      // Add temporary bot response
-      const tempBotMessage = {
-        id: userMessageId + 1,
-        type: 'bot',
-        content: '感谢您的问题！我正在为您查找相关的旅游信息...'
-      };
-      setMessages(prev => [...prev, tempBotMessage]);
+  // 滚动到最底部
+  const scrollToBottom = () => {
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
 
-      // 请求后端AIChatDTO
-      try {
-        const response = await getAIChatByPrompt(inputValue);
-        // Update the bot message with results
-        if (Array.isArray(response.data) && response.data.length > 0) {
-          const finalBotMessage = {
-            id: userMessageId + 1,
-            type: 'bot',
-            content: '以下是我为您找到的旅游信息：',
-            aiChatResults: response.data.slice(0, 2) // Store results within the message
-          };
+  // 监听消息变化自动滚动到底部
+  React.useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
 
-          // Replace the temporary message with the final one
-          setMessages(prev =>
-            prev.map(msg => msg.id === tempBotMessage.id ? finalBotMessage : msg)
-          );
-        } else {
-          // If no results, update the message accordingly
-          setMessages(prev =>
-            prev.map(msg =>
-              msg.id === tempBotMessage.id
-                ? {...msg, content: '抱歉，我没有找到相关的旅游信息。请尝试其他问题。'}
-                : msg
-            )
-          );
-        }
-      } catch (error) {
-        // Handle error by updating the bot message
+  // 抽取公共处理函数
+  const sendMessageAndHandleResponse = async (question) => {
+    const userMessageId = messages.length + 1;
+    const newMessage = {
+      id: userMessageId,
+      type: 'user',
+      content: question
+    };
+    setMessages(prev => [...prev, newMessage]);
+
+    const tempBotMessage = {
+      id: userMessageId + 1,
+      type: 'bot',
+      content: '感谢您的问题！我正在为您查找相关的旅游信息...'
+    };
+    setMessages(prev => [...prev, tempBotMessage]);
+
+    try {
+      const response = await getAIChatByPrompt(question);
+      if (Array.isArray(response.data) && response.data.length > 0) {
+        const finalBotMessage = {
+          id: userMessageId + 1,
+          type: 'bot',
+          content: '以下是我为您找到的旅游信息：',
+          aiChatResults: response.data.slice(0, 2)
+        };
+        setMessages(prev =>
+          prev.map(msg => msg.id === tempBotMessage.id ? finalBotMessage : msg)
+        );
+      } else {
         setMessages(prev =>
           prev.map(msg =>
             msg.id === tempBotMessage.id
-              ? {...msg, content: '抱歉，获取旅游信息时出现了问题。请稍后再试。'}
+              ? {...msg, content: '抱歉，我没有找到相关的旅游信息。请尝试其他问题。'}
               : msg
           )
         );
       }
+    } catch (error) {
+      setMessages(prev =>
+        prev.map(msg =>
+          msg.id === tempBotMessage.id
+            ? {...msg, content: '抱歉，获取旅游信息时出现了问题。请稍后再试。'}
+            : msg
+        )
+      );
+    }
+  };
+
+  const handleSendMessage = async () => {
+    if (inputValue.trim()) {
+      await sendMessageAndHandleResponse(inputValue);
+      setInputValue('');
     }
   };
 
   const handleSuggestedQuestion = (question) => {
-    setInputValue(question);
+    setInputValue('');
+    sendMessageAndHandleResponse(question);
   };
 
   const handleKeyPress = (e) => {
@@ -148,6 +162,7 @@ const AICopilot = () => {
             </div>
           </div>
         ))}
+        <div ref={messagesEndRef} />
       </div>
 
       <div className="suggested-questions">

@@ -209,3 +209,11 @@
 .view-detail-btn:hover {
   color: #40a9ff;
 }
+
+.question-card {
+  margin-bottom: 16px;
+}
+
+.questions-list .question-card:last-child {
+  margin-bottom: 0;
+}
