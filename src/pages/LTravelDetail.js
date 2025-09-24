@@ -1,10 +1,11 @@
 import React, {useState, useEffect} from 'react';
 import {Button, Tabs, Card, Typography, Spin} from 'antd';
-import {ArrowLeftOutlined, HeartOutlined} from '@ant-design/icons';
+import {ArrowLeftOutlined, HeartFilled, HeartOutlined} from '@ant-design/icons';
 import {useNavigate, useParams} from 'react-router-dom';
 import './LTravelDetail.css';
 import {getTravelPlanDetailById} from "../apis/travelPlans";
 import GuideHero from './GuideHero';
+import {addFavorite, checkFavorite, removeFavorite} from "../apis/userFavorite";
 
 const {Title, Text, Paragraph} = Typography;
 
@@ -14,15 +15,26 @@ const LTravelDetail = () => {
     const [activeTab, setActiveTab] = useState('introduction');
     const [travelDetail, setTravelDetail] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [isFavorited, setIsFavorited] = useState(false);
+    const [favoriteLoading, setFavoriteLoading] = useState(false);
 
     useEffect(() => {
-        getTravelPlanDetailById(id).then((response) => {
-            setTravelDetail(response.data);
-            setLoading(false);
-        }).catch((error) => {
-            console.error('获取数据失败:', error);
-            setLoading(false);
-        });
+        const fetchData = async () => {
+            try {
+                const [detailResponse, favoriteResponse] = await Promise.all([
+                    getTravelPlanDetailById(id),
+                    checkFavorite(1,id)
+                ]);
+
+                setTravelDetail(detailResponse.data);
+                setIsFavorited(favoriteResponse.data || false);
+            } catch (error) {
+                console.error('获取数据失败:', error);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchData()
     }, [id]);
 
     if (loading) {
@@ -51,6 +63,28 @@ const LTravelDetail = () => {
         }
     };
 
+    const handleFavoriteClick = async () => {
+        if (favoriteLoading) return;
+        setFavoriteLoading(true);
+        try {
+            if (isFavorited) {
+                const response = await removeFavorite(1, id);
+                if (response.data === 'Travel Plan is removed successfully') {
+                    setIsFavorited(false);
+                }
+            } else {
+                const response = await addFavorite(1, id);
+                if (response.data === 'Travel Plan is saved successfully') {
+                    setIsFavorited(true);
+                }
+            }
+        } catch (error) {
+            console.error('收藏操作失败:', error);
+        } finally {
+            setFavoriteLoading(false);
+        }
+    };
+
     const tabItems = [
         {
             key: 'introduction',
@@ -60,8 +94,18 @@ const LTravelDetail = () => {
 
                     <div className="title-row">
                         <Title level={3}>{travelDetail.title}</Title>
-                        <div className="rating-section">
-                            <HeartOutlined/> 收藏
+                        <div
+                            className="rating-section"
+                            onClick={handleFavoriteClick}
+                            style={{
+                                color: isFavorited ? '#ff4d4f' : '#666',
+                                cursor: favoriteLoading ? 'not-allowed' : 'pointer',
+                                opacity: favoriteLoading ? 0.6 : 1,
+                                transition: 'all 0.3s ease'
+                            }}
+                        >
+                            {isFavorited ? <HeartFilled/> : <HeartOutlined/>}
+                            {favoriteLoading ? '处理中...' : '收藏'}
                         </div>
                     </div>
                     <Paragraph>{travelDetail.description}</Paragraph>
@@ -115,7 +159,7 @@ const LTravelDetail = () => {
                 <Button
                     icon={<ArrowLeftOutlined/>}
                     type="text"
-                    onClick={() => navigate(-1)}
+                    onClick={() => navigate('/')}
                 >
                     Homepage
                 </Button>
