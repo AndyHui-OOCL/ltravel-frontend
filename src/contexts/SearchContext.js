@@ -14,11 +14,6 @@ export const SearchProvider = ({ children }) => {
   const [selectedCity, setSelectedCity] = useState('');
   const [selectedDays, setSelectedDays] = useState(null);
 
-  const updateSearch = (city, days) => {
-    setSelectedCity(city);
-    setSelectedDays(days);
-  };
-
   const clearSearch = () => {
     setSelectedCity('');
     setSelectedDays(null);
@@ -31,7 +26,6 @@ export const SearchProvider = ({ children }) => {
         selectedDays,
         setSelectedCity,
         setSelectedDays,
-        updateSearch,
         clearSearch,
       }}
     >

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Card, Tag } from 'antd';
 import './CityFilter.css';
 
-const CityFilter = ({ visible, onClose, onCitySelect }) => {
+const CityFilter = ({ visible, onClose, onCitySelect, onTravelDaysSelected}) => {
   const [selectedDay, setSelectedDay] = useState(null);
 
   const cities = [
@@ -11,16 +11,15 @@ const CityFilter = ({ visible, onClose, onCitySelect }) => {
     '香港', '济南', '南京'
   ];
 
-  const days = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15];
+  const days = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30];
 
   const handleCityClick = (cityName) => {
-    const cityData = { name: cityName, days: selectedDay };
-    onCitySelect?.(cityData);
-    onClose?.();
+      onCitySelect(cityName);
   };
 
   const handleDayClick = (day) => {
-    setSelectedDay(day);
+      setSelectedDay(day);
+    onTravelDaysSelected(day);
   };
 
   if (!visible) return null;

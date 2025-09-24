@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
-import { Layout, Menu, Input, Avatar} from 'antd';
+import {Layout, Menu, Input, Avatar} from 'antd';
 import {
   HomeOutlined,
   HeartOutlined,
-  ScheduleOutlined,
   SearchOutlined,
   UserOutlined,
 } from '@ant-design/icons';
@@ -18,7 +17,7 @@ const MainLayout = ({ children }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const [showCityAndTravelDayFilter, setShowCityAndTravelDayFilter] = useState(false);
-  const { selectedCity, updateSearch } = useSearch();
+  const { selectedDays, selectedCity, setSelectedDays, setSelectedCity, clearSearch } = useSearch();
 
   const menuItems = [
     {
@@ -31,11 +30,6 @@ const MainLayout = ({ children }) => {
       icon: <HeartOutlined />,
       label: 'Favorite',
     },
-    {
-      key: '/itinerary',
-      icon: <ScheduleOutlined />,
-      label: 'My Itinerary',
-    },
   ];
 
   const handleMenuClick = ({ key }) => {
@@ -47,9 +41,14 @@ const MainLayout = ({ children }) => {
   };
 
   const handleCitySelect = (city) => {
-    updateSearch(city.name, city.days);
+    setSelectedCity(city);
     setShowCityAndTravelDayFilter(false);
   };
+
+  const handleTravelDaySelect = (days) => {
+      setSelectedDays(days);
+      setShowCityAndTravelDayFilter(false);
+  }
 
   return (
     <Layout style={{ minHeight: '100vh' }}>
@@ -60,11 +59,13 @@ const MainLayout = ({ children }) => {
         </div>
         <div className="header-center">
           <Input
-            placeholder={selectedCity || "Search"}
+            placeholder={`${selectedCity == null ? "": selectedCity} ${selectedDays == null ? "" : selectedDays + "天"}` || "Search"}
             prefix={<SearchOutlined />}
             className="search-input"
             onClick={handleSearchClick}
             readOnly
+            allowClear={true}
+            onChange={clearSearch}
           />
         </div>
         <div className="header-right">
@@ -93,6 +94,7 @@ const MainLayout = ({ children }) => {
         visible={showCityAndTravelDayFilter}
         onClose={setShowCityAndTravelDayFilter}
         onCitySelect={handleCitySelect}
+        onTravelDaysSelected={handleTravelDaySelect}
       />
     </Layout>
   );
