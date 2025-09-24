@@ -16,3 +16,7 @@ export const getTravelPlanOverview = async (pageNum) => {
         }
     })
 }
+
+export const getNumOfTravelPlan = async () => {
+    return await instance.get(`/plan-num`);
+}

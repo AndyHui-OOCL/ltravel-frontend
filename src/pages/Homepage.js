@@ -3,7 +3,7 @@ import {Card, Button, Tag, Pagination, Row, Col} from 'antd';
 import { useNavigate } from 'react-router-dom';
 import './Homepage.css';
 import AiChatSlideBar from "../components/AiChatSlideBar";
-import {getTravelPlanOverview} from "../apis/travelPlans";
+import {getNumOfTravelPlan, getTravelPlanOverview} from "../apis/travelPlans";
 
 const { Meta } = Card;
 
@@ -11,6 +11,7 @@ const Homepage = () => {
   const navigate = useNavigate();
   const [travelPlans, setTravelPlans] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const [totalTravelPlanNum, setTotalTravelPlanNum] = useState(0);
   const [isAiChatVisible, setAiChatVisible] = useState(false);
 
     useEffect(() => {
@@ -19,12 +20,28 @@ const Homepage = () => {
                 const response = await getTravelPlanOverview(currentPage);
                 setTravelPlans(response.data.content || response.data);
             } catch (err) {
-                console.error("failed to fetch, please try again later");
+                console.error("failed to fetch travel plans, please try again later");
             } finally {
+                console.log("fetch travel plans successfully");
             }
         };
         fetchTravelPlans();
     }, [currentPage]);
+
+    useEffect(() => {
+        const fetchTravelPlanNum = async () => {
+            try {
+                const response = await getNumOfTravelPlan();
+                setTotalTravelPlanNum((response.data.content || response.data));
+            } catch (err) {
+                console.error("failed to fetch total page num, please try again later");
+            } finally {
+                console.log("fetch travel page num successfully")
+            }
+        }
+        fetchTravelPlanNum()
+    }, []);
+
   const categories = ['小众路线', '深度旅行', '避暑玩水', '当地特色', '最美秋季'];
 
   const handleCardClick = (planId) => {
@@ -102,7 +119,7 @@ const Homepage = () => {
           <div className="pagination-section">
             <Pagination
               current={currentPage}
-              total={90}
+              total={totalTravelPlanNum}
               pageSize={6}
               onChange={setCurrentPage}
               showSizeChanger={false}
