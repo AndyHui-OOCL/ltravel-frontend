@@ -68,9 +68,15 @@
   border-color: #1890ff;
 }
 
+.city-item.selected {
+  background-color: #1890ff;
+  border-color: #1890ff;
+  color: white;
+}
+
 .city-name {
   font-size: 14px;
-  color: #333;
+  color: inherit;
   display: block;
 }
 

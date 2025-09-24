@@ -8,7 +8,7 @@ import {
 } from '@ant-design/icons';
 import { useNavigate, useLocation } from 'react-router-dom';
 import './MainLayout.css';
-import CityFilter from "../components/CityFilter";
+import CityTravelDayFilters from "../components/CityTravelDayFilters";
 import { useSearch } from "../contexts/SearchContext";
 
 const { Header, Sider, Content } = Layout;
@@ -46,57 +46,69 @@ const MainLayout = ({ children }) => {
   };
 
   const handleTravelDaySelect = (days) => {
-      setSelectedDays(days);
-      setShowCityAndTravelDayFilter(false);
+    setSelectedDays(days);
+    setShowCityAndTravelDayFilter(false);
   }
 
+  const handleClearSearch = () => {
+    clearSearch();
+  };
+
+  const getPlaceholderText = () => {
+    const cityText = selectedCity ? selectedCity : "";
+    const daysText = selectedDays ? `${selectedDays}天` : "";
+    const combinedText = `${cityText} ${daysText}`.trim();
+    return combinedText || "Search";
+  };
+
   return (
-    <Layout style={{ minHeight: '100vh' }}>
-      <Header className="header" style={{backgroundColor: '#254000'}}>
-        <div className="logo">
-          <span className="logo-icon" style={{color: "white"}}>L'</span>
-          <span className="logo-text" style={{color: "white"}}>Travel</span>
-        </div>
-        <div className="header-center">
-          <Input
-            placeholder={`${selectedCity == null ? "": selectedCity} ${selectedDays == null ? "" : selectedDays + "天"}` || "Search"}
-            prefix={<SearchOutlined />}
-            className="search-input"
-            onClick={handleSearchClick}
-            readOnly
-            allowClear={true}
-            onChange={clearSearch}
-          />
-        </div>
-        <div className="header-right">
-          <Avatar icon={<UserOutlined />} />
-          <span className="sign-up">Sign Up</span>
-        </div>
-      </Header>
+      <Layout style={{ minHeight: '100vh' }}>
+        <Header className="header" style={{backgroundColor: '#254000'}}>
+          <div className="logo">
+            <span className="logo-icon" style={{color: "white"}}>L'</span>
+            <span className="logo-text" style={{color: "white"}}>Travel</span>
+          </div>
+          <div className="header-center">
+            <Input
+                value={getPlaceholderText() === "Search" ? "" : getPlaceholderText()}
+                placeholder="Search"
+                prefix={<SearchOutlined />}
+                className="search-input"
+                onClick={handleSearchClick}
+                allowClear
+                onClear={handleClearSearch}
+            />
 
-      <Layout>
-        <Sider width={200} className="sidebar">
-          <Menu
-            mode="inline"
-            selectedKeys={[location.pathname]}
-            items={menuItems}
-            onClick={handleMenuClick}
-            className="sidebar-menu"
-          />
-        </Sider>
+          </div>
+          <div className="header-right">
+            <Avatar icon={<UserOutlined />} />
+            <span className="sign-up">Sign Up</span>
+          </div>
+        </Header>
 
-        <Content className="main-content">
-          {children}
-        </Content>
+        <Layout>
+          <Sider width={200} className="sidebar">
+            <Menu
+                mode="inline"
+                selectedKeys={[location.pathname]}
+                items={menuItems}
+                onClick={handleMenuClick}
+                className="sidebar-menu"
+            />
+          </Sider>
+
+          <Content className="main-content">
+            {children}
+          </Content>
+        </Layout>
+
+        <CityTravelDayFilters
+            visible={showCityAndTravelDayFilter}
+            onClose={setShowCityAndTravelDayFilter}
+            onCitySelect={handleCitySelect}
+            onTravelDaysSelected={handleTravelDaySelect}
+        />
       </Layout>
-
-      <CityFilter
-        visible={showCityAndTravelDayFilter}
-        onClose={setShowCityAndTravelDayFilter}
-        onCitySelect={handleCitySelect}
-        onTravelDaysSelected={handleTravelDaySelect}
-      />
-    </Layout>
   );
 };
 
