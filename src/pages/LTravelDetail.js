@@ -56,9 +56,9 @@ const LTravelDetail = () => {
 
     const handleTabChange = (key) => {
         if (key === 'route') {
-            navigate(`/guide-route/${id}`);
+            navigate(`/travel-plans/${id}/route`);
         } else if (key === 'review') {
-            navigate(`/guide-review/${id}`);
+            navigate(`/travel-plans/${id}/reviews`);
         } else {
             setActiveTab(key);
         }

@@ -102,7 +102,7 @@ const GuideRoute = () => {
         if (key === 'introduction') {
             navigate(`/travel-plans/detail/${id}`);
         } else if (key === 'review') {
-            navigate(`/guide-review/${id}`);
+            navigate(`/travel-plans/${id}/reviews`);
         } else {
             setActiveTab(key);
         }
