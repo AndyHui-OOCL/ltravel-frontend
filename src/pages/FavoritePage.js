@@ -1,10 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import {Card, Tag, Pagination, Row, Col, Empty, Spin} from 'antd';
-import { useNavigate } from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 import './FavoritePage.css';
 import {getUserFavorites} from "../apis/userFavorite";
 
-const { Meta } = Card;
+const {Meta} = Card;
 
 const FavoritePage = () => {
     const navigate = useNavigate();
@@ -30,7 +30,7 @@ const FavoritePage = () => {
     }, [currentPage]);
 
     const handleCardClick = (planId) => {
-        navigate(`/travel-plans/detail/${planId}`, { state: { from: 'favorite' } });
+        navigate(`/travel-plans/detail/${planId}`, {state: {from: 'favorite'}});
     };
 
     if (loading) {
@@ -81,8 +81,7 @@ const FavoritePage = () => {
                                     className="guide-card favorite-card"
                                 >
                                     <Meta
-                                        title={plan.title || plan.cityName}
-                                        description={plan.description}
+                                        title={plan.cityName + '|' + plan.title}
                                         className="card-meta"
                                     />
                                 </Card>
