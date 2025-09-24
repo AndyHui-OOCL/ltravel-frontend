@@ -62,7 +62,9 @@ const GuideRoute = () => {
                     suggestionPlayTime: component?.suggestionPlayTime || 120,
                     walkTime: null,
                     imageUrl: component?.images && component.images.length > 0 ? component.images[0].url : null,
-                    images: component?.images || []
+                    images: component?.images || [],
+                    currentOccupation: component?.currentOccupation || 20,
+                    futureOccupation: component?.futureOccupation || []
                 };
             });
         });
@@ -190,7 +192,7 @@ const GuideRoute = () => {
                             <div className='attraction-info'>
                               <Text strong className='component-name'>景点名称：{currentAttraction?.location || ''}
                                 <Tag color='green' className='rating-badge'>
-                                  建议游玩时间{currentAttraction.suggestionPlayTime/60?.toFixed(1)}小时
+                                  建议游玩时间{(currentAttraction.suggestionPlayTime/60)?.toFixed(1)}小时
                                 </Tag>
                               </Text>
                             </div>
@@ -222,9 +224,9 @@ const GuideRoute = () => {
 
                               <Title level={5}>景点人流量预测</Title>
                               <div className='crowd-info'>
-                                <Text className='crowd-info'>当前景点情况：人流量较少 适合出行</Text>
+                                <Text className='crowd-info'>当前景点情况：{currentAttraction.currentOccupation || '人流量较少 适合出行'}</Text>
                                 <br/>
-                                <Text className='crowd-info'>未来几天人流量：国庆期间人流量各调人流预测，高峰时段为16：00-18：00</Text>
+                                <Text className='crowd-info'>未来几天人流量：{currentAttraction.futureOccupation} || '国庆期间人流量各调人流预测，高峰时段为16：00-18：00'</Text>
                               </div>
 
                               <Title level={5}>景点信息</Title>
