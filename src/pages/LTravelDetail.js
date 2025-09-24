@@ -90,7 +90,7 @@ const LTravelDetail = () => {
 
     const handleBackClick = () => {
         if (fromPage === 'favorite') {
-            navigate('/favorites');
+            navigate('/favorite');
         } else {
             navigate('/');
         }

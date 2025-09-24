@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Card, Tag, Pagination, Row, Col, Typography, Empty, Spin} from 'antd';
-import {HeartFilled} from '@ant-design/icons';
+import {Card, Tag, Pagination, Row, Col, Empty, Spin} from 'antd';
 import { useNavigate } from 'react-router-dom';
 import './FavoritePage.css';
 import {getUserFavorites} from "../apis/userFavorite";
@@ -32,10 +31,6 @@ const FavoritePage = () => {
 
     const handleCardClick = (planId) => {
         navigate(`/travel-plans/detail/${planId}`, { state: { from: 'favorite' } });
-    };
-
-    const handlePageChange = (page) => {
-        setCurrentPage(page);
     };
 
     if (loading) {
@@ -97,13 +92,13 @@ const FavoritePage = () => {
                 )}
             </div>
 
-            {totalElements > 10 && (
+            {totalElements > 0 && (
                 <div className="pagination-section">
                     <Pagination
                         current={currentPage}
                         total={totalElements}
                         pageSize={10}
-                        onChange={handlePageChange}
+                        onChange={setCurrentPage}
                         showSizeChanger={false}
                     />
                 </div>
