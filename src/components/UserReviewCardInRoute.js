@@ -1,8 +1,8 @@
 import React from 'react';
 import { Avatar, Tag } from 'antd';
 import { UserOutlined, LikeOutlined, MessageOutlined } from '@ant-design/icons';
-import './UserReviewCard.css';
 import PropTypes from 'prop-types';
+import './UserReviewCard.css';
 
 const UserReviewCard = ({ comment }) => (
     <div className="user-review-card">
