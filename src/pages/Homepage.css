@@ -65,11 +65,27 @@
   margin-bottom: 40px;
 }
 
+.guides-section .ant-col {
+  display: flex;
+  flex-direction: column;
+}
+
 .guide-card {
   border-radius: 12px;
   overflow: hidden;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+
+.guide-card .ant-card-body {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
 }
 
 .guide-card:hover {
