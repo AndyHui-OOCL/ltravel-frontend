@@ -163,7 +163,7 @@ const LTravelDetail = () => {
         },
         {
             key: 'review',
-            label: '官方评价',
+            label: '攻略评价',
             children: null
         }
     ];
