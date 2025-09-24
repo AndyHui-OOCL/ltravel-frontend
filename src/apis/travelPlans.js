@@ -8,15 +8,20 @@ export const getTravelPlanDetailById = async (id) => {
     return await instance.get(`/detail/${id}`);
 }
 
-export const getTravelPlanOverview = async (pageNum) => {
+export const getTravelPlanOverview = async (filterPlanTag, pageNum) => {
     return await instance.get(``, {
         params: {
+            tag: filterPlanTag,
             page: pageNum,
             size: 9,
         }
     })
 }
 
-export const getNumOfTravelPlan = async () => {
-    return await instance.get(`/plan-num`);
+export const getNumOfTravelPlan = async (filterPlanTag) => {
+    return await instance.get(`/plan-num`, {
+        params: {
+            filterPlanTag
+        }
+    });
 }
