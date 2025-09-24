@@ -24,7 +24,7 @@ const LTravelDetail = () => {
             try {
                 const [detailResponse, favoriteResponse] = await Promise.all([
                     getTravelPlanDetailById(id),
-                    checkFavorite(1,id)
+                    checkFavorite(1, id)
                 ]);
 
                 setTravelDetail(detailResponse.data);
@@ -109,19 +109,19 @@ const LTravelDetail = () => {
 
                     <div className="title-row">
                         <Title level={3}>{travelDetail.title}</Title>
-                        <div
-                            className="rating-section"
+                        <Button
+                            type="default"
                             onClick={handleFavoriteClick}
-                            style={{
-                                color: isFavorited ? '#ff4d4f' : '#666',
-                                cursor: favoriteLoading ? 'not-allowed' : 'pointer',
-                                opacity: favoriteLoading ? 0.6 : 1,
-                                transition: 'all 0.3s ease'
-                            }}
+                            loading={favoriteLoading}
+                            className="favorite-button"
                         >
-                            {isFavorited ? <HeartFilled/> : <HeartOutlined/>}
-                            {favoriteLoading ? '处理中...' : '收藏'}
-                        </div>
+                            {isFavorited ? (
+                                <HeartFilled style={{ color: 'red' }} />
+                            ) : (
+                                <HeartOutlined />
+                            )}
+                            {favoriteLoading ? '处理中...' : (isFavorited ? '已收藏' : '收藏')}
+                        </Button>
                     </div>
                     <Paragraph>{travelDetail.description}</Paragraph>
 

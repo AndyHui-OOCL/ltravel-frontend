@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect } from 'react';
 import {
   Button,
   Card,
@@ -18,6 +18,8 @@ import useTravelDetail from '../hooks/useTravelDetail';
 import useTravelRoute from '../hooks/useTravelRoute';
 import TravelDetailLoader from '../components/TravelDetailLoader';
 import GuideHero from "./GuideHero";
+import UserReviewCardInRoute from '../components/UserReviewCardInRoute';
+import {getCommentsByTravelComponentId} from "../apis/comment";
 
 const {Title, Text, Paragraph} = Typography;
 
@@ -29,6 +31,7 @@ const GuideRoute = () => {
     const [selectedAttraction, setSelectedAttraction] = useState(0);
     const {travelDetail, loading: detailLoading, error: detailError} = useTravelDetail(id);
     const {routeData, loading: routeLoading, error: routeError} = useTravelRoute(id);
+    const [comments, setComments] = useState([]);
 
     // 处理API数据格式
     const processRouteData = () => {
@@ -77,7 +80,13 @@ const GuideRoute = () => {
     const currentRoute = apiRouteData[selectedDay] || [];
     const currentAttraction = currentRoute[selectedAttraction] || currentRoute[0] || {};
     const [isTicketReminderEnabled, setIsTicketReminderEnabled] = useState(false);
-
+    useEffect(() => {
+        if (!currentAttraction?.id) return;
+        getCommentsByTravelComponentId(id)
+            .then(response => response.data)
+            .then(data => setComments(data))
+            .catch(() => setComments([]));
+    }, [currentAttraction?.id,id]);
     // 从API数据中获取可用的天数
     const availableDays = Object.keys(apiRouteData).length > 0
         ? Object.keys(apiRouteData).sort((a, b) => {
@@ -194,77 +203,97 @@ const GuideRoute = () => {
                                 </Tag>
                               </Text>
                             </div>
-                            <div className='attraction-detail'>
-                              <div className='attraction-main-image-img'>
-                                {currentAttraction?.images && currentAttraction.images.length > 0 ? (
-                                  <Carousel autoplay arrows>
-                                    {currentAttraction.images.map((image, index) => (
-                                      <div key={index}>
-                                        <img src={image.url} alt={currentAttraction.location} className='attraction-main-image-img'/>
-                                      </div>
-                                    ))}
-                                  </Carousel>
-                                ) : currentAttraction?.imageUrl ? (
-                                  <Carousel arrows>
-                                    <div>
-                                      <img src={currentAttraction.imageUrl} alt={currentAttraction.location} className='attraction-main-image-img'/>
-                                    </div>
-                                  </Carousel>
-                                ) : (
-                                  <div className='placeholder-image'>景点图片</div>
-                                )}
-                              </div>
-
-                              <Title level={5}>地点导览</Title>
-                              <Paragraph className='introduction-text'>
-                                {currentAttraction?.introduction || '景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍'}
-                              </Paragraph>
-
-                              <Title level={5}>景点人流量预测</Title>
-                              <div className='crowd-info'>
-                                <Text className='crowd-info'>当前景点情况：人流量较少 适合出行</Text>
-                                <br/>
-                                <Text className='crowd-info'>未来几天人流量：国庆期间人流量各调人流预测，高峰时段为16：00-18：00</Text>
-                              </div>
-
-                              <Title level={5}>景点信息</Title>
-                              <div className='attraction-details'>
-                                <Text className='crowd-info'>开放时间：{currentAttraction?.openTime || '每周二至周日开放，08:30-17:00'}</Text>
-                                <br/>
-                                <Text className='crowd-info'>地点：{currentAttraction?.address || '地址信息地址'}</Text>
-                                <br/>
-                                <Text className='crowd-info'>门票购买：门票30元/人</Text>
-                                <div className='ticket-toggle'>
-                                  <Text>开启购票提醒</Text>
-                                  <div
-                                    className={`toggle-switch ${isTicketReminderEnabled ? 'active' : ''}`}
-                                    onClick={() => setIsTicketReminderEnabled(!isTicketReminderEnabled)}
-                                    style={{cursor: 'pointer'}}
-                                  >
-                                    <div className='toggle-knob'></div>
+                              <div className='attraction-detail'>
+                                  <div className='attraction-main-image-img'>
+                                      {currentAttraction?.images && currentAttraction.images.length > 0 ? (
+                                          <Carousel autoplay arrows>
+                                              {currentAttraction.images.map((image, index) => (
+                                                  <div key={index}>
+                                                      <img src={image.url} alt={currentAttraction.location}
+                                                           className='attraction-main-image-img'/>
+                                                  </div>
+                                              ))}
+                                          </Carousel>
+                                      ) : currentAttraction?.imageUrl ? (
+                                          <Carousel arrows>
+                                              <div>
+                                                  <img src={currentAttraction.imageUrl} alt={currentAttraction.location}
+                                                       className='attraction-main-image-img'/>
+                                              </div>
+                                          </Carousel>
+                                      ) : (
+                                          <div className='placeholder-image'>景点图片</div>
+                                      )}
                                   </div>
-                                </div>
+
+                                  <Title level={5}>地点导览</Title>
+                                  <Paragraph className='introduction-text'>
+                                      {currentAttraction?.introduction || '景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍'}
+                                  </Paragraph>
+
+                                  <Title level={5}>景点人流量预测</Title>
+                                  <div className='crowd-info'>
+                                      <Text className='crowd-info'>当前景点情况：人流量较少 适合出行</Text>
+                                      <br/>
+                                      <Text
+                                          className='crowd-info'>未来几天人流量：国庆期间人流量各调人流预测，高峰时段为16：00-18：00</Text>
+                                  </div>
+
+                                  <Title level={5}>景点信息</Title>
+                                  <div className='attraction-details'>
+                                      <Text
+                                          className='crowd-info'>开放时间：{currentAttraction?.openTime || '每周二至周日开放，08:30-17:00'}</Text>
+                                      <br/>
+                                      <Text
+                                          className='crowd-info'>地点：{currentAttraction?.address || '地址信息地址'}</Text>
+                                      <br/>
+                                      <Text className='crowd-info'>门票购买：门票30元/人</Text>
+                                      <div className='ticket-toggle'>
+                                          <Text>开启购票提醒</Text>
+                                          <div
+                                              className={`toggle-switch ${isTicketReminderEnabled ? 'active' : ''}`}
+                                              onClick={() => setIsTicketReminderEnabled(!isTicketReminderEnabled)}
+                                              style={{cursor: 'pointer'}}
+                                          >
+                                              <div className='toggle-knob'></div>
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <Title level={5} style={{marginTop: 24}}>精选用户评论</Title>
+                                  <div>
+                                      {comments.filter(
+                                          c => c.travelComponentName === currentAttraction?.location
+                                      ).length === 0 ? (
+                                          <div style={{color: '#aaa', fontSize: 13}}>暂无评论</div>
+                                      ) : (
+                                          comments
+                                              .filter(c => c.travelComponentName === currentAttraction?.location)
+                                              .slice(0, 5)
+                                              .map(comment => (
+                                                  <UserReviewCardInRoute key={comment.id} comment={comment}/>
+                                              ))
+                                      )}
+                                  </div>
                               </div>
-                            </div>
                           </Card>
                         </div>
                     </div>
                 </div>
             )
         },
-      {
-        key: 'review',
-        label: '官方评价',
-        children: null
-      }
+        {
+            key: 'review',
+            label: '官方评价',
+            children: null
+        }
     ];
 
-  // 合并loading状态和error状态
-  const loading = detailLoading || routeLoading;
-  const error = detailError || routeError;
+    // 合并loading状态和error状态
+    const loading = detailLoading || routeLoading;
+    const error = detailError || routeError;
 
-  return (
-    <TravelDetailLoader loading={loading} travelDetail={travelDetail} error={error}>
+    return (
+        <TravelDetailLoader loading={loading} travelDetail={travelDetail} error={error}>
       <div className='guide-route'>
         <div className='header-nav'>
           <Button
