@@ -44,9 +44,9 @@ const Homepage = () => {
 
   const categories = ['小众路线', '深度旅行', '避暑玩水', '当地特色', '最美秋季'];
 
-  const handleCardClick = (planId) => {
-    navigate(`/travel-plans/detail/${planId}`);
-  };
+    const handleCardClick = (planId) => {
+        navigate(`/travel-plans/detail/${planId}`, { state: { from: 'home' } });
+    };
 
   return (
     <>

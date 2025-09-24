@@ -270,7 +270,7 @@ const GuideRoute = () => {
           <Button
             icon={<ArrowLeftOutlined/>}
             type="text"
-                        onClick={() => navigate(-1)}
+                        onClick={() => navigate('/')}
                     >
                         Homepage
                     </Button>
