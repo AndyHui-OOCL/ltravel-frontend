@@ -1,13 +1,13 @@
-import React, {useState} from 'react';
-import {Avatar, Button, Card, Input, Tooltip, Typography} from 'antd';
-import {PlusOutlined, RightOutlined, RobotOutlined, SendOutlined, UserOutlined} from '@ant-design/icons';
+import React, {useState, forwardRef, useImperativeHandle} from 'react';
+import {Avatar, Button, Card, Input, Typography} from 'antd';
+import {RightOutlined, RobotOutlined, SendOutlined, UserOutlined} from '@ant-design/icons';
 import './AICopilot.css';
 import {useNavigate} from 'react-router-dom';
 import {getAIChatByPrompt} from "../apis/aiCopilot";
 
 const { Text, Paragraph } = Typography;
 
-const AICopilot = () => {
+const AICopilot = forwardRef((props, ref) => {
   const navigate = useNavigate();
 
   const suggestedQuestions = [
@@ -29,6 +29,17 @@ const AICopilot = () => {
 
   // 创建ref用于滚动
   const messagesEndRef = React.useRef(null);
+
+  // 重置会话函数
+  const resetConversation = () => {
+    setMessages([initialMessage]);
+    setInputValue('');
+  };
+
+  // 暴露resetConversation方法给父组件
+  useImperativeHandle(ref, () => ({
+    resetConversation
+  }));
 
   // 滚动到最底部
   const scrollToBottom = () => {
@@ -111,12 +122,6 @@ const AICopilot = () => {
 
   const handleViewDetail = (travelId) => {
     navigate(`/travel-plans/detail/${travelId}`);
-  };
-
-  // 重置会话函数
-  const resetConversation = () => {
-    setMessages([initialMessage]);
-    setInputValue('');
   };
 
   return (
@@ -205,22 +210,10 @@ const AICopilot = () => {
             }
           />
         </div>
-        <div className="input-actions">
-          <Tooltip title="新建一个会话">
-            <Button
-              type="text"
-              size="small"
-              className="action-button"
-              onClick={resetConversation}
-            >
-              <PlusOutlined />
-            </Button>
-          </Tooltip>
-        </div>
         <Text className="disclaimer">内容可能不准确，请谨慎参考。</Text>
       </div>
     </div>
   );
-};
+});
 
 export default AICopilot;
