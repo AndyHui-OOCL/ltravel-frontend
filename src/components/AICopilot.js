@@ -1,23 +1,14 @@
-import React, {useState} from 'react';
-import {Avatar, Button, Card, Input, Tooltip, Typography} from 'antd';
-import {PlusOutlined, RightOutlined, RobotOutlined, SendOutlined, UserOutlined} from '@ant-design/icons';
+import React, {useState, forwardRef, useImperativeHandle} from 'react';
+import {Avatar, Button, Card, Input, Typography} from 'antd';
+import {RightOutlined, RobotOutlined, SendOutlined, UserOutlined} from '@ant-design/icons';
 import './AICopilot.css';
 import {useNavigate} from 'react-router-dom';
 import {getAIChatByPrompt} from "../apis/aiCopilot";
 
 const { Text, Paragraph } = Typography;
 
-const AICopilot = () => {
+const AICopilot = forwardRef((props, ref) => {
   const navigate = useNavigate();
-  const initialMessage = {
-    id: 1,
-    type: 'bot',
-    content: '我是世界的旅游管家，很高兴为你服务！',
-    subContent: 'Hi,你好！这里有属于你的问题！今天想去哪里？有什么公里的相关问题吗请对我说我知！'
-  };
-
-  const [messages, setMessages] = useState([initialMessage]);
-  const [inputValue, setInputValue] = useState('');
 
   const suggestedQuestions = [
     '秋天哪个城市最漂亮？',
@@ -25,8 +16,30 @@ const AICopilot = () => {
     '周末不清假玩转马来西亚'
   ];
 
+  const initialMessage = {
+    id: 1,
+    type: 'bot',
+    content: '我是LTravel旅游管家，很高兴为您服务！',
+    subContent: 'Hi,你好！今天想去哪里？有什么旅游的相关问题吗？',
+    suggestedQuestions: suggestedQuestions
+  };
+
+  const [messages, setMessages] = useState([initialMessage]);
+  const [inputValue, setInputValue] = useState('');
+
   // 创建ref用于滚动
   const messagesEndRef = React.useRef(null);
+
+  // 重置会话函数
+  const resetConversation = () => {
+    setMessages([initialMessage]);
+    setInputValue('');
+  };
+
+  // 暴露resetConversation方法给父组件
+  useImperativeHandle(ref, () => ({
+    resetConversation
+  }));
 
   // 滚动到最底部
   const scrollToBottom = () => {
@@ -111,12 +124,6 @@ const AICopilot = () => {
     navigate(`/travel-plans/detail/${travelId}`);
   };
 
-  // 重置会话函数
-  const resetConversation = () => {
-    setMessages([initialMessage]);
-    setInputValue('');
-  };
-
   return (
     <div className="ai-copilot-container">
       <div className="messages-container">
@@ -135,6 +142,25 @@ const AICopilot = () => {
                   <Paragraph className="message-sub-content">
                     {message.subContent}
                   </Paragraph>
+                )}
+
+                {/* Render suggested questions if they exist in this message */}
+                {message.suggestedQuestions && message.suggestedQuestions.length > 0 && (
+                  <div className="suggested-questions">
+                    <Text className="suggested-label">我可以解答本话题相关问题：</Text>
+                    <div className="questions-list">
+                      {message.suggestedQuestions.map((question, index) => (
+                        <Card
+                          key={index}
+                          className="question-card"
+                          onClick={() => handleSuggestedQuestion(question)}
+                          hoverable
+                        >
+                          <Text className="question-text">{question}</Text>
+                        </Card>
+                      ))}
+                    </div>
+                  </div>
                 )}
 
                 {/* Render AI chat results if they exist in this message */}
@@ -165,22 +191,6 @@ const AICopilot = () => {
         <div ref={messagesEndRef} />
       </div>
 
-      <div className="suggested-questions">
-        <Text className="suggested-label">我可以解答本话题相关问题：</Text>
-        <div className="questions-list">
-          {suggestedQuestions.map((question, index) => (
-              <Card
-                  key={index}
-                  className="question-card"
-                  onClick={() => handleSuggestedQuestion(question)}
-                  hoverable
-              >
-                <Text className="question-text">{question}</Text>
-              </Card>
-          ))}
-        </div>
-      </div>
-
       <div className="input-area">
         <div className="input-container">
           <Input
@@ -200,22 +210,10 @@ const AICopilot = () => {
             }
           />
         </div>
-        <div className="input-actions">
-          <Tooltip title="新建一个会话">
-            <Button
-              type="text"
-              size="small"
-              className="action-button"
-              onClick={resetConversation}
-            >
-              <PlusOutlined />
-            </Button>
-          </Tooltip>
-        </div>
         <Text className="disclaimer">内容可能不准确，请谨慎参考。</Text>
       </div>
     </div>
   );
-};
+});
 
 export default AICopilot;
