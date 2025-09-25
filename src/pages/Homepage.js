@@ -37,7 +37,6 @@ const Homepage = () => {
     useEffect(() => {
         const fetchTravelPlanNum = async () => {
             try {
-                // Include city and days filters in the count as well
                 const response = await getNumOfTravelPlan(selectedCity, selectedDays, filterPlanTag);
                 setTotalTravelPlanNum((response.data.content || response.data));
             } catch (err) {
@@ -56,11 +55,9 @@ const Homepage = () => {
 
     const handleCategoryClick = (category) => {
         if (selectedCategory === category) {
-            // If clicking the already selected category, unselect it
             setSelectedCategory(null);
             setFilterPlanTag("");
         } else {
-            // Otherwise, select the new category
             setSelectedCategory(category);
             setFilterPlanTag(category);
         }
@@ -106,6 +103,11 @@ const Homepage = () => {
                                                     <img
                                                         src={plan.travePlanPlanImages[0].url}
                                                         alt={plan.cityName}
+                                                        style={{
+                                                            width: "100%",
+                                                            height: "100%",
+                                                            objectFit: "cover"
+                                                        }}
                                                     />
                                                 ) : (
                                                     <div className="image-placeholder"></div>
