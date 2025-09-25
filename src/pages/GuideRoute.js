@@ -251,7 +251,6 @@ const GuideRoute = () => {
                                       <Text
                                           className='crowd-info'>地点：{currentAttraction?.address || '地址信息地址'}</Text>
                                       <br/>
-                                      <Text className='crowd-info'>门票购买：门票30元/人</Text>
                                       <div className='ticket-toggle'>
                                           {currentAttraction?.ticketUrl ? (
                                               <Button
