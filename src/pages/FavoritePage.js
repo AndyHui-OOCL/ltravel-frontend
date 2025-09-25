@@ -62,6 +62,11 @@ const FavoritePage = () => {
                                                     <img
                                                         src={plan.travePlanPlanImages[0].url}
                                                         alt={plan.cityName}
+                                                        style={{
+                                                            width: "100%",
+                                                            height: "100%",
+                                                            objectFit: "cover"
+                                                        }}
                                                     />
                                                 ) : (
                                                     <div className="image-placeholder"></div>
