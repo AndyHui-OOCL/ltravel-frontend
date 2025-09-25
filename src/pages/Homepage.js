@@ -1,16 +1,16 @@
 import React, {useEffect, useState} from 'react';
-import {Card, Button, Tag, Pagination, Row, Col} from 'antd';
-import { useNavigate } from 'react-router-dom';
+import {Card, Button, Tag, Pagination, Row, Col, Carousel} from 'antd';
+import {useNavigate} from 'react-router-dom';
 import './Homepage.css';
 import AiChatSlideBar from "../components/AiChatSlideBar";
 import {getNumOfTravelPlan, getTravelPlanOverview} from "../apis/travelPlans";
-import { useSearch } from "../contexts/SearchContext";
+import {useSearch} from "../contexts/SearchContext";
 
-const { Meta } = Card;
+const {Meta} = Card;
 
 const Homepage = () => {
     const navigate = useNavigate();
-    const { selectedCity, selectedDays, clearSearch } = useSearch();
+    const {selectedCity, selectedDays, clearSearch} = useSearch();
     const [travelPlans, setTravelPlans] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [filterPlanTag, setFilterPlanTag] = useState("");
@@ -18,6 +18,10 @@ const Homepage = () => {
     const [isAiChatVisible, setAiChatVisible] = useState(false);
     const [selectedCategory, setSelectedCategory] = useState(null);
     const categories = ['小众路线', '深度旅行', '避暑玩水', '当地特色', '最美秋季'];
+    const homepageImages = [
+        {url: 'https://raw.githubusercontent.com/AndyHui-OOCL/ltravel-images/main/static/Image.jpg', alt: '1'},
+        {url: 'https://raw.githubusercontent.com/AndyHui-OOCL/ltravel-images/main/static/homepageImage2.jpg', alt: '2'}
+    ]
 
     useEffect(() => {
         const fetchTravelPlans = async () => {
@@ -51,7 +55,7 @@ const Homepage = () => {
 
     const handleCardClick = (planId) => {
         clearSearch()
-        navigate(`/travel-plans/detail/${planId}`, { state: { from: 'home' } });
+        navigate(`/travel-plans/detail/${planId}`, {state: {from: 'home'}});
     };
 
     const handleCategoryClick = (category) => {
@@ -68,12 +72,22 @@ const Homepage = () => {
         <>
             <div className="homepage">
                 <div className="hero-section">
-                    <div className="hero-content">
-                        <h1>Where would you like to go today?</h1>
-                        <Button type="primary" size="large" className="ask-ai-btn" onClick={() => setAiChatVisible(true)}>
-                            Ask AI assistant →
-                        </Button>
-                    </div>
+                    <Carousel autoplay arrows>
+                        {homepageImages.map((image, index) => (
+                            <div key={index}>
+                                <img
+                                    src={image.url}
+                                    alt={image.alt}
+                                    className='attraction-main-image-img'
+                                />
+                            </div>
+                        ))}
+                    </Carousel>
+                    <h1>Where would you like to go today?</h1>
+                    <Button type="primary" size="large" className="ask-ai-btn"
+                            onClick={() => setAiChatVisible(true)}>
+                        Ask AI assistant →
+                    </Button>
                 </div>
 
                 <div className="categories-section">
@@ -147,7 +161,7 @@ const Homepage = () => {
                     />
                 </div>
             </div>
-            <AiChatSlideBar isAiChatVisible = {isAiChatVisible} setAiChatVisible = {setAiChatVisible}/>
+            <AiChatSlideBar isAiChatVisible={isAiChatVisible} setAiChatVisible={setAiChatVisible}/>
         </>
     );
 };
