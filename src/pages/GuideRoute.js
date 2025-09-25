@@ -175,7 +175,7 @@ const GuideRoute = () => {
                                                         className={`intro-btn ${selectedAttraction === index ? 'selected' : ''}`}
                                                         onClick={() => handleAttractionSelect(index)}
                                                     >
-                                                        {item.isLocation === true ? '景点名称' : '活动名称'}
+                                                        {item.isLocation === true ? '景点介绍' : '活动介绍'}
                                                     </Button>
                                                 </div>
                                                 <Text className="description">
@@ -207,7 +207,8 @@ const GuideRoute = () => {
                         <div className="sidebar-info">
                             <Card>
                                 <div className='attraction-info'>
-                                    <Text strong className='component-name'>{currentAttraction.isLocation === true ? '景点名称' : '活动名称'}：{currentAttraction?.location || ''}
+                                    <Text strong
+                                          className='component-name'>{currentAttraction.isLocation === true ? '景点名称' : '活动名称'}：{currentAttraction?.location || ''}
                                         <Tag color='green' className='rating-badge'>
                                             建议游玩时间{(currentAttraction.suggestionPlayTime / 60)?.toFixed(1)}小时
                                         </Tag>
@@ -237,21 +238,27 @@ const GuideRoute = () => {
                                         )}
                                     </div>
 
-                                    <Title level={5}>地点导览</Title>
+                                    <Title
+                                        level={5}>{currentAttraction.isLocation === true ? '地点导览' : '活动导览'}</Title>
                                     <Paragraph className='introduction-text'>
                                         {currentAttraction?.introduction || '景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍'}
                                     </Paragraph>
 
-                                    <Title level={5}>景点人流量预测</Title>
-                                    <div className='crowd-info'>
-                                        <Text
-                                            className='crowd-info'>当前景点情况：{currentAttraction?.currentOccupation || '人流量较少 适合出行'}</Text>
-                                        <br/>
-                                        <Text
-                                            className='crowd-info'>未来几天人流量：{currentAttraction?.futureOccupation || '国庆期间人流量各调人流预测，高峰时段为16：00-18：00'}</Text>
-                                    </div>
+                                    {currentAttraction.isLocation === true && (
+                                        <div>
+                                            <Title level={5}>景点人流量预测</Title>
+                                            <div className='crowd-info'>
+                                                <Text
+                                                    className='crowd-info'>当前景点情况：{currentAttraction?.currentOccupation || '人流量较少 适合出行'}</Text>
+                                                <br/>
+                                                <Text
+                                                    className='crowd-info'>未来几天人流量：{currentAttraction?.futureOccupation || '国庆期间人流量各调人流预测，高峰时段为16：00-18：00'}</Text>
+                                            </div>
+                                        </div>
+                                    )}
 
-                                    <Title level={5}>景点信息</Title>
+                                    <Title
+                                        level={5}>{currentAttraction.isLocation === true ? '景点信息' : '活动信息'}</Title>
                                     <div className='attraction-details'>
                                         <Text
                                             className='crowd-info'>开放时间：{currentAttraction?.openTime || '每周二至周日开放，08:30-17:00'}</Text>
