@@ -104,8 +104,9 @@ const AICopilot = forwardRef((props, ref) => {
 
   const handleSendMessage = async () => {
     if (inputValue.trim()) {
-      await sendMessageAndHandleResponse(inputValue);
+      const messageToSend = inputValue;
       setInputValue('');
+      await sendMessageAndHandleResponse(messageToSend);
     }
   };
 
