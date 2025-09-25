@@ -84,7 +84,7 @@ const Homepage = () => {
                             </div>
                         ))}
                     </Carousel>
-                    <div className="overlay">
+                    <div className="overlay">\
                         <h1 className="hero-title">Where Would you like to go today?</h1>
                         <Button type="primary" size="large" className="ask-ai-btn"
                                 onClick={() => setAiChatVisible(true)}>
