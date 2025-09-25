@@ -10,7 +10,7 @@ const { Meta } = Card;
 
 const Homepage = () => {
     const navigate = useNavigate();
-    const { selectedCity, selectedDays } = useSearch();
+    const { selectedCity, selectedDays, clearSearch } = useSearch();
     const [travelPlans, setTravelPlans] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [filterPlanTag, setFilterPlanTag] = useState("");
@@ -50,6 +50,7 @@ const Homepage = () => {
 
 
     const handleCardClick = (planId) => {
+        clearSearch()
         navigate(`/travel-plans/detail/${planId}`, { state: { from: 'home' } });
     };
 

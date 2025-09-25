@@ -1,6 +1,6 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { SearchProvider } from './contexts/SearchContext';
+import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
+import {SearchProvider} from './contexts/SearchContext';
 import MainLayout from './layouts/MainLayout';
 import Homepage from './pages/Homepage';
 import FavoritePage from './pages/FavoritePage';
