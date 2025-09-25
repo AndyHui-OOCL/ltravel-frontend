@@ -79,15 +79,18 @@ const Homepage = () => {
                                     src={image.url}
                                     alt={image.alt}
                                     className='attraction-main-image-img'
+                                    style={{width: '100%', height: '100%', objectFit: 'cover'}}
                                 />
                             </div>
                         ))}
                     </Carousel>
-                    <h1>Where would you like to go today?</h1>
-                    <Button type="primary" size="large" className="ask-ai-btn"
-                            onClick={() => setAiChatVisible(true)}>
-                        Ask AI assistant →
-                    </Button>
+                    <div className="overlay">
+                        <h1 className="hero-title">Where Would you like to go today?</h1>
+                        <Button type="primary" size="large" className="ask-ai-btn"
+                                onClick={() => setAiChatVisible(true)}>
+                            Ask AI assistant ->
+                        </Button>
+                    </div>
                 </div>
 
                 <div className="categories-section">
