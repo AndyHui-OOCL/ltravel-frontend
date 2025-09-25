@@ -175,7 +175,7 @@ const GuideRoute = () => {
                                                         className={`intro-btn ${selectedAttraction === index ? 'selected' : ''}`}
                                                         onClick={() => handleAttractionSelect(index)}
                                                     >
-                                                        景点介绍
+                                                        {item.isLocation === true ? '景点名称' : '活动名称'}
                                                     </Button>
                                                 </div>
                                                 <Text className="description">
