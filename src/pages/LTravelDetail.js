@@ -18,14 +18,9 @@ const LTravelDetail = () => {
     const [loading, setLoading] = useState(true);
     const [isFavorited, setIsFavorited] = useState(false);
     const [favoriteLoading, setFavoriteLoading] = useState(false);
-    const [isParticipateLoading, setIsParticipateLoading] = useState(false);
-    const [isParticipate, setIsParticipate] = useState(false);
     const [participateCounts, setParticipateCounts] = useState({});
     const [participateStates, setParticipateStates] = useState({});
     const [participateLoadings, setParticipateLoadings] = useState({});
-    const [participateCount, setParticipateCount] = useState(() =>
-        Math.floor(Math.random() * 100) + 1
-    );
 
     useEffect(() => {
         const fetchData = async () => {
