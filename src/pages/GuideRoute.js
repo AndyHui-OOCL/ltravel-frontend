@@ -1,16 +1,16 @@
-import React, {useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 import {
-  Button,
-  Card,
-  Tabs,
-  Typography,
-  Carousel,
-  Tag
+    Button,
+    Card,
+    Tabs,
+    Typography,
+    Carousel,
+    Tag
 } from 'antd';
 import {
-  ArrowLeftOutlined,
-  ClockCircleOutlined,
-  FlagOutlined
+    ArrowLeftOutlined,
+    ClockCircleOutlined,
+    FlagOutlined
 } from '@ant-design/icons';
 import {useNavigate, useParams} from 'react-router-dom';
 import './GuideRoute.css';
@@ -90,15 +90,15 @@ const GuideRoute = () => {
             .then(response => response.data)
             .then(data => setComments(data))
             .catch(() => setComments([]));
-    }, [currentAttraction?.id,id]);
+    }, [currentAttraction?.id, id]);
     // 从API数据中获取可用的天数
     const availableDays = Object.keys(apiRouteData).length > 0
         ? Object.keys(apiRouteData).sort((a, b) => {
             const dayA = parseInt(a.replace('Day', ''));
             const dayB = parseInt(b.replace('Day', ''));
             return dayA - dayB;
-          })
-        : ['Day1', 'Day2', 'Day3','Day4', 'Day5', 'Day6', 'Day7'];
+        })
+        : ['Day1', 'Day2', 'Day3', 'Day4', 'Day5', 'Day6', 'Day7'];
 
     const handleTabChange = (key) => {
         if (key === 'introduction') {
@@ -147,47 +147,51 @@ const GuideRoute = () => {
 
                         <div className="route-timeline">
                             {currentRoute.map((item, index) => (
-                              <div key={item.id} className='route-item'>
-                                <div className='route-number'><FlagOutlined/></div>
-                                <Card className="route-detail-card">
+                                <div key={item.id} className='route-item'>
+                                    <div className='route-number'><FlagOutlined/></div>
+                                    <Card className="route-detail-card">
                                         <div className="card-content">
-                                          <div className='card-left'>
-                                            <div className='attraction-image'>
-                                              {item.imageUrl ? (
-                                                <img src={item.imageUrl} alt={item.location} className='attraction-image-small'/>
-                                              ) : (
-                                                <div className='placeholder-image-small'>景点图片</div>
-                                              )}
+                                            <div className='card-left'>
+                                                <div className='attraction-image'>
+                                                    {item.imageUrl ? (
+                                                        <img src={item.imageUrl} alt={item.location}
+                                                             className='attraction-image-small'/>
+                                                    ) : (
+                                                        <div className='placeholder-image-small'>景点图片</div>
+                                                    )}
+                                                </div>
                                             </div>
-                                          </div>
-                                          <div className='card-right'>
-                                            <div className='route-header'>
-                                              <div className='attraction-info'>
-                                                <Text strong className='attraction-name'>景点名称：{item.location}
-                                                  <Tag color='green' className='rating-badge'>
-                                                    {item.rating?.toFixed(1)}分
-                                                  </Tag>
-                                                </Text>
-                                              </div>
-                                              <Button
-                                                type={selectedAttraction === index ? 'primary' : 'default'}
-                                                size='small'
-                                                className={`intro-btn ${selectedAttraction === index ? 'selected' : ''}`}
-                                                onClick={() => handleAttractionSelect(index)}
-                                              >
-                                                景点介绍
-                                              </Button>
-                                            </div>
+                                            <div className='card-right'>
+                                                <div className='route-header'>
+                                                    <div className='attraction-info'>
+                                                        <Text strong
+                                                              className='attraction-name'>景点名称：{item.location}
+                                                            <Tag color='green' className='rating-badge'>
+                                                                {item.rating?.toFixed(1)}分
+                                                            </Tag>
+                                                        </Text>
+                                                    </div>
+                                                    <Button
+                                                        type={selectedAttraction === index ? 'primary' : 'default'}
+                                                        size='small'
+                                                        className={`intro-btn ${selectedAttraction === index ? 'selected' : ''}`}
+                                                        onClick={() => handleAttractionSelect(index)}
+                                                    >
+                                                        景点介绍
+                                                    </Button>
+                                                </div>
                                                 <Text className="description">"{item.description}"</Text>
-                                            <div className='route-info'>
-                                              <Text strong className='attraction-name'>开放时间：{item.openTime}</Text>
-                                              <Text strong className='attraction-name'>景点地址：{item.address}</Text>
+                                                <div className='route-info'>
+                                                    <Text strong
+                                                          className='attraction-name'>开放时间：{item.openTime}</Text>
+                                                    <Text strong
+                                                          className='attraction-name'>景点地址：{item.address}</Text>
+                                                </div>
                                             </div>
-                                          </div>
                                         </div>
                                         {item.walkTime && index < currentRoute.length - 1 && (
                                             <div className="walk-time">
-                                                <ClockCircleOutlined />
+                                                <ClockCircleOutlined/>
                                                 <Text>{item.walkTime}</Text>
                                             </div>
                                         )}
@@ -199,89 +203,91 @@ const GuideRoute = () => {
 
                     <div className="route-right">
                         <div className="sidebar-info">
-                          <Card>
-                            <div className='attraction-info'>
-                              <Text strong className='component-name'>景点名称：{currentAttraction?.location || ''}
-                                <Tag color='green' className='rating-badge'>
-                                  建议游玩时间{(currentAttraction.suggestionPlayTime/60)?.toFixed(1)}小时
-                                </Tag>
-                              </Text>
-                            </div>
-                              <div className='attraction-detail'>
-                                  <div className='attraction-main-image-img'>
-                                      {currentAttraction?.images && currentAttraction.images.length > 0 ? (
-                                          <Carousel autoplay arrows>
-                                              {currentAttraction.images.map((image, index) => (
-                                                  <div key={index}>
-                                                      <img src={image.url} alt={currentAttraction.location}
-                                                           className='attraction-main-image-img'/>
-                                                  </div>
-                                              ))}
-                                          </Carousel>
-                                      ) : currentAttraction?.imageUrl ? (
-                                          <Carousel arrows>
-                                              <div>
-                                                  <img src={currentAttraction.imageUrl} alt={currentAttraction.location}
-                                                       className='attraction-main-image-img'/>
-                                              </div>
-                                          </Carousel>
-                                      ) : (
-                                          <div className='placeholder-image'>景点图片</div>
-                                      )}
-                                  </div>
+                            <Card>
+                                <div className='attraction-info'>
+                                    <Text strong className='component-name'>景点名称：{currentAttraction?.location || ''}
+                                        <Tag color='green' className='rating-badge'>
+                                            建议游玩时间{(currentAttraction.suggestionPlayTime / 60)?.toFixed(1)}小时
+                                        </Tag>
+                                    </Text>
+                                </div>
+                                <div className='attraction-detail'>
+                                    <div className='attraction-main-image-img'>
+                                        {currentAttraction?.images && currentAttraction.images.length > 0 ? (
+                                            <Carousel autoplay arrows>
+                                                {currentAttraction.images.map((image, index) => (
+                                                    <div key={index}>
+                                                        <img src={image.url} alt={currentAttraction.location}
+                                                             className='attraction-main-image-img'/>
+                                                    </div>
+                                                ))}
+                                            </Carousel>
+                                        ) : currentAttraction?.imageUrl ? (
+                                            <Carousel arrows>
+                                                <div>
+                                                    <img src={currentAttraction.imageUrl}
+                                                         alt={currentAttraction.location}
+                                                         className='attraction-main-image-img'/>
+                                                </div>
+                                            </Carousel>
+                                        ) : (
+                                            <div className='placeholder-image'>景点图片</div>
+                                        )}
+                                    </div>
 
-                                  <Title level={5}>地点导览</Title>
-                                  <Paragraph className='introduction-text'>
-                                      {currentAttraction?.introduction || '景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍'}
-                                  </Paragraph>
+                                    <Title level={5}>地点导览</Title>
+                                    <Paragraph className='introduction-text'>
+                                        {currentAttraction?.introduction || '景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍景点介绍'}
+                                    </Paragraph>
 
-                                  <Title level={5}>景点人流量预测</Title>
-                                  <div className='crowd-info'>
-                                      <Text className='crowd-info'>当前景点情况：{currentAttraction?.currentOccupation || '人流量较少 适合出行'}</Text>
-                                      <br/>
-                                      <Text
-                                          className='crowd-info'>未来几天人流量：{currentAttraction?.futureOccupation || '国庆期间人流量各调人流预测，高峰时段为16：00-18：00'}</Text>
-                                  </div>
+                                    <Title level={5}>景点人流量预测</Title>
+                                    <div className='crowd-info'>
+                                        <Text
+                                            className='crowd-info'>当前景点情况：{currentAttraction?.currentOccupation || '人流量较少 适合出行'}</Text>
+                                        <br/>
+                                        <Text
+                                            className='crowd-info'>未来几天人流量：{currentAttraction?.futureOccupation || '国庆期间人流量各调人流预测，高峰时段为16：00-18：00'}</Text>
+                                    </div>
 
-                                  <Title level={5}>景点信息</Title>
-                                  <div className='attraction-details'>
-                                      <Text
-                                          className='crowd-info'>开放时间：{currentAttraction?.openTime || '每周二至周日开放，08:30-17:00'}</Text>
-                                      <br/>
-                                      <Text
-                                          className='crowd-info'>地点：{currentAttraction?.address || '地址信息地址'}</Text>
-                                      <br/>
-                                      <div className='ticket-toggle'>
-                                          {currentAttraction?.ticketUrl ? (
-                                              <Button
-                                                  type="link"
-                                                  onClick={() => window.open(currentAttraction.ticketUrl, '_blank')}
-                                                  style={{ padding: 0, height: 'auto' }}
-                                              >
-                                                  在线购票
-                                              </Button>
-                                          ) : (
-                                              <Text style={{ color: '#999' }}>暂无购票链接</Text>
-                                          )}
-                                      </div>
-                                  </div>
-                                  <Title level={5} style={{marginTop: 24}}>精选用户评论</Title>
-                                  <div>
-                                      {comments.filter(
-                                          c => c.travelComponentName === currentAttraction?.location
-                                      ).length === 0 ? (
-                                          <div style={{color: '#aaa', fontSize: 13}}>暂无评论</div>
-                                      ) : (
-                                          comments
-                                              .filter(c => c.travelComponentName === currentAttraction?.location)
-                                              .slice(0, 5)
-                                              .map(comment => (
-                                                  <UserReviewCardInRoute key={comment.id} comment={comment}/>
-                                              ))
-                                      )}
-                                  </div>
-                              </div>
-                          </Card>
+                                    <Title level={5}>景点信息</Title>
+                                    <div className='attraction-details'>
+                                        <Text
+                                            className='crowd-info'>开放时间：{currentAttraction?.openTime || '每周二至周日开放，08:30-17:00'}</Text>
+                                        <br/>
+                                        <Text
+                                            className='crowd-info'>地点：{currentAttraction?.address || '地址信息地址'}</Text>
+                                        <br/>
+                                        <div className='ticket-toggle'>
+                                            {currentAttraction?.ticketUrl ? (
+                                                <Button
+                                                    type="link"
+                                                    onClick={() => window.open(currentAttraction.ticketUrl, '_blank')}
+                                                    style={{padding: 0, height: 'auto'}}
+                                                >
+                                                    在线购票
+                                                </Button>
+                                            ) : (
+                                                <Text style={{color: '#999'}}>暂无购票链接</Text>
+                                            )}
+                                        </div>
+                                    </div>
+                                    <Title level={5} style={{marginTop: 24}}>精选用户评论</Title>
+                                    <div>
+                                        {comments.filter(
+                                            c => c.travelComponentName === currentAttraction?.location
+                                        ).length === 0 ? (
+                                            <div style={{color: '#aaa', fontSize: 13}}>暂无评论</div>
+                                        ) : (
+                                            comments
+                                                .filter(c => c.travelComponentName === currentAttraction?.location)
+                                                .slice(0, 5)
+                                                .map(comment => (
+                                                    <UserReviewCardInRoute key={comment.id} comment={comment}/>
+                                                ))
+                                        )}
+                                    </div>
+                                </div>
+                            </Card>
                         </div>
                     </div>
                 </div>
@@ -300,17 +306,8 @@ const GuideRoute = () => {
 
     return (
         <TravelDetailLoader loading={loading} travelDetail={travelDetail} error={error}>
-      <div className='guide-route'>
-        <div className='header-nav'>
-          <Button
-            icon={<ArrowLeftOutlined/>}
-            type="text"
-                        onClick={() => navigate('/')}
-                    >
-                        Homepage
-                    </Button>
-                </div>
-
+            <div className='guide-route'>
+                <div className='header-nav'></div>
                 <GuideHero travelDetail={travelDetail} activeTab="route"/>
                 <Tabs
                     activeKey={activeTab}

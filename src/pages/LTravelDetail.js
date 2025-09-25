@@ -86,20 +86,6 @@ const LTravelDetail = () => {
         }
     };
 
-    const fromPage = routeLocation.state?.from || 'home';
-
-    const handleBackClick = () => {
-        if (fromPage === 'favorite') {
-            navigate('/favorite');
-        } else {
-            navigate('/');
-        }
-    };
-
-    const getBackButtonText = () => {
-        return fromPage === 'favorite' ? 'Favorite' : 'Homepage';
-    };
-
     const tabItems = [
         {
             key: 'introduction',
@@ -170,16 +156,6 @@ const LTravelDetail = () => {
 
     return (
         <div className="travel-detail">
-            <div className="header-nav">
-                <Button
-                    icon={<ArrowLeftOutlined/>}
-                    type="text"
-                    onClick={handleBackClick}
-                >
-                    {getBackButtonText()}
-                </Button>
-            </div>
-
             <GuideHero travelDetail={travelDetail} activeTab={activeTab}/>
 
             <Tabs

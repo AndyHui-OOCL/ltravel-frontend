@@ -64,15 +64,6 @@ const GuideReviews = () => {
   return (
       <TravelDetailLoader loading={loading} travelDetail={travelDetail} error={error}>
         <div className="guide-reviews">
-          <div className="header-nav">
-            <Button
-                icon={<ArrowLeftOutlined />}
-                type="text"
-                onClick={() => navigate('/')}
-            >
-              Homepage
-            </Button>
-          </div>
 
           <GuideHero travelDetail={travelDetail} activeTab="review" />
 
