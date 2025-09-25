@@ -18,11 +18,9 @@ const LTravelDetail = () => {
     const [loading, setLoading] = useState(true);
     const [isFavorited, setIsFavorited] = useState(false);
     const [favoriteLoading, setFavoriteLoading] = useState(false);
-    const [isParticipateLoading, setIsParticipateLoading] = useState(false);
-    const [isParticipate, setIsParticipate] = useState(false);
-    const [participateCount, setParticipateCount] = useState(() =>
-        Math.floor(Math.random() * 100) + 1
-    );
+    const [participateCounts, setParticipateCounts] = useState({});
+    const [participateStates, setParticipateStates] = useState({});
+    const [participateLoadings, setParticipateLoadings] = useState({});
 
     useEffect(() => {
         const fetchData = async () => {
@@ -34,6 +32,22 @@ const LTravelDetail = () => {
 
                 setTravelDetail(detailResponse.data);
                 setIsFavorited(favoriteResponse.data || false);
+
+                if (detailResponse.data?.travelLocationEvents) {
+                    const initialCounts = {};
+                    const initialStates = {};
+                    const initialLoadings = {};
+
+                    detailResponse.data.travelLocationEvents.forEach((event, index) => {
+                        initialCounts[index] = Math.floor(Math.random() * 100) + 1;
+                        initialStates[index] = false;
+                        initialLoadings[index] = false;
+                    });
+
+                    setParticipateCounts(initialCounts);
+                    setParticipateStates(initialStates);
+                    setParticipateLoadings(initialLoadings);
+                }
             } catch (error) {
                 console.error('获取数据失败:', error);
             } finally {
@@ -91,25 +105,21 @@ const LTravelDetail = () => {
         }
     };
 
-    function handleParticipateClick() {
-        if (isParticipateLoading) return;
-        setIsParticipateLoading(true);
+    function handleParticipateClick(eventIndex) {
+        if (participateLoadings[eventIndex]) return;
 
-        try {
-            setTimeout(() => {
-                if (isParticipate) {
-                    setParticipateCount(prev => prev - 1);
-                    setIsParticipate(false);
-                } else {
-                    setParticipateCount(prev => prev + 1);
-                    setIsParticipate(true);
-                }
-                setIsParticipateLoading(false);
-            }, 500);
-        } catch (error) {
-            console.error(error);
-            setIsParticipateLoading(false);
-        }
+        setParticipateLoadings(prev => ({...prev, [eventIndex]: true}));
+
+        setTimeout(() => {
+            if (participateStates[eventIndex]) {
+                setParticipateCounts(prev => ({...prev, [eventIndex]: prev[eventIndex] - 1}));
+                setParticipateStates(prev => ({...prev, [eventIndex]: false}));
+            } else {
+                setParticipateCounts(prev => ({...prev, [eventIndex]: prev[eventIndex] + 1}));
+                setParticipateStates(prev => ({...prev, [eventIndex]: true}));
+            }
+            setParticipateLoadings(prev => ({...prev, [eventIndex]: false}));
+        }, 500);
     }
 
     const tabItems = [
@@ -153,16 +163,16 @@ const LTravelDetail = () => {
                                 <Title level={5}>{event.eventName}
                                     <Button
                                         type="default"
-                                        onClick={handleParticipateClick}
-                                        loading={isParticipateLoading}
+                                        onClick={() => handleParticipateClick(index)}
+                                        loading={participateLoadings[index]}
                                         className="favorite-button"
                                     >
-                                        {isParticipate ? (
+                                        {participateStates[index] ? (
                                             <StarFilled style={{color: '#FADB14'}}/>
                                         ) : (
                                             <StarOutlined/>
                                         )}
-                                        {isParticipateLoading ? '处理中...' : `${participateCount} 人想参与`}
+                                        {participateLoadings[index] ? '处理中...' : `${participateCounts[index] || 0} 人想参与`}
                                     </Button>
                                 </Title>
                                 <div className="event-images">
