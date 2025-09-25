@@ -1,15 +1,15 @@
-import React, {useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 import {
-  Button,
-  Card,
-  Tabs,
-  Typography,
-  Carousel,
-  Tag
+    Button,
+    Card,
+    Tabs,
+    Typography,
+    Carousel,
+    Tag
 } from 'antd';
 import {
-  ClockCircleOutlined,
-  FlagOutlined
+    ClockCircleOutlined,
+    FlagOutlined
 } from '@ant-design/icons';
 import {useNavigate, useParams} from 'react-router-dom';
 import './GuideRoute.css';
@@ -179,7 +179,11 @@ const GuideRoute = () => {
                                                         景点介绍
                                                     </Button>
                                                 </div>
-                                                <Text className="description">"{item.description}"</Text>
+                                                <Text className="description">
+                                                    "{item.description && item.description.length > 15
+                                                    ? item.description.substring(0, 15) + '...'
+                                                    : item.description}"
+                                                </Text>
                                                 <div className='route-info'>
                                                     <Text strong
                                                           className='attraction-name'>开放时间：{item.openTime}</Text>

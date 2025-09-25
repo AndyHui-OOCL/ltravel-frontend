@@ -20,7 +20,8 @@ const Homepage = () => {
     const categories = ['小众路线', '深度旅行', '避暑玩水', '当地特色', '最美秋季'];
     const homepageImages = [
         {url: 'https://raw.githubusercontent.com/AndyHui-OOCL/ltravel-images/main/static/Image.jpg', alt: '1'},
-        {url: 'https://raw.githubusercontent.com/AndyHui-OOCL/ltravel-images/main/static/homepageImage2.jpg', alt: '2'}
+        {url: 'https://raw.githubusercontent.com/AndyHui-OOCL/ltravel-images/main/static/homepageImage2.jpg', alt: '2'},
+        {url: 'https://raw.githubusercontent.com/AndyHui-OOCL/ltravel-images/main/static/homepageImage3.jpg', alt: '3'}
     ]
 
     useEffect(() => {
