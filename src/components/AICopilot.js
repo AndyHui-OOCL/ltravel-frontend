@@ -12,8 +12,8 @@ const AICopilot = forwardRef((props, ref) => {
 
   const suggestedQuestions = [
     '秋天哪个城市最漂亮？',
-    '国庆7天去哪游玩线',
-    '周末不清假玩转马来西亚'
+    '国庆去哪游玩线',
+    '想去江南水乡'
   ];
 
   const initialMessage = {
@@ -26,7 +26,6 @@ const AICopilot = forwardRef((props, ref) => {
 
   const [messages, setMessages] = useState([initialMessage]);
   const [inputValue, setInputValue] = useState('');
-  // Add chat history state to store conversation history
   const [chatHistory, setChatHistory] = useState([]);
 
   // 创建ref用于滚动
@@ -104,7 +103,7 @@ const AICopilot = forwardRef((props, ref) => {
         // Update chat history with the new conversation
         setChatHistory(prev => [...prev, {
           userMessage: question,
-          aiMessage: aiResponse
+          aiMessage: aiResponse + response.data.toString()
         }]);
 
         console.log(messages);
@@ -204,8 +203,6 @@ const AICopilot = forwardRef((props, ref) => {
                     </div>
                   </div>
                 )}
-
-                {/* Render AI chat results if they exist in this message */}
                 {message.aiChatResults && message.aiChatResults.length > 0 && (
                   <div className="ai-chat-results">
                     {message.aiChatResults.map((item) => (
