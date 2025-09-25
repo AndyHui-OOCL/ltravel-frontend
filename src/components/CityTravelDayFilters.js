@@ -10,8 +10,8 @@ const CityFilter = ({ visible, onClose, onCitySelect, onTravelDaysSelected}) => 
     const filterRef = useRef(null);
 
     const cities = [
-        '北京', '西安', '上海',
-        '青岛', '厦门', '南宁',
+        '北京', '杭州', '桂林',
+        '云南', '西安', '大连',
         '香港', '济南', '南京'
     ];
 
