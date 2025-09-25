@@ -1,0 +1,42 @@
+.user-review-card {
+    display: flex;
+    align-items: flex-start;
+    padding: 10px 0;
+    border-bottom: 1px solid #f0f0f0;
+    background: #fff;
+}
+
+.user-avatar {
+    margin-right: 12px;
+    background: #e6f4ea;
+}
+
+.user-review-content {
+    flex: 1;
+}
+
+.user-review-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 2px;
+}
+
+.user-name {
+    font-weight: 600;
+    color: #222;
+}
+
+.review-tag {
+    font-size: 12px;
+    padding: 0 8px;
+    border-radius: 4px;
+}
+
+.user-review-description {
+    color: #444;
+    font-size: 14px;
+    line-height: 1.6;
+    margin-top: 2px;
+    word-break: break-all;
+}

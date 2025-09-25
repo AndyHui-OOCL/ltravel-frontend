@@ -1,0 +1,293 @@
+/* AI Copilot Styles */
+.ai-copilot {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 0;
+}
+
+.ai-copilot-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  position: relative;
+}
+
+.ai-copilot-total {
+  display: flex;
+  gap: 8px;
+  color: #262626;
+}
+.chat-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* Ensure both class names work for messages container */
+.messages,
+.messages-container {
+  flex: 1;
+  padding: 16px;
+  padding-bottom: 100px; /* Add space for fixed input area */
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.message {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  margin-bottom: 16px; /* Add explicit margin between messages */
+}
+
+.message:last-child {
+  margin-bottom: 0; /* Remove margin from the last message */
+}
+
+.message.bot {
+  flex-direction: row;
+}
+
+.message.user {
+  flex-direction: row-reverse;
+}
+
+/* Removing avatar styles as requested */
+.message-avatar {
+  display: none;
+}
+
+.message-content {
+  flex: 1;
+  max-width: 85%;
+}
+
+.message.bot .message-content {
+  background: #f6f6f6;
+  padding: 12px;
+  border-radius: 12px;
+  border-top-left-radius: 4px;
+}
+
+.message.user .message-content {
+  background: #e6f7e6; /* Changed from #1890ff to light green */
+  color: #333; /* Changed text color to dark for better readability */
+  padding: 12px;
+  border-radius: 12px;
+  border-top-right-radius: 4px;
+}
+
+.sub-content {
+  margin-top: 8px;
+  font-size: 12px;
+  color: #666;
+}
+
+.message.user .sub-content {
+  color: #666; /* Changed from semi-transparent white to match the new background */
+}
+
+.quick-questions {
+  padding: 16px;
+  border-top: 1px solid #f0f0f0;
+}
+
+.quick-title {
+  display: block;
+  margin-bottom: 12px;
+  font-weight: 500;
+  color: #666;
+}
+
+.quick-question {
+  display: block;
+  width: 100%;
+  text-align: left;
+  margin-bottom: 8px;
+  padding: 8px 12px;
+  background: #f8f8f8;
+  border: 1px solid #e8e8e8;
+  border-radius: 8px;
+  color: #333;
+  transition: all 0.2s;
+}
+
+.quick-question:hover {
+  background: #e8f5e8;
+  border-color: #52c41a;
+  color: #52c41a;
+}
+
+.input-area {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 16px;
+  border-top: 1px solid #f0f0f0;
+  background: white;
+  z-index: 10;
+  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.input-container {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.input-container .ant-input {
+  flex: 1;
+  border-radius: 8px;
+  resize: none;
+}
+
+.input-actions {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+
+.footer-text {
+  font-size: 12px;
+  color: #999;
+  text-align: center;
+}
+
+.ai-chat-results {
+    margin-top: 16px;
+    display: flex;
+    flex-direction: row;
+    gap: 16px;
+    flex-wrap: wrap;
+    width: fit-content;
+    max-width: 100%;
+    align-self: flex-start;
+}
+.ai-chat-result-card {
+  display: flex;
+  align-items: flex-start;
+  background: #fafafa;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  padding: 10px;
+  gap: 12px;
+  flex-direction: column;
+  width: 180px;
+  position: relative;
+}
+.ai-chat-result-info {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+.ai-chat-result-city {
+  font-weight: bold;
+  font-size: 15px;
+  margin-bottom: 0;
+  color: #333;
+  text-align: center;
+  max-width: 80px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.ai-chat-result-desc {
+  font-size: 14px;
+  color: #555;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 80px;
+  margin-bottom: 0;
+}
+.ai-chat-result-img {
+  width: 160px;
+  height: 110px;
+  object-fit: cover;
+  border-radius: 6px;
+  display: block;
+  margin: 0 auto;
+}
+
+.view-detail-btn {
+  margin-top: 8px;
+  padding: 0;
+  font-size: 14px;
+  color: #1890ff;
+  align-self: flex-end;
+  height: auto;
+}
+
+.view-detail-btn:hover {
+  color: #40a9ff;
+}
+
+.question-card {
+  margin-bottom: 16px;
+}
+
+.questions-list .question-card:last-child {
+  margin-bottom: 0;
+}
+
+/* Suggested questions within messages */
+.message-content .suggested-questions {
+  margin-top: 16px;
+  padding: 0;
+  border-top: none;
+}
+
+.message-content .suggested-questions .suggested-label {
+  display: block;
+  margin-bottom: 12px;
+  font-weight: 500;
+  color: #666;
+}
+
+.message-content .suggested-questions .questions-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.message-content .suggested-questions .question-card {
+  margin-bottom: 0;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.message-content .suggested-questions .question-card:hover {
+  background: #e8f5e8;
+  border-color: #52c41a;
+}
+
+.message-content .suggested-questions .question-card .question-text {
+  color: #333;
+}
+
+.message-content .suggested-questions .question-card:hover .question-text {
+  color: #52c41a;
+}
+
+/* Remove the standalone suggested-questions since it's now in messages */
+.suggested-questions:not(.message-content .suggested-questions) {
+  display: none;
+}
+
+.disclaimer {
+  display: block;
+  text-align: center;
+  color: #8C8C8C;
+  font-size: 12px;
+  margin-top: 8px;
+}

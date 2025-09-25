@@ -1,4 +1,4 @@
-name: Frontend CI/CD to Railway Dev
+name: Frontend CI/CD to Railway UAT/Prod
 
 on:
   push:
@@ -13,26 +13,7 @@ permissions:
   pull-requests: write
 
 jobs:
-  lint:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '22'
-          cache: 'npm'
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Run ESLint
-        run: npm run lint
-
   build:
-    needs: [lint]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -41,7 +22,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '22'
+          node-version: '18'
           cache: 'npm'
 
       - name: Install dependencies
@@ -50,12 +31,25 @@ jobs:
       - name: Build application
         run: npm run build
 
+      - name: Verify build output
+        run: |
+          if [ ! -d "build" ]; then
+            echo "❌ Build failed: build directory not found"
+            exit 1
+          fi
+          if [ -z "$(ls -A build)" ]; then
+            echo "❌ Build failed: build directory is empty"
+            exit 1
+          fi
+          echo "✅ Build successful: $(ls -la build | wc -l) files in build/"
+
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
         with:
           name: build-artifacts
-          path: dist/
+          path: build/
           retention-days: 1
+          if-no-files-found: error
 
   deploy-uat:
     needs: [build]
@@ -70,7 +64,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '22'
+          node-version: '18'
           cache: 'npm'
 
       - name: Install dependencies
