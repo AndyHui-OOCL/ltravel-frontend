@@ -2,9 +2,10 @@
   background: #fff;
   border-radius: 12px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-  padding: 32px;
-  margin-top: 16px;
   border: 1px solid #f0f0f0;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 20px;
 }
 
 .official-rating-header {
@@ -44,9 +45,10 @@
   margin-bottom: 0;
 }
 .user-reviews-card {
-  margin-top: 32px;
-  padding: 24px;
   background: #fff;
   border-radius: 12px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 20px;
 }

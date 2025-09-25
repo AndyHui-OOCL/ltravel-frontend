@@ -1,4 +1,10 @@
-/* Guide Detail Page Styles */
+.introduction-content {
+    background: white;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
 .guide-detail {
     max-width: 1200px;
     margin: 0 auto;
@@ -44,9 +50,12 @@
 
 .guide-hero {
     position: relative;
-    margin-bottom: 30px;
     border-radius: 12px;
     overflow: hidden;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 20px;
+
 }
 
 .guide-tags {
@@ -54,7 +63,8 @@
     bottom: 20px;
     left: 20px;
     display: flex;
-    gap: 8px;
+    margin-left: 16px;
+    margin-bottom: 10px;
     z-index: 10;
 }
 
@@ -69,8 +79,9 @@
 
 .guide-tabs {
     background: white;
-    border-radius: 8px;
-    padding: 20px;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 20px;
 }
 
 .guide-tabs .ant-tabs-tab {
@@ -114,7 +125,7 @@
 
 @media (min-width: 1200px) {
     .hero-image-container {
-        height: 450px;
+        height: 350px;
     }
 }
 
@@ -192,7 +203,7 @@
 
 @media (min-width: 1200px) {
     .hero-image-container {
-        height: 450px;
+        height: 350px;
     }
 }
 
