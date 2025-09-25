@@ -1,17 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { Typography, Tabs, Button } from 'antd';
-import { ArrowLeftOutlined } from '@ant-design/icons';
+import { Typography, Tabs , Pagination } from 'antd';
 import { useNavigate, useParams } from 'react-router-dom';
 import './GuideReviews.css';
 import TravelDetailLoader from "../components/TravelDetailLoader";
 import GuideHero from "./GuideHero";
 import useTravelDetail from "../hooks/useTravelDetail";
-import {getOfficialCommentByTravelPlanId} from "../apis/officialComment";
+import { getOfficialCommentByTravelPlanId } from "../apis/officialComment";
 import UserReviewCard from "../components/UserReviewCard";
-import {getCommentsByTravelComponentId} from "../apis/comment";
+import { pageCommentsByTravelPlanId } from "../apis/comment";
 import OfficialReviewCard from '../components/OfficialReviewCard';
 
 const { Title, Paragraph } = Typography;
+
+const PAGE_SIZE = 5;
 
 const GuideReviews = () => {
   const navigate = useNavigate();
@@ -21,8 +22,11 @@ const GuideReviews = () => {
 
   const [officialComment, setOfficialComment] = useState(null);
   const [commentLoading, setCommentLoading] = useState(true);
+
   const [userComments, setUserComments] = useState([]);
   const [userCommentsLoading, setUserCommentsLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalComments, setTotalComments] = useState(0);
 
   useEffect(() => {
     setCommentLoading(true);
@@ -34,16 +38,18 @@ const GuideReviews = () => {
         })
         .catch(() => setCommentLoading(false));
   }, [id]);
+
   useEffect(() => {
     setUserCommentsLoading(true);
-    getCommentsByTravelComponentId(id)
-        .then(response => response.data)
-        .then(data => {
-          setUserComments(data);
+    pageCommentsByTravelPlanId({ travelPlanId: id, page: currentPage, size: PAGE_SIZE })
+        .then(response => {
+          const data = response.data;
+          setUserComments(data?.content || []);
+          setTotalComments(data?.total || 0);
           setUserCommentsLoading(false);
         })
         .catch(() => setUserCommentsLoading(false));
-  }, [id]);
+  }, [id, currentPage]);
 
   const handleTabChange = (key) => {
     if (key === 'introduction') {
@@ -76,13 +82,23 @@ const GuideReviews = () => {
 
           <OfficialReviewCard loading={commentLoading} officialComment={officialComment} />
           <div className="user-reviews-card" bordered={false}>
-            <Title level={3} style={{ marginBottom: 24 }}>用户评价</Title>
+            <Title level={3} style={{ marginBottom:24,marginTop: 0 }}>用户评价</Title>
             {userCommentsLoading ? (
                 <Paragraph>Loading...</Paragraph>
-            ) : userComments!==null & userComments.length > 0 ? (
-                userComments.map(comment => (
-                    <UserReviewCard key={comment.id} comment={comment} />
-                ))
+            ) : userComments && userComments.length > 0 ? (
+                <>
+                  {userComments.map(comment => (
+                      <UserReviewCard key={comment.id} comment={comment} />
+                  ))}
+                  <Pagination
+                      current={currentPage}
+                      total={totalComments}
+                      pageSize={PAGE_SIZE}
+                      onChange={page => setCurrentPage(page)}
+                      showSizeChanger={false}
+                      style={{ marginTop: 24, textAlign: 'right',alignContent: 'center',justifyContent: 'center' }}
+                  />
+                </>
             ) : (
                 <Paragraph>暂无用户评价</Paragraph>
             )}

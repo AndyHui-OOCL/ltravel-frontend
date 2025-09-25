@@ -8,3 +8,8 @@
     export const getCommentsByTravelComponentId = async (id) => {
         return await instance.get(`${id}`);
     }
+    export const pageCommentsByTravelPlanId = async (commentReqDTO) => {
+        return await instance.get('', {
+            params: commentReqDTO
+        });
+    }

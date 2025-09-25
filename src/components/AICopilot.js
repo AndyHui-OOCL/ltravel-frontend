@@ -72,7 +72,8 @@ const AICopilot = forwardRef((props, ref) => {
 
     try {
       const response = await getAIChatByPrompt(question);
-      if (Array.isArray(response.data) && response.data.length > 0) {
+      const failMessage = response.data[0]?.failMessage;
+      if (failMessage === null) {
         const finalBotMessage = {
           id: userMessageId + 1,
           type: 'bot',
@@ -82,11 +83,12 @@ const AICopilot = forwardRef((props, ref) => {
         setMessages(prev =>
           prev.map(msg => msg.id === tempBotMessage.id ? finalBotMessage : msg)
         );
+          console.log(messages);
       } else {
         setMessages(prev =>
           prev.map(msg =>
             msg.id === tempBotMessage.id
-              ? {...msg, content: '抱歉，我没有找到相关的旅游信息。请尝试其他问题。'}
+              ? {...msg, content: failMessage}
               : msg
           )
         );
@@ -99,6 +101,7 @@ const AICopilot = forwardRef((props, ref) => {
             : msg
         )
       );
+      console.log(messages);
     }
   };
 

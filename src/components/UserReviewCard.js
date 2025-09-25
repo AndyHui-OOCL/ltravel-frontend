@@ -3,7 +3,6 @@ import { Avatar, Tag } from 'antd';
 import { UserOutlined, LikeOutlined, MessageOutlined } from '@ant-design/icons';
 import './UserReviewCard.css';
 import PropTypes from 'prop-types';
-
 const UserReviewCard = ({ comment }) => (
     <div className="user-review-card">
         <Avatar icon={<UserOutlined />} className="user-avatar" />
