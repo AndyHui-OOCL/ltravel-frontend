@@ -116,9 +116,9 @@ const LTravelDetail = () => {
                             className="favorite-button"
                         >
                             {isFavorited ? (
-                                <HeartFilled style={{ color: 'red' }} />
+                                <HeartFilled style={{color: 'red'}}/>
                             ) : (
-                                <HeartOutlined />
+                                <HeartOutlined/>
                             )}
                             {favoriteLoading ? '处理中...' : (isFavorited ? '已收藏' : '收藏')}
                         </Button>

@@ -54,6 +54,7 @@ const GuideRoute = () => {
 
             processedData[dayKey] = componentNames.map(name => {
                 const component = componentsMap[name];
+                console.log('component:', component);
                 return {
                     id: component?.id || Math.random(),
                     location: component?.name || name,
@@ -67,7 +68,8 @@ const GuideRoute = () => {
                     imageUrl: component?.images && component.images.length > 0 ? component.images[0].url : null,
                     images: component?.images || [],
                     currentOccupation: component?.currentOccupation || 20,
-                    futureOccupation: component?.futureOccupation || []
+                    futureOccupation: component?.futureOccupation || [],
+                    ticketUrl: component.ticketUrl || ''
                 };
             });
         });
@@ -81,7 +83,7 @@ const GuideRoute = () => {
     // 如果API数据不可用，使用空数组作为fallback
     const currentRoute = apiRouteData[selectedDay] || [];
     const currentAttraction = currentRoute[selectedAttraction] || currentRoute[0] || {};
-    const [isTicketReminderEnabled, setIsTicketReminderEnabled] = useState(false);
+    console.log('Current Attraction:', currentAttraction);
     useEffect(() => {
         if (!currentAttraction?.id) return;
         getCommentsByTravelComponentId(id)
@@ -251,14 +253,17 @@ const GuideRoute = () => {
                                       <br/>
                                       <Text className='crowd-info'>门票购买：门票30元/人</Text>
                                       <div className='ticket-toggle'>
-                                          <Text>开启购票提醒</Text>
-                                          <div
-                                              className={`toggle-switch ${isTicketReminderEnabled ? 'active' : ''}`}
-                                              onClick={() => setIsTicketReminderEnabled(!isTicketReminderEnabled)}
-                                              style={{cursor: 'pointer'}}
-                                          >
-                                              <div className='toggle-knob'></div>
-                                          </div>
+                                          {currentAttraction?.ticketUrl ? (
+                                              <Button
+                                                  type="link"
+                                                  onClick={() => window.open(currentAttraction.ticketUrl, '_blank')}
+                                                  style={{ padding: 0, height: 'auto' }}
+                                              >
+                                                  在线购票
+                                              </Button>
+                                          ) : (
+                                              <Text style={{ color: '#999' }}>暂无购票链接</Text>
+                                          )}
                                       </div>
                                   </div>
                                   <Title level={5} style={{marginTop: 24}}>精选用户评论</Title>
