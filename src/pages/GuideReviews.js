@@ -82,7 +82,7 @@ const GuideReviews = () => {
 
           <OfficialReviewCard loading={commentLoading} officialComment={officialComment} />
           <div className="user-reviews-card" bordered={false}>
-            <Title level={3} style={{ marginBottom: 24 }}>用户评价</Title>
+            <Title level={3} style={{ marginBottom:24,marginTop: 0 }}>用户评价</Title>
             {userCommentsLoading ? (
                 <Paragraph>Loading...</Paragraph>
             ) : userComments && userComments.length > 0 ? (
@@ -96,7 +96,7 @@ const GuideReviews = () => {
                       pageSize={PAGE_SIZE}
                       onChange={page => setCurrentPage(page)}
                       showSizeChanger={false}
-                      style={{ marginTop: 24, textAlign: 'right' }}
+                      style={{ marginTop: 24, textAlign: 'right',alignContent: 'center',justifyContent: 'center' }}
                   />
                 </>
             ) : (

@@ -5,7 +5,10 @@
   border: 1px solid #f0f0f0;
   max-width: 1000px;
   margin: 0 auto;
-  padding: 0 20px;
+  padding-left: 36px;
+  padding-right: 36px;
+  padding-top: 24px;
+  padding-bottom: 24px;
 }
 
 .official-rating-header {
@@ -16,6 +19,7 @@
 
 .official-title {
   margin-bottom: 0;
+  margin-top: 0;
   font-weight: 600;
 }
 
@@ -49,6 +53,9 @@
   border-radius: 12px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.04);
   max-width: 1000px;
-  margin: 0 auto;
-  padding: 0 20px;
+  margin: 20px auto 40px;
+  padding-left: 36px;
+  padding-right: 36px;
+  padding-top: 24px;
+  padding-bottom: 24px;
 }
