@@ -26,6 +26,8 @@ const AICopilot = forwardRef((props, ref) => {
 
   const [messages, setMessages] = useState([initialMessage]);
   const [inputValue, setInputValue] = useState('');
+  // Add chat history state to store conversation history
+  const [chatHistory, setChatHistory] = useState([]);
 
   // 创建ref用于滚动
   const messagesEndRef = React.useRef(null);
@@ -34,6 +36,7 @@ const AICopilot = forwardRef((props, ref) => {
   const resetConversation = () => {
     setMessages([initialMessage]);
     setInputValue('');
+    setChatHistory([]); // Reset chat history as well
   };
 
   // 暴露resetConversation方法给父组件
@@ -53,6 +56,14 @@ const AICopilot = forwardRef((props, ref) => {
     scrollToBottom();
   }, [messages]);
 
+  // Helper function to format chat history for backend
+  const formatChatHistoryForBackend = (history) => {
+    return history.map(chat => ({
+      userMessage: chat.userMessage,
+      AIMessage: chat.aiMessage
+    }));
+  };
+
   // 抽取公共处理函数
   const sendMessageAndHandleResponse = async (question) => {
     const userMessageId = messages.length + 1;
@@ -71,19 +82,32 @@ const AICopilot = forwardRef((props, ref) => {
     setMessages(prev => [...prev, tempBotMessage]);
 
     try {
-      const response = await getAIChatByPrompt(question);
+      // Format current chat history for backend
+      const formattedHistory = formatChatHistoryForBackend(chatHistory);
+
+      // Pass chat history along with current question
+      const response = await getAIChatByPrompt(question, formattedHistory);
       const failMessage = response.data[0]?.failMessage;
+
       if (failMessage === null) {
+        const aiResponse = '以下是我为您找到的旅游信息：';
         const finalBotMessage = {
           id: userMessageId + 1,
           type: 'bot',
-          content: '以下是我为您找到的旅游信息：',
+          content: aiResponse,
           aiChatResults: response.data.slice(0, 2)
         };
         setMessages(prev =>
           prev.map(msg => msg.id === tempBotMessage.id ? finalBotMessage : msg)
         );
-          console.log(messages);
+
+        // Update chat history with the new conversation
+        setChatHistory(prev => [...prev, {
+          userMessage: question,
+          aiMessage: aiResponse
+        }]);
+
+        console.log(messages);
       } else {
         setMessages(prev =>
           prev.map(msg =>
@@ -92,15 +116,29 @@ const AICopilot = forwardRef((props, ref) => {
               : msg
           )
         );
+
+        // Update chat history even for failed responses
+        setChatHistory(prev => [...prev, {
+          userMessage: question,
+          aiMessage: failMessage
+        }]);
       }
     } catch (error) {
+      const errorMessage = '抱歉，获取旅游信息时出现了问题。请稍后再试。';
       setMessages(prev =>
         prev.map(msg =>
           msg.id === tempBotMessage.id
-            ? {...msg, content: '抱歉，获取旅游信息时出现了问题。请稍后再试。'}
+            ? {...msg, content: errorMessage}
             : msg
         )
       );
+
+      // Update chat history with error message
+      setChatHistory(prev => [...prev, {
+        userMessage: question,
+        aiMessage: errorMessage
+      }]);
+
       console.log(messages);
     }
   };
