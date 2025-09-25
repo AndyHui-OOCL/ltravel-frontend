@@ -67,7 +67,8 @@ const GuideRoute = () => {
                     imageUrl: component?.images && component.images.length > 0 ? component.images[0].url : null,
                     images: component?.images || [],
                     currentOccupation: component?.currentOccupation || 20,
-                    futureOccupation: component?.futureOccupation || []
+                    futureOccupation: component?.futureOccupation || [],
+                    isLocation: component?.isLocation || ''
                 };
             });
         });
@@ -81,7 +82,6 @@ const GuideRoute = () => {
     // 如果API数据不可用，使用空数组作为fallback
     const currentRoute = apiRouteData[selectedDay] || [];
     const currentAttraction = currentRoute[selectedAttraction] || currentRoute[0] || {};
-    console.log('Current Attraction:', currentAttraction);
     useEffect(() => {
         if (!currentAttraction?.travelComponentsId) return;
 
@@ -143,7 +143,6 @@ const GuideRoute = () => {
                         </div>
 
                         <Title level={3}>{selectedDay}</Title>
-
                         <div className="route-timeline">
                             {currentRoute.map((item, index) => (
                                 <div key={item.id} className='route-item'>
@@ -164,7 +163,7 @@ const GuideRoute = () => {
                                                 <div className='route-header'>
                                                     <div className='attraction-info'>
                                                         <Text strong
-                                                              className='attraction-name'>景点名称：{item.location}
+                                                              className='attraction-name'>{item.isLocation === true ? '景点名称' : '活动名称'}：{item.location}
                                                             <Tag color='green' className='rating-badge'>
                                                                 {item.rating?.toFixed(1)}分
                                                             </Tag>
@@ -208,7 +207,7 @@ const GuideRoute = () => {
                         <div className="sidebar-info">
                             <Card>
                                 <div className='attraction-info'>
-                                    <Text strong className='component-name'>景点名称：{currentAttraction?.location || ''}
+                                    <Text strong className='component-name'>{currentAttraction.isLocation === true ? '景点名称' : '活动名称'}：{currentAttraction?.location || ''}
                                         <Tag color='green' className='rating-badge'>
                                             建议游玩时间{(currentAttraction.suggestionPlayTime / 60)?.toFixed(1)}小时
                                         </Tag>
