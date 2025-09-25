@@ -8,7 +8,6 @@ import {
   Tag
 } from 'antd';
 import {
-  ArrowLeftOutlined,
   ClockCircleOutlined,
   FlagOutlined
 } from '@ant-design/icons';
@@ -56,6 +55,7 @@ const GuideRoute = () => {
                 const component = componentsMap[name];
                 return {
                     id: component?.id || Math.random(),
+                    travelComponentsId: component?.id || null,
                     location: component?.name || name,
                     description: component?.description || '',
                     rating: component?.rating || 4.0,
@@ -85,7 +85,7 @@ const GuideRoute = () => {
     useEffect(() => {
         if (!currentAttraction?.travelComponentsId) return;
 
-        getCommentsByTravelComponentId(currentAttraction.travelComponentsId)
+        getCommentsByTravelComponentId(currentAttraction?.travelComponentsId)
             .then(response => response.data)
             .then(data => setComments(data))
             .catch(() => setComments([]));
