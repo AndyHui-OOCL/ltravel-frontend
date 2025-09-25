@@ -10,17 +10,17 @@
     height: 400px;
     overflow: hidden;
     margin-bottom: 20px;
-    border-radius: 16px;
+    border-radius: 26px;
 }
 
 .hero-title {
     position: absolute;
     bottom: 20px;
-    left: 20px;
+    left: 36px;
     color: white;
     font-size: 2rem;
     font-weight: bold;
-    margin: 0;
+    margin-bottom: 16px;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
     z-index: 20;
 }
@@ -61,6 +61,7 @@
     border-radius: 25px;
     padding: 8px 24px;
     font-weight: 500;
+    margin-bottom: 36px;
 }
 
 .categories-section {
@@ -88,7 +89,7 @@
 .ask-ai-btn {
     position: absolute;
     bottom: 20px;
-    right: 20px;
+    right: 48px;
     z-index: 10;
     background: white !important;
     color: black !important;
@@ -98,6 +99,7 @@
     font-weight: 500;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     outline: none !important;
+    margin-bottom: 16px;
 }
 
 .ask-ai-btn:hover {
@@ -107,6 +109,7 @@
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     outline: none !important;
+    margin-bottom: 36px;
 }
 
 .ask-ai-btn:focus,
@@ -116,6 +119,7 @@
     color: black !important;
     outline: none !important;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+    margin-bottom: 36px;
 }
 
 .guides-section {
