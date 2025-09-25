@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import {Button, Tabs, Card, Typography, Spin} from 'antd';
-import {ArrowLeftOutlined, HeartFilled, HeartOutlined} from '@ant-design/icons';
-import {useNavigate, useParams, useLocation} from 'react-router-dom';
+import {HeartFilled, HeartOutlined} from '@ant-design/icons';
+import {useNavigate, useParams} from 'react-router-dom';
 import './LTravelDetail.css';
 import {getTravelPlanDetailById} from "../apis/travelPlans";
 import GuideHero from './GuideHero';
@@ -11,7 +11,7 @@ const {Title, Text, Paragraph} = Typography;
 
 const LTravelDetail = () => {
     const navigate = useNavigate();
-    const routeLocation = useLocation();
+
     const {id} = useParams();
     const [activeTab, setActiveTab] = useState('introduction');
     const [travelDetail, setTravelDetail] = useState(null);

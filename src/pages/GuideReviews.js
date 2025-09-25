@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Typography, Tabs, Button, Pagination } from 'antd';
-import { ArrowLeftOutlined } from '@ant-design/icons';
+import { Typography, Tabs , Pagination } from 'antd';
 import { useNavigate, useParams } from 'react-router-dom';
 import './GuideReviews.css';
 import TravelDetailLoader from "../components/TravelDetailLoader";
@@ -8,7 +7,7 @@ import GuideHero from "./GuideHero";
 import useTravelDetail from "../hooks/useTravelDetail";
 import { getOfficialCommentByTravelPlanId } from "../apis/officialComment";
 import UserReviewCard from "../components/UserReviewCard";
-import { getCommentsByTravelComponentId, pageCommentsByTravelPlanId } from "../apis/comment";
+import { pageCommentsByTravelPlanId } from "../apis/comment";
 import OfficialReviewCard from '../components/OfficialReviewCard';
 
 const { Title, Paragraph } = Typography;
