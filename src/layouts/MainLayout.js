@@ -33,6 +33,7 @@ const MainLayout = ({ children }) => {
   ];
 
   const handleMenuClick = ({ key }) => {
+      clearSearch()
     navigate(key);
   };
 

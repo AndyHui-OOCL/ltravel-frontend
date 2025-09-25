@@ -1,10 +1,12 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Card, Tag } from 'antd';
 import './CityTravelDayFilter.css';
+import {useLocation} from "react-router-dom";
 
 const CityFilter = ({ visible, onClose, onCitySelect, onTravelDaysSelected}) => {
     const [selectedDay, setSelectedDay] = useState(null);
     const [selectedCity, setSelectedCity] = useState(null);
+    const location = useLocation();
     const filterRef = useRef(null);
 
     const cities = [
@@ -39,7 +41,14 @@ const CityFilter = ({ visible, onClose, onCitySelect, onTravelDaysSelected}) => 
         return () => {
             document.removeEventListener('mousedown', handleClickOutside);
         };
+
+
     }, [visible, onClose]);
+
+    useEffect(() => {
+        setSelectedDay(null)
+        setSelectedCity(null)
+    }, [location.pathname])
 
     if (!visible) return null;
 
