@@ -160,11 +160,14 @@
 }
 
 .ai-chat-results {
-  margin-top: 16px;
-  display: inline-flex;
-  flex-direction: row;
-  gap: 16px;
-  flex-wrap: wrap;
+    margin-top: 16px;
+    display: flex;
+    flex-direction: row;
+    gap: 16px;
+    flex-wrap: wrap;
+    width: fit-content;
+    max-width: 100%;
+    align-self: flex-start;
 }
 .ai-chat-result-card {
   display: flex;

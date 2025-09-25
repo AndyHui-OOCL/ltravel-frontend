@@ -72,7 +72,7 @@ const AICopilot = forwardRef((props, ref) => {
 
     try {
       const response = await getAIChatByPrompt(question);
-      const failMessage = response.data.failMessage;
+      const failMessage = response.data[0]?.failMessage;
       if (failMessage === null) {
         const finalBotMessage = {
           id: userMessageId + 1,
@@ -83,6 +83,7 @@ const AICopilot = forwardRef((props, ref) => {
         setMessages(prev =>
           prev.map(msg => msg.id === tempBotMessage.id ? finalBotMessage : msg)
         );
+          console.log(messages);
       } else {
         setMessages(prev =>
           prev.map(msg =>
@@ -100,6 +101,7 @@ const AICopilot = forwardRef((props, ref) => {
             : msg
         )
       );
+      console.log(messages);
     }
   };
 
