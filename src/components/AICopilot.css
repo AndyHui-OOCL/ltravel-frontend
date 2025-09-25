@@ -161,7 +161,7 @@
 
 .ai-chat-results {
   margin-top: 16px;
-  display: flex;
+  display: inline-flex;
   flex-direction: row;
   gap: 16px;
   flex-wrap: wrap;
