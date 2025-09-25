@@ -100,10 +100,14 @@ const AICopilot = forwardRef((props, ref) => {
           prev.map(msg => msg.id === tempBotMessage.id ? finalBotMessage : msg)
         );
 
-        // Update chat history with the new conversation
+        // Update chat history with the new conversation - properly format the response data
+        const formattedResponseData = response.data.slice(0, 2).map(item =>
+          `${item.cityName}: ${item.description}`
+        ).join('; ');
+
         setChatHistory(prev => [...prev, {
           userMessage: question,
-          aiMessage: aiResponse + response.data.toString()
+          aiMessage: aiResponse + ' ' + formattedResponseData
         }]);
 
         console.log(messages);
