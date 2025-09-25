@@ -1,16 +1,16 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect } from 'react';
 import {
-    Button,
-    Card,
-    Tabs,
-    Typography,
-    Carousel,
-    Tag
+  Button,
+  Card,
+  Tabs,
+  Typography,
+  Carousel,
+  Tag
 } from 'antd';
 import {
-    ArrowLeftOutlined,
-    ClockCircleOutlined,
-    FlagOutlined
+  ArrowLeftOutlined,
+  ClockCircleOutlined,
+  FlagOutlined
 } from '@ant-design/icons';
 import {useNavigate, useParams} from 'react-router-dom';
 import './GuideRoute.css';
@@ -54,7 +54,6 @@ const GuideRoute = () => {
 
             processedData[dayKey] = componentNames.map(name => {
                 const component = componentsMap[name];
-                console.log('component:', component);
                 return {
                     id: component?.id || Math.random(),
                     location: component?.name || name,
@@ -68,8 +67,7 @@ const GuideRoute = () => {
                     imageUrl: component?.images && component.images.length > 0 ? component.images[0].url : null,
                     images: component?.images || [],
                     currentOccupation: component?.currentOccupation || 20,
-                    futureOccupation: component?.futureOccupation || [],
-                    ticketUrl: component.ticketUrl || ''
+                    futureOccupation: component?.futureOccupation || []
                 };
             });
         });
@@ -85,12 +83,13 @@ const GuideRoute = () => {
     const currentAttraction = currentRoute[selectedAttraction] || currentRoute[0] || {};
     console.log('Current Attraction:', currentAttraction);
     useEffect(() => {
-        if (!currentAttraction?.id) return;
-        getCommentsByTravelComponentId(id)
+        if (!currentAttraction?.travelComponentsId) return;
+
+        getCommentsByTravelComponentId(currentAttraction.travelComponentsId)
             .then(response => response.data)
             .then(data => setComments(data))
             .catch(() => setComments([]));
-    }, [currentAttraction?.id, id]);
+    }, [currentAttraction?.travelComponentsId]);
     // 从API数据中获取可用的天数
     const availableDays = Object.keys(apiRouteData).length > 0
         ? Object.keys(apiRouteData).sort((a, b) => {
