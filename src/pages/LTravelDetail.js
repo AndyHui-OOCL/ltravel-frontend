@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {Button, Tabs, Card, Typography, Spin} from 'antd';
-import {HeartFilled, HeartOutlined} from '@ant-design/icons';
+import {HeartFilled, HeartOutlined, StarFilled, StarOutlined} from '@ant-design/icons';
 import {useNavigate, useParams} from 'react-router-dom';
 import './LTravelDetail.css';
 import {getTravelPlanDetailById} from "../apis/travelPlans";
@@ -18,6 +18,11 @@ const LTravelDetail = () => {
     const [loading, setLoading] = useState(true);
     const [isFavorited, setIsFavorited] = useState(false);
     const [favoriteLoading, setFavoriteLoading] = useState(false);
+    const [isParticipateLoading, setIsParticipateLoading] = useState(false);
+    const [isParticipate, setIsParticipate] = useState(false);
+    const [participateCount, setParticipateCount] = useState(() =>
+        Math.floor(Math.random() * 100) + 1
+    );
 
     useEffect(() => {
         const fetchData = async () => {
@@ -86,6 +91,27 @@ const LTravelDetail = () => {
         }
     };
 
+    function handleParticipateClick() {
+        if (isParticipateLoading) return;
+        setIsParticipateLoading(true);
+
+        try {
+            setTimeout(() => {
+                if (isParticipate) {
+                    setParticipateCount(prev => prev - 1);
+                    setIsParticipate(false);
+                } else {
+                    setParticipateCount(prev => prev + 1);
+                    setIsParticipate(true);
+                }
+                setIsParticipateLoading(false);
+            }, 500);
+        } catch (error) {
+            console.error(error);
+            setIsParticipateLoading(false);
+        }
+    }
+
     const tabItems = [
         {
             key: 'introduction',
@@ -124,7 +150,21 @@ const LTravelDetail = () => {
                     <div className="activity-section">
                         {travelDetail.travelLocationEvents.map((event, index) => (
                             <div key={index}>
-                                <Title level={5}>{event.eventName} ⭐️ 2024人喜爱</Title>
+                                <Title level={5}>{event.eventName}
+                                    <Button
+                                        type="default"
+                                        onClick={handleParticipateClick}
+                                        loading={isParticipateLoading}
+                                        className="favorite-button"
+                                    >
+                                        {isParticipate ? (
+                                            <StarFilled style={{color: '#FADB14'}}/>
+                                        ) : (
+                                            <StarOutlined/>
+                                        )}
+                                        {isParticipateLoading ? '处理中...' : `${participateCount} 人想参与`}
+                                    </Button>
+                                </Title>
                                 <div className="event-images">
                                     {event.locationImages.map((imageUrl, imgIndex) => (
                                         <img
