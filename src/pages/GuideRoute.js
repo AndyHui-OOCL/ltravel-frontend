@@ -68,7 +68,8 @@ const GuideRoute = () => {
                     images: component?.images || [],
                     currentOccupation: component?.currentOccupation || 20,
                     futureOccupation: component?.futureOccupation || [],
-                    isLocation: component?.isLocation || ''
+                    isLocation: component?.isLocation || '',
+                    ticketUrl: component?.ticketUrl || null
                 };
             });
         });
@@ -78,7 +79,6 @@ const GuideRoute = () => {
 
     // 使用处理后的API数据
     const apiRouteData = processRouteData();
-
     // 如果API数据不可用，使用空数组作为fallback
     const currentRoute = apiRouteData[selectedDay] || [];
     const currentAttraction = currentRoute[selectedAttraction] || currentRoute[0] || {};
@@ -108,7 +108,6 @@ const GuideRoute = () => {
             setActiveTab(key);
         }
     };
-
     const handleDayChange = (day) => {
         setSelectedDay(day);
         setSelectedAttraction(0); // 切换天数时重置为第一个景点
