@@ -12,7 +12,6 @@ const CityFilter = ({ visible, onClose, onCitySelect, onTravelDaysSelected}) => 
     const cities = [
         '北京', '杭州', '桂林',
         '云南', '西安', '大连',
-        '香港', '济南', '南京'
     ];
 
     const days = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30];
